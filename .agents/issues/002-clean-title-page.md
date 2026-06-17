@@ -2,7 +2,7 @@
 
 ## Status
 
-Waiting on User
+Done
 
 ## Goal
 
@@ -62,14 +62,16 @@ Resolved fields:
 - Copromotoren: dr.ir. J.J. Vegas Olmos; dr. E. Mentovich.
 - Adviser: dr. V.E. Gauthier Umaña.
 - Chair/voorzitter: prof.dr. O. Raz.
+- Reserve member printed as `Reservelid`: prof.dr. N. Calabretta.
 - Tectonic build succeeds with the current title-page source.
 - Rendered title pages were visually inspected.
+- Re-rendered pages 1-2 after adding the reserve member; no overflow,
+  clipping, comments, or highlights were visible.
 
 Open fields:
 
-- Confirm whether reserve member prof.dr. N. Calabretta should appear on the printed title page.
-- Re-render after the Calabretta decision.
+- None.
 
 ## Review Result
 
-Pending.
+Approved for merge.
