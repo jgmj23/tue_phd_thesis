@@ -2,26 +2,223 @@
 
 \section{Chapter Motivation}
 
-TODO: Motivate stable and designable integrated quantum sources as a foundation for scalable quantum-secured network systems.
+Quantum-secured networks depend on physical devices whose behavior must remain predictable after they leave a controlled laboratory setting. Entangled-photon sources are one such device class: they determine the spectral structure, brightness, purity, and long-term stability of the quantum states that later protocols consume. If these source properties drift with fabrication tolerances, thermal changes, or uncontrolled mode interactions, then the network layer inherits an unstable security and performance foundation.
+
+This chapter therefore begins the thesis body at the photonic-device layer. The two included papers study dual-coupled micro-ring resonators as integrated sources for frequency-bin entangled photons. The common thesis-level question is not only whether such a device can generate useful quantum states, but whether it can be designed, tuned, and modeled in a way that makes it suitable for larger quantum--classical network systems.
+
+The dual-coupled architecture adds an auxiliary resonator to the main photon-pair generation ring. This additional degree of freedom can be used to reshape the spectral response of the source, compensate for nonidealities, and expose a control interface between device physics and network-facing metrics such as channel spacing, heralded purity, and Schmidt number. In this sense, the chapter treats source engineering as the first cross-layer problem of the dissertation: a physical-layer design choice must be made legible to the network and security layers built above it.
 
 \section{Relation to the Research Questions}
 
-TODO: Connect the photonic-source work to the thesis questions on practical quantum-secure networking and cross-layer system design.
+The research questions in Chapter 1 are still to be finalized. For the present draft, this chapter is written around the following provisional mapping:
+
+\begin{itemize}
+  \item It addresses the question of how quantum-secure networking primitives can be made compatible with deployed optical infrastructure. The papers focus on C-band, wavelength-division-multiplexed operation and on resonator behavior that can be related to telecom channel plans \cite{Kumar2015,Mao2018}.
+  \item It addresses the question of how low-level device parameters become system-level security constraints. Spectral purity, free spectral range stability, and the Schmidt number are device-derived quantities, but they influence interference visibility, quantum-bit error rate, and the practical budget available for coexistence with classical traffic \cite{Grebenchukov2023}.
+  \item It introduces the thesis pattern of cross-layer abstraction. Rather than treating a quantum source as a black box, the chapter asks which control variables and models are needed before a source can be used as a predictable component in a quantum network.
+\end{itemize}
+
+This chapter also sets up the transition to programmable network infrastructure in Chapter 4. The quantum source provides the raw optical resource, while later chapters ask how the resulting key material, cryptographic work, and observability tasks can be handled by DPUs, SmartNICs, and datacenter network systems.
 
 \section{Publication Context and Author Contribution}
 
-TODO: Record publication venues, status, co-author context, and the author's specific contributions for the included papers.
+This chapter contains two closely related papers on dual-coupled micro-ring resonators:
+
+\begin{itemize}
+  \item \enquote{Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator}. This paper was presented at the 2026 International Conference on Science and Electrical Engineering (ICSEE).
+  \item \enquote{Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks}. This paper was submitted to the 26th International Conference on Transparent Optical Networks (ICTON 2026).
+\end{itemize}
+
+The first paper establishes the experimental and device-stability side of the chapter: how the free spectral range evolves under thermal tuning and how stable tuning behavior can support usable channel alignment. The second paper extends that device view into a model-driven design workflow: a coupled-mode-theory digital twin maps inter-ring coupling, dispersion, and auxiliary-ring detuning to figures of merit relevant to entanglement-based networking.
+
+The author contributed to connecting the device studies to network requirements, simulation-driven evaluation, and thesis-level system interpretation. The experimental device work, modeling, and supervision were collaborative efforts with co-authors.
 
 \section{Included Papers}
 
-TODO: Insert or adapt the accepted manuscript for \enquote{Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator}.
+\subsection{Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator}
+\label{sec:ch3_paper1}
 
-TODO: Insert or adapt the accepted manuscript for \enquote{Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks}.
+\textit{This section is adapted from the paper \enquote{Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator}, presented at the 2026 International Conference on Science and Electrical Engineering (ICSEE).}
+
+\subsubsection{Introduction}
+Microring resonators play a crucial and versatile role in integrated photonics, serving as optical filters, modulators, frequency-comb generators \cite{Imany2018}, and sources for non-linear optics \cite{Reimer2016,Barreiro2025}. However, the high temperature, as well as the temperature gradients that such components face when deployed in the field, causes thermal drift and mode splitting, thereby limiting their performance. To address these limitations, dual-coupled microring (DCM) resonators have been proposed, in which two coupled rings enable enhanced control over resonance behavior and mode interaction.
+
+This work reports on the thermal and spectral stability of DCMs \cite{Poon2004}, which mitigate free spectral range (FSR) drift compared to that of a single-ring. The design was implemented in Thin-film Lithium Niobate (TFLN), which has emerged as a promising platform due to its strong electro-optic effects, favorable thermo-optic (TO) properties, and compatibility with silicon photonics \cite{Wang2018,Guarino2007}.
+
+Previous works on DCMs analyzed mode splitting and Vernier tuning \cite{Poon2004,Little1997}, but not the simultaneous thermal evolution of all modes. To our knowledge, this is the first study to characterize the multi-mode FSR stability of a TFLN DCM under linear thermal tuning.
+
+Our measurements demonstrate sub $0.2\%$ FSR variation and highly linear tuning ($R^2 \approx0.94$), underscoring the potential of TFLN DCMs for stable filters and wavelength-tunable photonic systems.
+
+\subsubsection{Experimental Results}
+Our DMC, shown in Fig.~\ref{fig:ch3_dcm_fig}, consists of two rings, a main ring of radius $150~\mu\mathrm{m}$ and an auxiliary ring of radius $149~\mu\mathrm{m}$. The slight mismatch in radii imposes a Vernier offset between the rings, enabling a degree of freedom to selectively enhance mode coupling at wavelengths where the two spectra locally align. The main ring is coupled to the throughport by a gap of $300~\mathrm{nm}$ and to the auxiliary ring by a gap of $300~\mathrm{nm}$. The TFLN has a group index of $2.3003$, and supports single-mode TE operation in the C-band, at $\lambda \approx 1550~\mathrm{nm}$. Thermal tuning can be applied to the device via integrated resistive probes connected to the auxiliary ring.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\linewidth]{chapters/figures/03/dcm_im_hor_with_scale.png}
+    \caption{Microscopic image of the TFLN DCM. The main and auxiliary rings (150~µm and 149~µm radius) are evanescently coupled via 300~nm gaps and integrated with resistive thermal probes for controlled tuning.}
+    \label{fig:ch3_dcm_fig}
+\end{figure}
+
+For our experiment, we measured the transmission of the device under a broadband input signal using a high-resolution optical spectrum analyzer, while linearly sweeping the heater current from $0$ to $30~\mathrm{mA}$ in $31$ steps.
+
+The measured FSR is $1.10 \pm 0.002~\mathrm{nm}$ ($\sim140~\mathrm{GHz}$), within $1\%$ of its theoretical value: 
+\begin{equation} 
+    \mathrm{FSR} = \frac{\lambda^2}{n_g L},
+\end{equation}
+where $\lambda$ denotes the resonance wavelength, $n_g$ is the group index, and $L = 2\pi R$ is the round-trip optical path length corresponding to the radius $R$ of the main ring.
+
+The stability trend in Fig.~\ref{fig:ch3_exp_fig}(a) shows that throughout the full tuning range, the FSR changes less than 0.2\%, demonstrating exceptional spectral stability for a thermally tuned resonator.
+
+Fig.~\ref{fig:ch3_exp_fig}(b) shows that the resonances red-shift linearly with heater power at approximately $2~\mathrm{nm/W}$, with a fitting correlation of $R^2 \approx 0.94$.
+All modes follow the same slope, and their line-widths and Q-factors remained consistent, confirming a uniform thermal response and a stable coupling regime.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{chapters/figures/03/publication_figure_final.png}
+ \caption{(a) FSR stability across 31 thermal control steps. Raw data points (light blue) show a $1.1011~\mathrm{nm}$ ($140.09~\mathrm{GHz}$) variation from the mean. The dark blue line shows a Gaussian-smoothed trend ($\sigma = 2$ steps). FSR stability is $0.20\%$ ($1\sigma$ standard deviation, $1964~\mathrm{ppm}$). (b) Thermal wavelength tuning for nine cavity modes spanning $1531$--$1540~\mathrm{nm}$. A linear fit (dashed gray) demonstrates tuning efficiency of $2.22~\mathrm{nm/W}$ with $R^2 = 0.943$.}
+    \label{fig:ch3_exp_fig}
+\end{figure}
+ 
+\subsubsection{Discussion}
+In TFLN, the TO coefficient $\frac{dn}{dT} \approx 3.6 \times 10^{-5}/\mathrm{K}$ and the thermal-expansion coefficient $\alpha \approx 1.5 \times 10^{-5}/\mathrm{K}$ are positive \cite{Guarino2007}.
+Consequently, each resonance red-shifts with increasing temperature, while the FSR decreases only slightly. Both $n_g$ and $L$ increase with temperature,  and their fractional changes add as follows: 
+\begin{equation} 
+\frac{\Delta \mathrm{FSR}}{\mathrm{FSR}} \approx -\left(\frac{\Delta n_g}{n_g} + \frac{\Delta L}{L}\right) \approx -3.1\times10^{-5}\,\mathrm{K^{-1}}.
+\end{equation}
+This intrinsic balance between refractive-index and geometric expansion explains much of the observed $<0.2\%$ variation.
+
+The slightly mismatched radii of the DCM's further enhance stability, as it leads to comparable slopes $\frac{dn}{dT}$, allowing the coupled modes to shift coherently.
+Although resonant doublets were not tracked in this experiment, such a configuration inherently supports Vernier alignment preservation and an extended tuning range without loss of coupling \cite{Little1997}.
+
+These results highlight that the combination of TFLN material properties and the coupled-ring geometry effectively suppresses FSR drift under thermal tuning.
+
+\subsubsection{Conclusion}
+We demonstrate linear thermo-optic tuning in a dual-coupled TFLN microring resonator with exceptional FSR stability ($<0.2\%$ variation) across a \(2~\mathrm{nm/W}\) tuning range and \(R^{2} \approx 0.94\) linearity. This stability arises from the favorable material properties of TFLN. Small TO and thermal-expansion coefficients yield a fractional FSR drift of only $-3.1\times10^{-5}\,\mathrm{K^{-1}}$.
+
+The demonstrated FSR-invariant tuning regime has important implications for thermally sensitive applications. In co-packaged optics, where electronic chips generate substantial on-chip thermal gradients, maintaining stable spectral grids is critical for wavelength-division multiplexing and optical interconnects. Similarly, frequency-bin quantum photonics and microresonator frequency combs require precise FSR control to preserve mode relationships and spectral purity. Our results confirm that TFLN dual-coupled microrings can operate reliably in these thermally dynamic environments while maintaining predictable wavelength control.
+
+This work validates a simple, passive approach to thermally robust integrated photonics, enabling predictable wavelength control in compact, power-efficient systems where thermal variations are unavoidable.
+
+\subsection{Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks}
+\label{sec:ch3_paper2}
+
+\textit{This section is adapted from the paper \enquote{Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks}, submitted to the 26th International Conference on Transparent Optical Networks (ICTON 2026).}
+
+\subsubsection{Introduction}
+Recent advances in photonic integrated circuits (PICs) have enabled the generation and manipulation of entangled photons directly on-chip \cite{Reimer2016, JaramilloVillegas2017, Gilad2025, Wang2024}, setting the stage for a new generation of scalable quantum networks \cite{Wehner2018, Xu2020, Luo2023}. Microresonator-based sources in particular combine high quality factors and small footprints with the ability to produce broadband biphoton combs \cite{Kippenberg2011}, and frequency-bin entanglement is especially well suited for integrated photonics because it leverages the spectral multiplexing and stability inherent to resonator-based systems \cite{Lu2023}. Existing single micro-ring sources, however, remain highly sensitive to small geometric variations, uncontrolled dispersion, and thermal drift, which limit their reliability when integrated into deployed optical fiber networks.
+
+To mitigate these issues, we adopt a dual-coupled micro-ring (DCM) architecture for our entanglement sources. The addition of a thermally tunable auxiliary ring introduces a controllable degree of freedom over the dispersion profile \cite{Xue2015, Kim2017}, yielding significant improvements in the spectral purity and stability of the generated pairs -- a key requirement for entanglement-based QKD \cite{Grebenchukov2023}. Operating in the C-band (1550~nm) with 50~GHz channel spacing, the DCM is directly compatible with existing telecom hardware: quantum and classical channels can co-propagate over the same shared fiber infrastructure, as illustrated in Fig.~\ref{fig:ch3_dcm_struct}a \cite{Mao2018, Kumar2015}.
+
+In classical optical networking, deploying a new physical-layer component typically relies on predictive models that connect device-level parameters to system-level performance metrics \cite{Agrawal2011, Azodolmolky2009}. For quantum optical networks, such model-based methodologies remain largely underdeveloped, particularly for integrated entangled-photon sources whose performance depends sensitively on fabrication and environmental variations and is therefore difficult to incorporate into existing network planning and control frameworks.
+
+In this work we address this gap by introducing a digital twin of the DCM entanglement source. The twin is based on a coupled-mode-theory (CMT) model and explicitly maps device-level parameters -- inter-ring coupling, dispersion, and auxiliary-ring thermal detuning -- to network-facing figures of merit including heralded photon purity and Schmidt number. The contribution of this paper is therefore not a single optimized operating point, but the predictive framework itself, which can be deployed alongside a fabricated device to support pre-deployment optimization, yield improvement, and remote, network-aware reconfiguration. In representative C-band operating conditions, the twin predicts purity enhancements exceeding 70\% at fixed brightness and a corresponding reduction of the effective Schmidt number, directly translating into improved system-level performance for entanglement-based quantum communication.
+
+\begin{figure*}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{chapters/figures/03/dcm_structure.png}
+    \caption{ 
+(a) Integration of the DCM source into a hybrid quantum--classical WDM fiber network, where quantum and classical channels co-propagate over shared fiber infrastructure and are demultiplexed at the network edge.
+(b) Single microring resonator producing signal (S) and idler (I) modes with fixed transmission \(T_a\). 
+(c) Dual-coupled microring with tunable auxiliary ring showing modified resonances \(T_a\) and \(T_b\).
+}
+    \label{fig:ch3_dcm_struct}
+\end{figure*}
+
+\subsubsection{Background and Motivation}
+For quantum networks to be adopted at scale, their quantum components must be compatible and integrable with existing communication infrastructures. Entangled photon sources act as critical nodes in such networks, supplying photon pairs correlated in polarization, time, or frequency. Previous demonstrations \cite{Imany2018} have shown how single micro-ring resonators (Fig.~\ref{fig:ch3_dcm_struct}b) can generate bi-photon frequency combs, but such single-ring designs offer limited control over dispersion and spectral coherence. The DCMs developed by our group \cite{Barreiro2025} address this limitation by introducing a tunable auxiliary cavity for spectral engineering.
+
+The DCM response, however, depends on many interacting variables -- thermal detuning, inter-ring coupling, dispersion, and pump conditions. Experimentally identifying an optimal operating point is therefore time-consuming and sensitive to fabrication variability. The challenge becomes more acute in networked scenarios, where sources must be configured remotely and operate reliably over long time scales. A predictive model that can be queried before and during deployment is essential to pre-determine tuning parameters, improve design yield, and accelerate experimental verification.
+
+\subsubsection{DCM Working Principles}
+
+From a network-engineering perspective, the appeal of the DCM architecture lies not only in its spectral flexibility, but also in its ability to deterministically map control parameters, such as thermal detuning, to changes in network-facing performance metrics.
+
+The DCM structure (Fig.~\ref{fig:ch3_dcm_struct}c) comprises two adjacent micro-rings: a main ring, in which photon pairs are generated via spontaneous four-wave mixing (SFWM), and an auxiliary ring, whose refractive index can be controllably modified through local thermal tuning. Heating the auxiliary ring shifts its effective refractive index, thereby reshaping the coupled-mode response of the DCM and altering both the density and location of the spectral lines of the generated photon pairs. This additional degree of freedom can be used to suppress unwanted mode interactions, align the resonator response with a phase-matched operating point, and improve photon purity and entanglement stability. The DCM thus combines the advantages of single micro-rings -- high $Q$ factor and small footprint -- with fine spectral tuning, providing a compact platform for bridging on-chip quantum sources and installed fiber optical communication systems.
+
+\subsubsection{Simulation Environment}
+
+\begin{figure*}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{chapters/figures/03/simulation.png}
+    \caption{Simulation outputs illustrating the impact of thermal tuning on network-relevant source characteristics.
+        (a) Joint spectral intensity (JSI) of the generated photon pairs, showing frequency anti-correlation between signal and idler modes.
+        (b) Normalized magnitude of the DCM Green's function $|H_{\mathrm{DCM}}|$ (drop-port response) for the untuned ($\delta = 0$) and thermally tuned ($\delta = \delta_{\mathrm{tuned}}$) cases.
+        (c) Brightness--purity trade-off for untuned and optimally tuned DCM operation, computed at equal pump power and coupling conditions.}
+    \label{fig:ch3_simulation}
+\end{figure*}
+
+The simulation environment functions as a digital twin of the DCM and is based on coupled-mode theory (CMT) \cite{Yariv1973}, applied here to both a single micro-ring resonator and the DCM \cite{Li2010, Xue2015}:
+
+\begin{subequations}\label{eq:ch3_cmt}
+\begin{align}
+\frac{da_1}{dt} &= \left(i\Delta_1 - \frac{\kappa_1}{2}\right)a_1
+                  + iJ\,a_2 + \sqrt{\kappa_{\mathrm{ex}}}\,s_{\mathrm{in}}, \label{eq:ch3_a} \\
+\frac{da_2}{dt} &= \left(i\Delta_2 - \frac{\kappa_2}{2}\right)a_2
+                  + iJ\,a_1. \label{eq:ch3_b}
+\end{align}
+\end{subequations}
+
+where $a_1$ and $a_2$ are intracavity fields, $\Delta_i$ detunings, $\kappa_i$ total decay rates, $\kappa_{\mathrm{ex}}$ external coupling, and $J$ the inter-ring coupling coefficient. In the single-ring case, the inter-ring term ($iJ\,a_2$) is absent, yielding a standard Lorentzian resonance. 
+
+From Eqs.~\eqref{eq:ch3_cmt}, the cavity transfer functions $H_{1,2}(\omega)$ are derived and used to compute the \textbf{Joint Spectral Amplitude (JSA)} of the photon pairs as
+\begin{equation}
+f(\omega_s,\omega_i) \propto 
+\alpha(\omega_s+\omega_i)\,
+H_1(\omega_s)\,H_1(\omega_i)\,
+\Phi(\omega_s,\omega_i),
+\end{equation}
+where $\alpha(\omega)$ is the pump spectral envelope, $H_1(\omega)$ represents the frequency-domain transfer function of the primary ring obtained from the CMT model, and $\Phi(\omega_s,\omega_i)$ is the dispersion-dependent phase-matching term. The corresponding \textbf{Joint Spectral Intensity (JSI)} (Fig.~\ref{fig:ch3_simulation}a) is $|f(\omega_s,\omega_i)|^2$.
+
+The model computes the optical response in the frequency domain and predicts the SFWM pair-generation rate as a function of quality factor $Q$, dispersion ($\beta_2$), and coupling coefficient $\kappa$ \cite{Garay-Palmett2013}. From the JSI we extract the \textbf{Schmidt number} $K$ and the \textbf{heralded photon purity} $P = 1/K$ as indicators of spectral entanglement, which in turn upper-bound the achievable two-photon interference visibility and therefore the secure key rate (SKR) of any entanglement-based QKD protocol built on top of the source.
+
+The Green's-function analysis (Fig.~\ref{fig:ch3_simulation}b) shows how thermal tuning of the auxiliary ring reshapes the drop-port resonance profile, while the brightness--purity trade-off (Fig.~\ref{fig:ch3_simulation}c) demonstrates that an optimally tuned DCM achieves higher purity at equal or lower brightness than the untuned case. Representative device and network parameters used throughout the simulation are summarized in Table~\ref{tab:ch3_params}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Representative device and network parameters used in the simulation.}
+    \label{tab:ch3_params}
+    \renewcommand{\arraystretch}{1.15}
+    \small
+    \begin{tabular}{@{}l l l@{}}
+        \toprule
+        \textbf{Parameter} & \textbf{Symbol} & \textbf{Value} \\
+        \midrule
+        Operating band & -- & C-band, 1550~nm \\
+        Channel spacing (FSR) & $\Delta\nu$ & 50~GHz \\
+        Intrinsic quality factor & $Q_i$ & $\sim 10^{6}$ \\
+        Main-ring decay rate & $\kappa_1$ & $2\pi \times 0.2$~GHz \\
+        Auxiliary-ring decay rate & $\kappa_2$ & $2\pi \times 0.2$~GHz \\
+        Inter-ring coupling & $J$ & $2\pi \times 0.4$~GHz \\
+        Group-velocity dispersion & $\beta_2$ & $-100$~ps$^2$/km \\
+        Pump power (on-chip) & $P_p$ & 1~mW \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{Network-Level Implications}
+
+The purity and Schmidt-number predictions of the simulation map directly onto the performance of entanglement-based QKD protocols deployed over shared optical infrastructure. In the BBM92 protocol, the two-photon interference visibility $V$ achievable at the receiver upper-bounds the asymptotic QBER through $\mathrm{QBER} \geq (1-V)/2$, with $V$ itself bounded by the spectral purity $P$ of the source. A 75\% increase in heralded purity therefore directly suppresses the source-limited contribution to QBER, relaxing the noise budget available to Raman scattering and dark counts in a coexistence scenario with classical WDM traffic \cite{Mao2018, Kumar2015}. Equivalently, at a fixed target QBER, this translates into an extension of the secure-fiber reach of the link.
+
+Beyond a single link, the key property of a predictive device model is that the mapping from on-chip heater currents to network-facing figures of merit can be queried in closed form. This interface is precisely what is needed to integrate quantum sources into the model-based planning and control frameworks already in use for transparent optical networks \cite{Azodolmolky2009, RodrguezGarcia2015}, opening the door to quantum-aware routing and wavelength assignment across shared WDM grids where entangled-photon and classical channels must coexist.
+
+\subsubsection{Conclusions}
+
+We have presented a digital twin of the dual-coupled micro-ring entanglement source, built on a coupled-mode-theory model and validated against the design space of our fabricated DCM devices. In representative operating conditions, tuning the auxiliary-cavity detuning raises the heralded purity by up to 75\% at fixed brightness, lowers the Schmidt number from approximately 1.8 to 1.2, and largely suppresses unwanted spectral correlations -- corresponding to an estimated 30\% improvement in the brightness--purity trade-off that is directly relevant to QKD performance.
+
+More broadly, these results show how a predictive model-based workflow can transform integrated entanglement sources from finely tuned laboratory devices into predictable, network-compatible components. By acting as a digital twin, the proposed framework enables pre-deployment optimization, reduces experimental calibration effort, and supports adaptive configuration aligned with network-level performance objectives. Future work will close the validation loop against measured DCM transmission spectra and extend the framework to multi-source network topologies, where several DCM devices must be co-configured across WDM channels -- a practical step toward scalable quantum--classical optical networks and future quantum internet architectures.
 
 \section{Post-Paper Discussion}
 
-TODO: Synthesize what these papers establish about device-level stability, simulation-driven design, and their limits as inputs to network-scale security.
+Taken together, the two papers move the DCM source from a promising integrated-photonics component toward a network-engineering object. Paper 3.1 asks whether thermal control preserves the spectral regularity needed for channelized use. Paper 3.2 asks whether the same class of device can be represented by a predictive model that exposes source quality as a function of controllable design and tuning parameters.
+
+The resulting thesis claim is deliberately bounded. The chapter does not show a complete deployed quantum network, nor does it by itself close the practical-security gap of QKD systems. Instead, it establishes that source behavior can be measured, modeled, and optimized in terms that later network layers can consume. This is important because quantum-secure communication is often limited by interfaces between layers: physical devices expose imperfect states; protocols assume state properties; network planners allocate wavelengths and power budgets; operators need stable, remotely configurable behavior.
+
+The chapter also highlights two limitations that should remain visible in the final dissertation. First, predictive source models must be validated against fabricated devices across process variation and environmental drift. A digital twin that is not continually tied back to measurement risks becoming another idealized model. Second, source optimization is only one part of system security. Higher purity and stable channel spacing can improve the assumptions available to entanglement-based protocols, but coexistence noise, detector behavior, post-processing, authentication, and operational monitoring still determine whether a practical system remains secure \cite{Xu2020}.
+
+These limitations are useful rather than incidental. They motivate the rest of the thesis, which follows quantum-secure networking beyond the photonic source and into programmable post-processing, cryptographic acceleration, datacenter transport behavior, and confidential-AI observability.
 
 \section{Link to the Next Chapter}
 
-TODO: Transition from quantum-source design to using quantum-secured material and post-processing inside programmable network infrastructure.
+Chapter 4 moves from generating quantum-secure optical resources to processing the classical information that such systems produce. Once a QKD or entanglement-based link produces raw measurement outcomes, the security of the final key depends on reconciliation, error handling, privacy amplification, authentication, and integration with the surrounding network stack. These steps are computationally and operationally significant, especially when quantum-secured links are expected to coexist with high-throughput datacenter or RDMA fabrics.
+
+The transition is therefore from source controllability to infrastructure programmability. Chapter 3 asks how an integrated quantum source can become stable and modelable enough for network use. Chapter 4 asks how programmable network hardware can absorb the post-processing burden that follows, making quantum-secured communication more plausible inside real systems rather than as an isolated optical experiment.
