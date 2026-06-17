@@ -2,7 +2,7 @@
 
 ## Status
 
-In Progress
+Done
 
 ## Goal
 
@@ -70,6 +70,20 @@ Received user confirmations and committee details on 2026-06-17:
 
 Copied external Abraham Cano draft template locally to `source-materials/templates/abraham-cano-draft/`; it is ignored by Git.
 
+Received publication-list input on 2026-06-17:
+
+- Copied `/Users/jomeyer/Documents/PhD/CV/joey_publications.docx` to `source-materials/prior-writing/joey_publications.docx`.
+- Copied `/Users/jomeyer/Documents/Projects/PROJECT_STATUS.md` to `source-materials/prior-writing/project-status-index.md`.
+- Created `notes/publication-inventory.md` with the initial paper/patent inventory, project source paths, draft chapter buckets, and reference workflow.
+- User stated this is expected to be a compilation-style thesis built mainly from about 10 publications plus introduction, transitions, and synthesis.
+- User stated all listed papers can be assumed accepted for planning purposes.
+- User stated patents cannot be expanded beyond title-level mention.
+- User clarified the Edge AI paper source is `https://github.com/jgmj23/EDGEAI`, branch or source label `main_ica3pp`, and that it is not totally done yet.
+- User clarified the ICSEE FSR-stability paper source is `https://github.com/jgmj23/ICSEE26---FSRstableDCM`.
+- User clarified the Optics Letters paper and the ROSE-QKD paper do not belong in the thesis body; the ROSE-QKD patent does belong.
+- User asked to keep camera-ready manuscripts as a separate issue that the user will handle later.
+- Project sources were identified under `/Users/jomeyer/Documents/Projects/`, including HQConDPUs, Pisa, DCM, ConfidentialCompute, ICTON26_RDMA_Ordering, QKD_DPU_QCE26, and Rose_QKD.
+
 ## Review Result
 
-Pending.
+Approved on 2026-06-17. Issue inputs are collected and classified; remaining work is split into follow-up issues.
