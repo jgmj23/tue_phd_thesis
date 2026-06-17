@@ -16,3 +16,4 @@ Record thesis and workflow decisions here so future agents can understand why th
 - Use `references/thesis.bib` as the canonical thesis bibliography. Paper-specific bibliographies remain source inputs and should be merged/deduplicated rather than cited directly from separate paper projects.
 - Patent-related material should be limited to title-level mention unless the user supplies approved disclosure language.
 - Exclude the Optics Letters spatial-mode QKD paper and the ROSE-QKD paper/manuscript from the thesis body. Keep the ROSE-QKD patent as title-only thesis material.
+- Keep `.agents/issues/*.md` and GitHub Issues synchronized explicitly. Local issue files are repository planning specs and do not create or close GitHub Issues by themselves.

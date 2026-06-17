@@ -10,3 +10,4 @@ Last updated: 2026-06-17.
 | `004-create-thesis-build-skeleton` | [#4](https://github.com/jgmj23/tue_phd_thesis/issues/4) | Ready for Review | Tectonic build works via `make pdf`; title pages visually checked. |
 | `005-ingest-references-and-prior-writing` | [#5](https://github.com/jgmj23/tue_phd_thesis/issues/5) | Ready | Publication inventory identifies paper/source folders and project bibliographies to merge. |
 | `006-collect-camera-ready-manuscripts` | [#6](https://github.com/jgmj23/tue_phd_thesis/issues/6) | Waiting on User | User will later provide camera-ready PDFs or accepted manuscripts; keep large files local-only under `source-materials/papers/`. |
+| `007-create-issue-sync-helper` | [#7](https://github.com/jgmj23/tue_phd_thesis/issues/7) | Open | Create a reusable helper, and possibly a Codex skill, to keep local issues and GitHub Issues synchronized. |
