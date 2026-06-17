@@ -61,13 +61,25 @@ language.
 | Rose-QKD | filed |
 | Authentication of Quantum Network | draft |
 
-## Draft Chapter Buckets
+## Planned Paper-Centric Thesis Structure
 
-These are planning buckets only, not final chapter titles.
+This structure keeps the thesis paper-centric while grouping related papers
+inside a broader cross-layer narrative. Paper chapters should use a consistent
+wrapper: chapter motivation, relation to research questions, publication
+context and author contribution, included paper, post-paper discussion, and
+link to the next chapter.
 
-1. Quantum photonic and QKD systems: DCM FSR stability, DCM entanglement-source optimization, QKD post-processing offload, and title-only ROSE-QKD patent context where permitted.
-2. DPU-accelerated post-quantum and edge security: HQC on DPUs, GPU/DPU PQC acceleration, edge AI pipeline offload.
-3. Secure network fabrics and confidential AI observability: optical/RDMA ordering attacks, confidential AI intrusion detection, payload-free DPU-based attack detection.
+| Part | Chapter | Included papers |
+| --- | --- | --- |
+| Thesis Frame | Introduction | No included paper. Frames motivation, research questions, contributions, and a guide to the included papers. |
+| Thesis Frame | Background and Unifying Methods | No included paper. Establishes shared background for quantum-secure networking, DPUs/SmartNICs, RDMA fabrics, and cross-layer evaluation. |
+| Quantum Photonic and Quantum-Secured Network Foundations | Integrated Quantum Sources for Quantum Networks | "Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator"; "Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks". |
+| Quantum Photonic and Quantum-Secured Network Foundations | QKD Post-Processing on Programmable Network Hardware | "QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics". |
+| Post-Quantum Cryptography in Programmable Network Infrastructure | DPU-Accelerated Post-Quantum Cryptography | "Offloading Post-Quantum Cryptography to Data Processing Units: A Performance Analysis of HQC Key Encapsulation"; "Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography". |
+| Post-Quantum Cryptography in Programmable Network Infrastructure | Post-Quantum Security for Edge AI Pipelines | "Securing Edge AI Pipelines: Offloading Image I/O and Post-Quantum Cryptography to DPUs". TODO: confirm final acceptance/source state before thesis inclusion. |
+| Cross-Layer Security in Datacenter Fabrics and Confidential AI | Ordering, Timing, and Optical Fabric Attacks | "Exploiting Cross-QP Ordering in RDMA over Optical Fabrics". |
+| Cross-Layer Security in Datacenter Fabrics and Confidential AI | Observability for Confidential AI Infrastructure | "Intrusion Detection for Confidential AI Training Clusters: A Cross-Layer Observability Framework"; "Detecting Attacks in Confidential AI Training Without Payload Access: A DPU-Based Experimental Study". TODO: confirm bibliography source for the second paper. |
+| Synthesis | Cross-Layer Lessons and Future Outlook | No included paper. Synthesizes the thesis-level claims, limitations, and future work. |
 
 ## Open Inputs
 

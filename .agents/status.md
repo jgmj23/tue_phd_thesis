@@ -11,3 +11,4 @@ Last updated: 2026-06-17.
 | `005-ingest-references-and-prior-writing` | [#5](https://github.com/jgmj23/tue_phd_thesis/issues/5) | Ready | Publication inventory identifies paper/source folders and project bibliographies to merge. |
 | `006-collect-camera-ready-manuscripts` | [#6](https://github.com/jgmj23/tue_phd_thesis/issues/6) | Waiting on User | User will later provide camera-ready PDFs or accepted manuscripts; keep large files local-only under `source-materials/papers/`. |
 | `007-create-issue-sync-helper` | [#7](https://github.com/jgmj23/tue_phd_thesis/issues/7) | Open | Create a reusable helper, and possibly a Codex skill, to keep local issues and GitHub Issues synchronized. |
+| `008-plan-thesis-section-structure` | [#8](https://github.com/jgmj23/tue_phd_thesis/issues/8) | Done | Paper-centric part/chapter skeleton implemented and verified with `make pdf`; GitHub issue synced and closed. |
