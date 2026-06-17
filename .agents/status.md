@@ -12,4 +12,5 @@ Last updated: 2026-06-17.
 | `006-collect-camera-ready-manuscripts` | [#6](https://github.com/jgmj23/tue_phd_thesis/issues/6) | Waiting on User | User will later provide camera-ready PDFs or accepted manuscripts; keep large files local-only under `source-materials/papers/`. |
 | `007-create-issue-sync-helper` | [#7](https://github.com/jgmj23/tue_phd_thesis/issues/7) | Open | Create a reusable helper, and possibly a Codex skill, to keep local issues and GitHub Issues synchronized. |
 | `008-plan-thesis-section-structure` | [#8](https://github.com/jgmj23/tue_phd_thesis/issues/8) | Done | Paper-centric part/chapter skeleton implemented and verified with `make pdf`; GitHub issue synced and closed. |
+| `009-chapter-3-integrated-quantum-sources` | [#9](https://github.com/jgmj23/tue_phd_thesis/issues/9) | Done | Chapter 3 wrapper drafted and papers 3.1 and 3.2 integrated. |
 | `010-chapter-4-qkd-post-processing-dpu` | [#10](https://github.com/jgmj23/tue_phd_thesis/issues/10) | Done | Chapter 4 fully written with custom structure. |
