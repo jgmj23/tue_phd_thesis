@@ -45,8 +45,13 @@ create or close GitHub Issues. Agents must explicitly keep both systems aligned:
 - Preserve academic tone unless an issue requests exploratory drafting.
 - Mark uncertain claims with `TODO:` and explain what is missing.
 - Do not invent citations. Use citation keys only when they exist in `references/thesis.bib`, or mark them as `TODO: citation`.
+- Use `biblatex` with `style=ieee` and `sorting=none` (numbered references, first-citation order) via the single canonical bibliography `references/thesis.bib`.
 - Keep chapter files focused on thesis prose. Put planning, alternatives, and rough notes in `notes/`.
 - Prefer source figures and reproducible exports where practical.
+- Use descriptive, content-specific section titles in chapters rather than generic template names (e.g., "From Photonic Devices to Network Components" instead of "Chapter Motivation").
+- For paper-centric chapters, preserve the accepted/camera-ready paper formatting where possible by including the final PDF using `\includepdf` from the `pdfpages` package instead of copying raw LaTeX text.
+- Before each included paper, add a short thesis-formatted section with publication venue/status, author contribution, relation to the thesis questions, and why the paper belongs there.
+- After each included paper, add a thesis-formatted discussion/transition section.
 
 ## Build And Verification
 

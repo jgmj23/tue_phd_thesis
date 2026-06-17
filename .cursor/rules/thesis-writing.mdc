@@ -1,0 +1,36 @@
+---
+description: Rules and formatting conventions for writing thesis chapters
+globs: chapters/**/*.tex
+alwaysApply: false
+---
+
+# Thesis Chapter Writing Rules
+
+When writing or editing thesis chapters (`chapters/**/*.tex`), follow these project-wide conventions:
+
+## Section Titles
+- **Use descriptive, content-specific titles** instead of generic ones.
+- ❌ BAD: `\section{Chapter Motivation}`
+- ✅ GOOD: `\section{From Photonic Devices to Network Components}`
+
+## Citations and Bibliography
+- Use **numbered references** in first-citation order (`style=ieee`, `sorting=none`).
+- Use the **single canonical bibliography** located at `references/thesis.bib`.
+- Never invent citations. If a citation is missing, use `TODO: citation`.
+
+## Paper-Centric Chapters Structure
+For chapters that include published papers, follow this structure:
+
+1. **Pre-Paper Wrapper**:
+   - Write thesis-formatted sections introducing the topic.
+   - Include a subsection for **Publication Details and Contributions** (venue, status, author contribution).
+   - Include a subsection for **Role in the Dissertation** (relation to thesis questions and why it belongs there).
+
+2. **Included Papers**:
+   - **Do not copy raw LaTeX text** from the papers.
+   - Preserve the accepted/camera-ready formatting by embedding the final PDF using the `pdfpages` package.
+   - Example: `\includepdf[pages=-, pagecommand={\thispagestyle{fancy}}]{source-materials/papers/paper_name.pdf}`
+
+3. **Post-Paper Wrapper**:
+   - Add a thesis-formatted discussion/synthesis section after the papers.
+   - Add a transition section linking to the next chapter.
