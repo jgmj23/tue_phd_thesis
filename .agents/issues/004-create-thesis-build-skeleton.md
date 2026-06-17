@@ -2,7 +2,7 @@
 
 ## Status
 
-Ready for Review
+Done
 
 ## Goal
 
@@ -15,15 +15,22 @@ Available inputs now include official regulations, Word title-page templates, an
 ## Allowed Files
 
 - `thesis.tex`
+- `includes.tex`
 - `Makefile`
+- `.gitignore`
+- `README.md`
 - `frontmatter/`
 - `chapters/`
 - `appendices/`
+- `backmatter/`
 - `references/`
 - `figures/`
 - `tables/`
 - `notes/`
 - `.agents/issues/`
+- `.agents/handoffs/`
+- `.agents/reviews/`
+- `.agents/status.md`
 
 ## Do Not Touch
 
@@ -74,6 +81,13 @@ Verification performed:
 - Rendered title pages were visually inspected.
 - Remaining log warnings are expected until the bibliography is ingested: BibTeX fallback and empty bibliography.
 
+Review verification on 2026-06-17 confirmed:
+
+- `make pdf` completed successfully with Tectonic when run outside the sandbox.
+- `thesis.pdf` was produced with 25 pages.
+- PDF page size is 481.89 x 680.31 pt, matching the intended 170 mm x 240 mm geometry.
+- Remaining log warnings are expected until the bibliography is ingested: BibTeX fallback and empty bibliography.
+
 ## Review Result
 
-Pending review.
+Passed on 2026-06-17. No blocking review findings.
