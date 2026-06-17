@@ -2,7 +2,7 @@
 
 ## Status
 
-Ready for Review
+Done
 
 ## Goal
 
@@ -57,6 +57,8 @@ Derived dates from a 6 October 2026 defense:
 - 4 weeks: 8 September 2026.
 - 2 weeks: 22 September 2026.
 
+Review cleanup added per-entry source citations, explicit deadline flags relative to 2026-06-17, and open questions for print workflow, propositions, embargo, and public-summary status.
+
 ## Review Result
 
-Pending review.
+Approved.
