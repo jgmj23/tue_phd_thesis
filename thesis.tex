@@ -1,0 +1,44 @@
+\documentclass[11pt,twoside,openright]{book}
+
+\input{includes}
+
+\newcommand{\ThesisTitle}{Cross-Layer Network Security in the Post-Quantum Era - From Integrated Quantum Sources to Datacenter-Scale Cryptography}
+\newcommand{\ThesisAuthor}{Joseph Gideon Meyer}
+\newcommand{\ThesisDefenseDate}{dinsdag 6 oktober 2026 om 16:00 uur}
+\newcommand{\ThesisBirthLine}{geboren te Toronto, Ontario, Canada}
+
+\begin{document}
+
+\frontmatter
+\pagestyle{empty}
+
+\input{frontmatter/titlepage}
+\input{frontmatter/summary}
+
+\cleardoublepage
+\pdfbookmark[chapter]{\contentsname}{toc}
+\tableofcontents
+
+\mainmatter
+\pagestyle{fancy}
+
+\input{chapters/01-introduction}
+\input{chapters/02-background}
+\input{chapters/03-methods}
+\input{chapters/04-results}
+\input{chapters/05-discussion}
+\input{chapters/06-conclusion}
+
+\backmatter
+
+\input{backmatter/acknowledgements}
+\input{backmatter/publications}
+\input{backmatter/cv}
+
+\chapter{Bibliography}
+\label{bibliography}
+\sloppy
+\printbibliography[heading=none]
+
+\end{document}
+

@@ -1,0 +1,47 @@
+# LaTeX build outputs
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+*-blx.bib
+
+# Generated documents
+build/
+dist/
+thesis.pdf
+main.pdf
+output.pdf
+
+# Local editor/system files
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Local agent worktrees
+.worktrees/
+
+# Research data and generated outputs
+research/data/raw/
+research/data/processed/
+research/outputs/generated/
+
+# Large local-only source libraries
+source-materials/papers/
+
+# External thesis templates are local references, not thesis source.
+source-materials/templates/abraham-cano-draft/
+
+# Notebook noise
+.ipynb_checkpoints/

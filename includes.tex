@@ -1,0 +1,55 @@
+\usepackage[
+  paperwidth=17cm,
+  paperheight=24cm,
+  top=3cm,
+  bottom=2.5cm,
+  left=2.5cm,
+  right=2cm,
+  twoside
+]{geometry}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{csquotes}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage[hidelinks,bookmarksnumbered]{hyperref}
+\usepackage{bookmark}
+\usepackage[
+  backend=bibtex,
+  dashed=false,
+  style=ieee,
+  sorting=none,
+  maxbibnames=99,
+  url=false
+]{biblatex}
+
+\addbibresource{references/thesis.bib}
+
+\setlength{\parskip}{0pt plus 4pt}
+\setlength{\headheight}{14pt}
+
+\renewcommand{\thechapter}{\arabic{chapter}}
+\titleformat{\chapter}[display]
+  {\Large}
+  {\filleft\MakeUppercase{\chaptertitlename}\ \Huge\thechapter}
+  {2ex}
+  {\titlerule\vspace{2ex}\bfseries\filleft\huge}
+  [\vspace{1.3ex}\titlerule]
+
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\captionsetup{font=small}
