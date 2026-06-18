@@ -21,3 +21,9 @@ Record thesis and workflow decisions here so future agents can understand why th
 - Each paper-bearing chapter should wrap the included manuscript with descriptive, non-generic section titles.
 - Use `\includepdf` (via `pdfpages`) to embed the final/accepted manuscript PDFs rather than copying raw LaTeX text.
 - Wrap each paper with a pre-paper section (publication context, author contribution, relation to the thesis) and a post-paper section (discussion and transition to the next chapter).
+
+## 2026-06-18
+
+- Reframe Chapters 1 and 2 around "Architectures for Scalable Quantum-Resilient Communication Systems," following the Go/No-Go activity report's three pillars: high-performance PQC acceleration, scalable/topology-aware QKD architectures, and integrated photonic entanglement sources for deployable QKD.
+- Keep ROSE-QKD as patent/title-level context only. It may support the scalable-QKD architecture motivation, but it is not a thesis-body paper unless approved disclosure language is later provided.
+- Separate the front-frame chapters by function: Chapter 1 makes the thesis argument, scope, research questions, and paper map; Chapter 2 provides the technical background and unifying cross-layer evaluation method.
