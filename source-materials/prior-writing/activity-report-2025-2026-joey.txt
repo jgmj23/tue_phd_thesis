@@ -1,0 +1,280 @@
+TU/e  Department of Electrical Engineering
+
+
+Activity Report over the period
+
+February 1st 2025 – February 1st 2026
+
+Name and Initials	: Joseph G. Meyer
+
+Date of Birth		: January 4th, 1995
+
+Position		: PhD Candidate
+
+
+
+
+
+Working under the supervision of: Prof. dr. in. Idelfonso Tafur Monroy (TU/e) Dr. J.J. Vegas Olmos (NVIDIA) Dr. Elad Mentovich (NVIDIA)
+
+
+
+
+1	Description of work carried out
+
+1A	Scientific Research
+
+Research Theme:
+Architectures for Scalable Quantum-Resilient Communication Systems
+The overarching objective of my PhD is to investigate architectural, protocol-level, and device-level approaches for enabling secure communication infrastructures in the post-quantum era. This work aligns directly with the QUARC project goals and with my TSP objectives which focus on co-integration of quantum communication technologies and post-quantum cryptography (PQC).
+During Year 1, the research evolved into three tightly connected pillars:
+High-performance PQC cryptographic acceleration for scalable deployment in data center infrastructures.
+Scalable and topology-aware quantum key distribution (QKD) architectures;
+Integrated photonic entanglement sources compatible with wavelength-division multiplexed (WDM) networks.
+Together, these directions address complementary layers of quantum-resilient communication systems, spanning classical cryptographic performance, quantum protocol design, and photonic device engineering.
+Pillar I: High-Performance Post-Quantum Cryptography
+1. Research Area
+Architectural design and performance evaluation of DPU platforms for accelerating NIST-standardized PQC algorithms.
+2. Conditions and Context
+This research is conducted in close collaboration with NVIDIA and is aligned with the QUARC objective of evaluating scalable deployment of PQC in real-world infrastructures. It directly supports the TSP goal of benchmarking CPU–GPU architectures for post-quantum workloads.
+3. Nature of the Work
+The work focused on designing and evaluating heterogeneous CPU–GPU execution pipelines within BlueField-class DPUs for accelerating:
+ML-KEM (Kyber)
+ML-DSA (Dilithium)
+HQC key encapsulation
+The research included:
+Architectural design of CPU–GPU workload partitioning strategies
+Batch-size scaling analysis
+Latency and throughput characterization under identical NUMA conditions
+Stress modeling and determinism analysis
+Interpretation of performance results in the context of large-scale data center identity provisioning
+This resulted in two journal manuscripts:
+Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography (Journal of Cryptographic Engineering – In Review)
+Offloading Post-Quantum Cryptography to Data Processing Units: A Performance Analysis of HQC Key Encapsulation (IEEE Access – In Review)
+The work demonstrates substantial acceleration through GPU offloading, with speedups reaching orders of magnitude for sufficiently batched workloads.
+This direction also led to two filed patent applications related to computational offloading of PQC operations on network interface cards, as well as a broader multi-hybrid cryptographic key exchange architecture.
+A one-week research visit to CNIT (Pisa) enabled a collaboration with the fellow QUARC colleague, Dr. Abraham Cano for a knowledge transfer and alignment with deployment-scale infrastructure considerations.
+4. Current Status
+Both journal papers are under review. Benchmarking infrastructure is stable and reproducible. Follow-up work exploring protocol-level integration and policy-aware offloading is under consideration.
+5. Expectations and Plans
+In Year 2, this research will extend toward:
+Integration of accelerated PQC mechanisms into broader secure network stacks;
+Evaluation of deployment strategies under realistic data center constraints;
+Further system-level performance characterization.
+Pillar II: Scalable and Topology-Aware QKD Architectures
+1. Research Area
+Design of scalable and deployable QKD network topologies.
+2. Conditions and Context
+While the TSP outlines benchmarking and integration of QKD technologies, Year 1 expanded into architectural innovation at the protocol level.
+3. Nature of the Work
+During this period, I designed a novel QKD architecture focused on rethinking network topology and receiver deployment strategies to improve scalability and practicality in multi-user settings.
+The proposed architecture explores alternative structural configurations that reduce complexity in certain nodes while enabling scalable network growth.
+This work resulted in:
+An intellectual property filing in preparation (ROSE-QKD);
+Planned journal submission to npj Quantum Information following IP processing.
+Additionally, a second concept related to authentication mechanisms for quantum networks has been disclosed and is currently under intellectual property evaluation.
+This direction represents an independent research contribution and broadens the scope of the PhD beyond performance benchmarking toward architectural design.
+4. Current Status
+IP processes are ongoing. Formal journal submission will follow clearance.
+5. Expectations and Plans
+Year 2 will include:
+Refinement of scalability analysis;
+Formalization of performance and network-level trade-offs;
+Evaluation of integration pathways between QKD architectures and classical cryptographic infrastructures.
+Pillar III: Integrated Photonic Entanglement Sources for Deployable QKD
+1. Research Area
+Simulation-driven and experimental characterization of dual-coupled microring resonator (DCM) sources for frequency-bin entanglement, targeting deployable QKD systems compatible with telecom WDM infrastructure.
+2. Conditions and Context
+This research addresses the device-level enablers required for scalable and practical QKD deployment. It complements the architectural and protocol-level work by investigating whether integrated photonic sources can meet spectral stability, tunability, and quality-factor requirements for realistic network environments.
+3. Nature of the Work
+During this period, work focused on both simulation-driven analysis and experimental validation of fabricated DCM chips.
+Activities included:
+Analysis of Lumerical simulation outputs;
+Derivation of spectral properties, including free spectral range (FSR) behavior and thermal tuning response;
+Experimental characterization of a fabricated batch of lithium niobate (LiNbO₃) DCM chips;
+Measurement of resonance stability and evaluation of entanglement suitability;
+Assessment of Q-factor tunability and spectral engineering strategies.
+The first set of lithium niobate chips demonstrated promising behavior in terms of thermal control and spectral response. However, performance did not yet fully meet the target specifications for deployable entanglement-based QKD. As a result, an improved chip design is currently being developed to address the identified limitations.
+In parallel, a batch of silicon nitride (SiN) DCM chips is expected. Fabrication delays have postponed experimental evaluation, but these devices are anticipated to provide improved nonlinear performance and stability.
+This research resulted in two accepted conference papers:
+Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks (ONDM Munich – Submitted)
+Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator (ICSEE Jerusalem – Accepted)
+In addition, a journal manuscript is currently in preparation focusing on tunable Q-factor engineering in DCM chips for deployable QKD applications.
+I am first author on all works in this direction.
+I will be presenting these results in an invited talk at ICTON26.
+I also formulated multiple Bachelor End Project (BEP) proposals related to DCM spectral engineering and experimental validation, and am currently co-supervising two BSc students working on a BEP focusing on QKD post-processing.
+4. Current Status
+Improved lithium niobate DCM design in preparation;
+Awaiting arrival of delayed SiN chip batch for further experimental validation;
+Journal manuscript in writing on Q-factor tunability;
+Experimental program to continue as devices arrive.
+5. Expectations and Plans
+In Year 2, the focus will be on:
+Experimental validation of improved DCM designs;
+Comparative evaluation of LiNbO₃ and SiN platforms;
+Continued refinement of spectral engineering strategies for WDM compatibility;
+Submission of journal-level publications based on extended experimental results.
+
+Estimated time devoted to scientific research over the report period: 80%
+
+1B	Education
+
+During this period:
+Completed required TU/e Scientific Integrity Course.
+Participated in QUARC Summer School (Copenhagen).
+Regular attendance of weekly Quantum and Terahertz Systems group lectures.
+Attendance of weekly Light-Matter Interaction lectures at Tel Aviv University.
+Co-supervision of two Bachelor students (QKD Post-Processor project).
+Estimated Time Devoted to Education: 5%
+
+
+
+
+1C	Other activities
+
+Active participation in QUARC consortium meetings.
+Participation in NVIDIA Networking Hackathon.
+Attendance at NVIDIA Horizon research lectures.
+Use and administration of NVIDIA cloud NIC infrastructure for research benchmarking.
+Knowledge transfer visit to CNIT (Pisa).
+Weekly participation in QTS group meetings.
+Contribution to patent drafting activities.
+Estimated Time Devoted to Other Activities: 15%
+II 	Publications
+Papers
+
+Title
+#
+Venue
+Status
+1
+Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography
+1st
+Journal of Cryptographic Engineering
+In review
+2
+Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks
+1st
+ONDM Munich
+Submitted
+3
+Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator
+1st
+ICSEE Jerusalem
+Accepted
+4
+Offloading Post-Quantum Cryptography to Data Processing Units: A Performance Analysis of HQC Key Encapsulation
+1st
+IEEE Access
+Submitted
+5
+ROSE-QKD
+1st
+NPJ Quantum Information
+Awaiting patent
+6
+DCM research progress
+1st
+ICTON Prague
+Invited paper
+7
+Design Choices and Trade-offs for AI-based Intrusion Detection in Confidential Computing Systems
+2nd 
+ICTON Prague
+Invited paper
+8
+Dual-Coupled Micro-Ring Resonator as a Tunable Source for Entanglement-based QKD
+1st 
+TBD
+Planned
+Patents
+
+Title
+Status
+1
+Multi-Hybrid Cryptographic Key Exchange (MHKE)
+Filed
+2
+Computational offloading of operations necessary for Post-Quantum Cryptography on NV NICs
+Filed
+3
+Rose-QKD
+Invention Submitted
+4
+Authentication of Quantum Network (maybe a paper instead)
+Draft
+
+III	Presentations
+
+Title
+Venue
+Status
+1
+Lab Introduction
+QTS 
+Completed
+2
+Deployable Entanglement-based QKD SOTA
+QTS
+Completed
+3
+FSR-Stable DCMs
+ICSEE 2026
+Planned
+4
+Tunable, Deployable entanglement-based QKD Source
+ICTON 2026
+Planned
+5
+Practice: FSR-Stable DCMs
+QTS 
+Planned
+6
+Practice: Tunable, Deployable entanglement-based QKD Source
+QTS
+Planned
+
+IV	Scientific and other (e.g. organizational) activities which are not directly connected to your position
+
+•  Participation in QUARC project
+•  Patent drafting contributions
+•  NVIDIA collaboration and benchmarking infrastructure usage
+•  BEP supervision
+•  Cross-institutional knowledge transfer (CNIT visit)
+
+V	Comments
+
+
+
+
+
+
+
+
+Date:								Signature:
+February 11th, 2026						 
+
+
+
+
+Agreed:
+
+Date:								Signature(s):
+
+
+
+
+
+
+ Supervising professor
+
+
+
+
+
+
+
+
+
+
+

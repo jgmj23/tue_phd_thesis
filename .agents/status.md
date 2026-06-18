@@ -14,3 +14,4 @@ Last updated: 2026-06-18.
 | `008-plan-thesis-section-structure` | [#8](https://github.com/jgmj23/tue_phd_thesis/issues/8) | Done | Paper-centric part/chapter skeleton implemented and verified with `make pdf`; GitHub issue synced and closed. |
 | `009-chapter-3-integrated-quantum-sources` | [#9](https://github.com/jgmj23/tue_phd_thesis/issues/9) | Done | Chapter 3 wrapper drafted and papers 3.1 and 3.2 integrated. |
 | `010-chapter-4-qkd-post-processing-dpu` | [#10](https://github.com/jgmj23/tue_phd_thesis/issues/10) | Done | Chapter 4 fully written with custom structure. |
+| `011-rework-thesis-frame` | [#11](https://github.com/jgmj23/tue_phd_thesis/issues/11) | Done | Chapters 1 and 2 reframed around scalable quantum-resilient communication architectures and Go/No-Go research pillars; activity report copied into prior-writing sources; ROSE-QKD kept patent-only. |

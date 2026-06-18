@@ -1,17 +1,102 @@
-\chapter{Background and Unifying Methods}
+\chapter{Background and Unifying Concepts}
 
-\section{Quantum-Secure Networking}
+\section{Post-Quantum Cryptography and Deployment Constraints}
 
-TODO: Introduce the security transition from classical cryptography to post-quantum cryptography, quantum key distribution, and integrated quantum photonic sources.
+Post-quantum cryptography (PQC) replaces public-key mechanisms vulnerable to
+large-scale quantum attacks with algorithms believed to resist both classical
+and quantum adversaries. For networked systems, however, the migration to PQC is
+not finished when an algorithm is selected. Key encapsulation mechanisms,
+digital signatures, certificates, handshakes, and identity-provisioning systems
+must all meet operational latency and throughput requirements while preserving
+security margins and interoperability. TODO: citation.
 
-\section{Programmable Network Infrastructure}
+The included PQC work studies this deployment problem through workloads such as
+ML-KEM, ML-DSA, and HQC. These algorithms differ in computational structure,
+memory behavior, message size, and suitability for batching. As a result, the
+right execution strategy depends on both the cryptographic operation and the
+system context in which it runs. A mechanism that performs well for a single
+operation on a host CPU may behave differently when thousands of operations must
+be processed under datacenter provisioning, service-mesh, or secure-channel
+constraints.
 
-TODO: Introduce DPUs, SmartNICs, RDMA fabrics, and network offload as recurring implementation platforms in the included papers.
+The central deployment questions are therefore architectural: where should
+cryptographic work run, how should requests be batched, how much latency can be
+tolerated, what resources become bottlenecks, and how deterministic is the
+result under load? These questions motivate the use of programmable network
+infrastructure as a recurring platform in this dissertation.
 
-\section{Cross-Layer Security Methodology}
+\section{Programmable Network Infrastructure for Security Offload}
 
-TODO: Explain the shared methodology across the thesis: identifying assumptions at one layer, implementing or observing them at another layer, and evaluating the resulting security or performance tradeoffs.
+SmartNICs and DPUs extend the network interface from a passive I/O endpoint into
+a programmable execution environment. In BlueField-class systems, Arm CPU cores,
+network accelerators, memory resources, and in some settings GPU-connected
+execution paths can be used to move selected work away from the host. This
+creates an opportunity to place cryptographic operations, packet processing,
+storage or image I/O, telemetry, and policy enforcement closer to the network
+boundary.
 
-\section{Compilation Thesis Structure}
+Offload is not automatically beneficial. It introduces its own costs: data
+movement, queueing, synchronization, resource contention, and additional
+software complexity. The useful question is not whether a DPU is faster in
+isolation, but which part of a security pipeline should be moved, under which
+batching and traffic conditions, and with which visibility into system state.
+This dissertation uses DPUs both as accelerators for post-quantum workloads and
+as observation points for security-sensitive infrastructure.
 
-TODO: Explain how the published papers are embedded in the dissertation and how the wrapper sections should be read.
+\section{QKD Networks and Scalable Architectures}
+
+Quantum key distribution (QKD) provides a different approach to secure key
+establishment by using quantum states and classical post-processing to generate
+shared secret keys. A deployable QKD system is more than a quantum channel. It
+requires source and detector hardware, synchronization, sifting, error
+reconciliation, privacy amplification, authentication, key management, and
+interfaces to classical applications.
+
+The scalability challenge appears when QKD moves from a laboratory link to a
+multi-user network. Topology, receiver placement, trusted-node assumptions,
+post-processing throughput, and classical integration all influence whether a
+QKD architecture can grow beyond isolated point-to-point demonstrations. This
+dissertation treats scalable QKD architecture as part of the broader
+quantum-resilient communication problem, while patent-sensitive concepts such as
+ROSE-QKD remain limited to title-level context unless approved disclosure text
+is supplied.
+
+\section{Integrated Photonic Sources for Deployable QKD}
+
+Integrated photonics addresses the device-level side of deployable quantum
+communication. For entanglement-based QKD, source stability, spectral
+engineering, tunability, quality factor, loss, and compatibility with telecom
+wavelength grids all affect whether a photonic device can support practical
+network operation. Device behavior therefore has system-level consequences:
+source drift, resonance spacing, and thermal response influence how easily a
+quantum source can be controlled, multiplexed, and integrated with classical
+network infrastructure.
+
+The photonic-source work in this dissertation focuses on dual-coupled microring
+resonators as candidate sources for frequency-bin entanglement. The relevant
+background includes free spectral range behavior, thermal tuning, Q-factor
+engineering, lithium niobate and silicon nitride platform tradeoffs, and
+wavelength-division multiplexing compatibility. These topics connect the device
+chapters to the larger architectural question of how quantum communication
+components can become deployable network building blocks.
+
+\section{Cross-Layer Architecture Evaluation}
+
+The common method across the dissertation is to identify a security or
+deployment assumption at one layer, then evaluate how it changes when mapped
+onto another layer. For PQC, this means studying how algorithmic costs interact
+with DPU execution, batching, and datacenter-scale workloads. For QKD, it means
+connecting quantum key generation and post-processing to programmable network
+hardware and classical integration points. For integrated photonics, it means
+relating device-level spectral behavior to network-level deployability. For
+datacenter security and confidential AI, it means examining what can still be
+observed or protected when payload access, ordering assumptions, or topology
+assumptions are constrained.
+
+This cross-layer perspective is the reason the dissertation combines topics
+that might otherwise appear separate: quantum photonic devices, QKD
+post-processing, post-quantum cryptographic acceleration, RDMA and optical
+fabrics, and confidential AI observability. The unifying question is how secure
+communication systems can be made scalable and deployable when the relevant
+constraints are distributed across the physical, cryptographic, network, and
+application layers.

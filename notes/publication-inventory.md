@@ -5,8 +5,10 @@ Last updated: 2026-06-18.
 This note records the initial publication inputs for a compilation-style thesis.
 The source list is `source-materials/prior-writing/joey_publications.docx`,
 with additional publication details from
-`/Users/jomeyer/Documents/PhD/CV/cv/publications.tex` and project status from
-`source-materials/prior-writing/project-status-index.md`.
+`/Users/jomeyer/Documents/PhD/CV/cv/publications.tex`, project status from
+`source-materials/prior-writing/project-status-index.md`, and the Year 1
+activity report copied from
+`/Users/jomeyer/Documents/PhD/Admin/Activity report - Joey.doc`.
 
 Working assumption from the user: all listed manuscripts can be treated as
 accepted for thesis-planning purposes.
@@ -22,6 +24,14 @@ thesis into a single citation library so chapter text, introduction text, and
 transition text can cite sources consistently. Paper-specific `.bib` files
 remain source inputs and should be merged, deduplicated, and checked before
 chapter drafting.
+
+## Local Prior-Writing Sources
+
+| Source | Local file | Use |
+| --- | --- | --- |
+| Publication list | `source-materials/prior-writing/joey_publications.docx` | Initial candidate publication inventory. |
+| Project status index | `source-materials/prior-writing/project-status-index.md` | Source paths and project-status notes. |
+| Activity report, February 1st 2025--February 1st 2026 | `source-materials/prior-writing/activity-report-2025-2026-joey.doc`; searchable extraction in `source-materials/prior-writing/activity-report-2025-2026-joey.txt` | Go/No-Go framing for the thesis theme, research pillars, and Chapter 1--2 structure. |
 
 ## Candidate Paper Set
 
@@ -63,7 +73,8 @@ confirmed they should not be treated as thesis-body compilation papers:
   scaling up the distance and the dimensionality," Optics Letters 50, 3297-3300
   (2025).
 - ROSE-QKD as a paper/manuscript. The ROSE-QKD patent title does belong and is
-  tracked under patent handling below.
+  tracked under patent handling below. It may be mentioned as title-level
+  context for scalable QKD architecture, but it is not a thesis-body paper.
 
 ## Patent Handling
 
@@ -88,8 +99,8 @@ link to the next chapter.
 
 | Part | Chapter | Included papers |
 | --- | --- | --- |
-| Thesis Frame | Introduction | No included paper. Frames motivation, research questions, contributions, and a guide to the included papers. |
-| Thesis Frame | Background and Unifying Methods | No included paper. Establishes shared background for quantum-secure networking, DPUs/SmartNICs, RDMA fabrics, and cross-layer evaluation. |
+| Thesis Frame | Introduction | No included paper. Frames quantum-resilient communication as an architecture problem, states scope, research questions, research pillars, contributions, and dissertation organization. |
+| Thesis Frame | Background and Unifying Concepts | No included paper. Establishes shared background for PQC deployment, programmable network infrastructure, scalable QKD architectures, integrated photonic sources, and cross-layer architecture evaluation. |
 | Quantum Photonic and Quantum-Secured Network Foundations | Integrated Quantum Sources for Quantum Networks | "Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator"; "Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks". |
 | Quantum Photonic and Quantum-Secured Network Foundations | QKD Post-Processing on Programmable Network Hardware | "QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics". |
 | Post-Quantum Cryptography in Programmable Network Infrastructure | DPU-Accelerated Post-Quantum Cryptography | "Offloading Post-Quantum Cryptography to Data Processing Units: A Performance Analysis of HQC Key Encapsulation"; "Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography". |
