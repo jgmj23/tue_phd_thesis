@@ -1,6 +1,6 @@
 # Publication Inventory
 
-Last updated: 2026-06-17.
+Last updated: 2026-06-18.
 
 This note records the initial publication inputs for a compilation-style thesis.
 The source list is `source-materials/prior-writing/joey_publications.docx`,
@@ -36,6 +36,23 @@ chapter drafting.
 | Confidential AI / DPU observability | "Detecting Attacks in Confidential AI Training Without Payload Access: A DPU-Based Experimental Study" | accepted | Draft source likely in `/Users/jomeyer/Documents/Projects/ConfidentialCompute/agents/paperB_tifs/draft/paperB_full_draft.tex`; bibliography source still needs confirmation. |
 | Edge AI / DPU/PQC | "Securing Edge AI Pipelines: Offloading Image I/O and Post-Quantum Cryptography to DPUs" | in progress; assume eventual acceptance for planning | Source repository supplied by user: `https://github.com/jgmj23/EDGEAI`, branch or source label `main_ica3pp`. User noted it is not totally done yet. |
 | QKD/DPU | "QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics" | accepted / submitted | Source in `/Users/jomeyer/Documents/Projects/QKD_DPU_QCE26/paper/paper.tex`; bibliography in `/Users/jomeyer/Documents/Projects/QKD_DPU_QCE26/paper/bibliography.bib`. |
+
+## Camera-Ready / Accepted Manuscript Files
+
+Manuscript PDFs are local-only thesis inputs. They live under
+`source-materials/papers/`, which is ignored by Git.
+
+| Publication | Manuscript status | Local PDF |
+| --- | --- | --- |
+| "Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator" | supplied 2026-06-18; camera-ready PDF | `source-materials/papers/camera-ready/fsr-stability-dual-coupled-microring-camera-ready.pdf` |
+| "Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Optical Networks" | supplied 2026-06-18; camera-ready PDF | `source-materials/papers/camera-ready/dcm-entanglement-sources-quantum-networks-camera-ready.pdf` |
+| "Offloading Post-Quantum Cryptography to Data Processing Units: A Performance Analysis of HQC Key Encapsulation" | supplied 2026-06-18; published IEEE Access PDF | `source-materials/papers/camera-ready/hqc-pqc-offload-bluefield-dpu-ieee-access-2026-published.pdf` |
+| "Real-Time Post-Quantum Secured Image Pipeline on NVIDIA BlueField-3 DPU" | supplied 2026-06-18; accepted/camera-ready manuscript PDF | `source-materials/papers/camera-ready/real-time-pq-secured-image-pipeline-bluefield3-dpu-camera-ready.pdf` |
+| "Exploiting Cross-QP Ordering in RDMA over Optical Fabrics" | supplied 2026-06-18; camera-ready PDF | `source-materials/papers/camera-ready/cross-qp-ordering-rdma-optical-fabrics-camera-ready.pdf` |
+| "Cross-Layer Observability for Intrusion Detection in Confidential AI Training Clusters" | supplied 2026-06-18; camera-ready PDF | `source-materials/papers/camera-ready/cross-layer-observability-confidential-ai-training-clusters-camera-ready.pdf` |
+| "Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography" | not supplied in the 2026-06-18 camera-ready drop; final manuscript/version pending | TODO |
+| "QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics" | not supplied in the 2026-06-18 camera-ready drop; completion/final manuscript pending | TODO |
+| "Detecting Attacks in Confidential AI Training Without Payload Access: A DPU-Based Experimental Study" | not supplied in the 2026-06-18 camera-ready drop; completion/final manuscript pending | TODO |
 
 ## Not In Thesis Body
 
@@ -84,4 +101,5 @@ link to the next chapter.
 ## Open Inputs
 
 - Merge and clean project bibliographies into `references/thesis.bib`.
-- Camera-ready or accepted manuscript PDFs are deferred to issue `006-collect-camera-ready-manuscripts`.
+- Reconcile the remaining camera-ready gaps tracked in issue
+  `006-collect-camera-ready-manuscripts`.
