@@ -1,15 +1,54 @@
 \chapter{Introduction}
 
-\section{Quantum-Resilient Communication as an Architectural Problem}
+\section{Foundations of Digital Trust}
 
-Secure communication infrastructure is entering a transition in which the
-cryptographic assumptions used by deployed networks, cloud systems, and
-datacenter fabrics can no longer be treated as stable design constants. The
-expected arrival of cryptographically relevant quantum computers motivates the
-migration from classical public-key mechanisms toward post-quantum
-cryptography, while quantum key distribution and integrated quantum photonics
-offer complementary approaches for generating and distributing secret material.
-TODO: citation.
+For millennia, the art of secret communication relied on an arms race between the ingenuity of code-makers and the persistence of code-breakers. From the simple substitution ciphers of antiquity, such as the Caesar cipher, to the intricate electromechanical rotor machines of the Second World War, security historically depended on the secrecy of the method and the physical complexity of the device.
+
+In the modern digital era, this dynamic stabilized around computational complexity. The bedrock of the internet, global commerce, and secure infrastructure rests on mathematical problems, such as factoring large integers or computing discrete logarithms, that are trivially easy to construct but practically impossible for classical computers to solve.
+
+In late 1994, mathematician Peter Shor disrupted this equilibrium. He demonstrated that a hypothetical quantum computer could efficiently solve these exact mathematical problems, effectively neutralizing the public-key cryptography that secures modern communications.% TODO: citation (Shor, 1994)
+A few weeks later, in January 1995, the author of this dissertation was born. The race was on.
+
+\section{The Quantum Threat}
+
+Over the intervening three decades, that theoretical result has evolved into a global engineering effort. Secure communication infrastructure is now entering a transition in which its foundational cryptographic assumptions can no longer be treated as stable design constants. The anticipated arrival of cryptographically relevant quantum computers (CRQCs) motivates a fundamental shift: the migration from classical public-key mechanisms toward post-quantum cryptography (PQC), alongside the deployment of quantum key distribution (QKD) and integrated quantum photonics to generate and distribute secret material with physics-based guarantees.
+
+\subsection{Q-Day}
+
+Predicting the exact arrival of a CRQC, often colloquially referred to as ``Q-Day'', remains challenging due to the immense engineering hurdles in scaling logical qubits and implementing quantum error correction. However, the timeline is visibly accelerating. Various industry and academic surveys attempt to quantify this horizon; for instance, a 2025 risk assessment report~\cite{mosca2026quantum} highlights a growing sentiment among polled experts that a CRQC could plausibly emerge within the next decade (Figure~\ref{fig:qday_timeline}). While such reports are inherently speculative and represent just one perspective, they underscore a broader realization: the quantum threat has shifted from a distant possibility to a medium-term engineering reality.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/chapter1/qday_timeline.png}
+    \caption{Averaged expert likelihood estimates for the development of a cryptographically relevant quantum computer. While exact timelines remain speculative, industry surveys increasingly reflect the perceived probability of a near-term quantum threat. Figure adapted from~\cite{mosca2026quantum}.}
+    \label{fig:qday_timeline}
+\end{figure}
+
+\subsection{The Hardware Gap}
+
+While the threat timeline is accelerating, a substantial gap remains between the state of the art in quantum hardware and the scale required for cryptanalysis. Breaking a standard 2048-bit RSA key using Shor's algorithm requires a fault-tolerant quantum computer capable of sustaining millions of operations. Historically, this was estimated to require around 20 million physical qubits.% TODO: citation (Gidney \& Eker\aa, 2019)
+However, recent algorithmic optimizations and architectural improvements, such as approximate residue arithmetic, magic state cultivation, and advanced quantum low-density parity check (qLDPC) codes, have drastically reduced these estimates. Current projections suggest that RSA-2048 could be factored in under a week using fewer than one million noisy physical qubits~\cite{gidney2025how}, and potentially under 100,000 physical qubits with next-generation qLDPC architectures~\cite{gidney2026pinnacle}.
+
+Despite these theoretical reductions, building a CRQC remains a monumental engineering challenge. As of 2026, gate-model superconducting processors have reached the order of one thousand physical qubits, with IBM's Condor processor featuring 1,121 superconducting qubits.% TODO: citation (IBM Condor)
+Other leading modalities, such as neutral atom arrays by Atom Computing and QuEra, have also reached the 1,000-qubit milestone.% TODO: citation (Atom Computing / QuEra neutral-atom arrays)
+Meanwhile, systems with lower physical qubit counts, such as Quantinuum's trapped-ion processors and Google's Willow chip, have focused on demonstrating high-fidelity operations and below-threshold error correction to create the first robust logical qubits.% TODO: citation (Quantinuum trapped-ion; Google Willow)
+Bridging the gap from today's hardware to the scale required for a CRQC necessitates solving complex control, cooling, and error-correction challenges.
+
+\subsection{Harvest Now, Decrypt Later}
+
+If building a CRQC is still years or decades away, why must communication infrastructure change today? The urgency is formalized by Mosca's inequality, which states that a system is vulnerable if the time required to migrate the system ($T_{\text{migration}}$) plus the required shelf-life of the protected data ($T_{\text{shelf-life}}$) exceeds the time until a CRQC becomes available ($T_{\text{threat}}$):
+
+\begin{equation}
+T_{\text{migration}} + T_{\text{shelf-life}} > T_{\text{threat}}.
+\label{eq:mosca}
+\end{equation}
+
+Because adversaries can intercept and store encrypted traffic today with the intention of decrypting it once a CRQC is available, a strategy known as ``Harvest Now, Decrypt Later'' (HNDL), data with a long shelf-life is already at risk. % TODO: citation (Harvest Now, Decrypt Later)
+Consequently, mitigating the quantum threat requires a proactive, cross-layer re-engineering of communication systems well before the hardware to break them fully matures.
+
+\section{Scope and Contributions}
+
+\subsection{An Architectural Problem}
 
 This transition is not only an algorithm-selection problem. A cryptographic
 primitive that is secure in isolation may still be impractical if it cannot meet
@@ -21,10 +60,9 @@ points are engineered together. The central premise of this dissertation is
 therefore that scalable quantum-resilient communication must be studied as an
 architecture problem across device, protocol, and systems layers.
 
-\section{Research Context and Scope}
+\subsection{The QUARC Project}
 
-The work in this dissertation was carried out in the context of the QUARC
-project and in close collaboration with NVIDIA. The research combines academic
+The work in this dissertation was carried out in the context of the QUARC (Quantum Resilient Communications) project~\cite{QUARC2022,quarcwebsite} and in close collaboration with NVIDIA. The research combines academic
 questions about quantum-secure communication with deployment constraints drawn
 from programmable network infrastructure, especially BlueField-class data
 processing units (DPUs), high-throughput datacenter communication, and
@@ -46,21 +84,30 @@ ROSE-QKD is treated only as patent and title-level context unless approved
 disclosure language is provided. It informs the broader research direction on
 scalable QKD architecture, but it is not included as a thesis-body manuscript.
 
-\section{Research Questions}
+\subsection{Research Questions}
 
 This dissertation is organized around the following research questions.
 
-\begin{description}
-\item[RQ1] How can post-quantum cryptographic workloads be accelerated and
+\begin{tcolorbox}[
+    colback=gray!5!white,
+    colframe=blue!50!black,
+    title=\textbf{Research Questions (RQs)},
+    fonttitle=\bfseries,
+    sharp corners,
+    boxrule=0.8pt]
+\begin{enumerate}[label=\textbf{RQ\arabic*:}, leftmargin=1.2cm]
+    \item How can post-quantum cryptographic workloads be accelerated and
 deployed efficiently on programmable network infrastructure?
-\item[RQ2] What architectural choices make QKD systems more scalable and
+    \item What architectural choices make QKD systems more scalable and
 practical in multi-user communication networks?
-\item[RQ3] How can integrated photonic entanglement sources be designed and
+    \item How can integrated photonic entanglement sources be designed and
 characterized for deployable, wavelength-division multiplexed QKD systems?
-\item[RQ4] How do device-level, protocol-level, and infrastructure-level design
+    \item How do device-level, protocol-level, and infrastructure-level design
 choices interact when building scalable quantum-resilient communication
 systems?
-\end{description}
+\end{enumerate}
+\label{en:researchquestions}
+\end{tcolorbox}
 
 These questions deliberately span different layers of the communication stack.
 The first focuses on classical post-quantum cryptographic deployment. The
@@ -69,7 +116,7 @@ connects the feasibility of quantum-secure networking to integrated photonic
 source design. The fourth binds the dissertation together by asking how choices
 made at one layer constrain or enable the others.
 
-\section{Research Pillars and Contributions}
+\subsection{Three Pillars}
 
 The dissertation advances this theme through three connected research pillars.
 
@@ -93,15 +140,36 @@ quantum-secure networking. It focuses on dual-coupled microring resonator
 sources, spectral stability, thermal tuning, Q-factor engineering, and
 compatibility with telecom wavelength-division multiplexing.
 
-Together, these pillars support the thesis claim that quantum-resilient
-communication systems must be designed and evaluated across layers. The
+Together, these pillars support the central claim of this dissertation: that
+quantum-resilient communication systems must be designed and evaluated across
+layers. The
 dissertation contributes paper-based studies of integrated photonic source
 behavior, QKD post-processing on programmable network hardware, DPU-accelerated
 post-quantum cryptography, post-quantum secured edge AI pipelines,
 ordering-related risks in RDMA over optical fabrics, and observability for
 confidential AI infrastructure.
 
-\section{Dissertation Organization}
+Table~\ref{tab:rq-pillar-chapter} summarizes how the research questions, pillars,
+and paper-bearing chapters relate to one another.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Mapping between research questions, research pillars, and the
+    chapters in which they are primarily addressed.}
+    \label{tab:rq-pillar-chapter}
+    \begin{tabular}{@{}lll@{}}
+        \toprule
+        \textbf{Research question} & \textbf{Pillar} & \textbf{Chapter(s)} \\
+        \midrule
+        RQ1 (PQC acceleration) & High-performance PQC & \ref{ch:dpu-pqc}, \ref{ch:edge-ai} \\
+        RQ2 (scalable QKD) & Topology-aware QKD & \ref{ch:qkd-dpu} \\
+        RQ3 (photonic sources) & Integrated photonic sources & \ref{ch:quantum-sources} \\
+        RQ4 (cross-layer interaction) & All three pillars & \ref{ch:rdma}, \ref{ch:confidential-ai}, \ref{ch:cross-layer} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Structure}
 
 This is a compilation-style dissertation. The main body is organized around
 published or accepted manuscripts, with thesis-formatted wrapper sections that
@@ -109,13 +177,15 @@ explain each paper's role in the broader argument. Each paper-bearing chapter
 introduces the chapter motivation, relates the included work to the research
 questions, records publication context and author contribution, includes or
 points to the manuscript, and then discusses the paper's implications for the
-next layer of the thesis.
+next layer of the dissertation.
 
-Chapter 2 provides the background and unifying concepts needed to read the
-paper-centric chapters. Chapter 3 begins at the photonic device layer with
-integrated quantum sources. Chapter 4 moves from quantum key generation toward
-QKD post-processing on programmable network hardware. Chapters 5 and 6 study
-post-quantum cryptographic acceleration and deployment in DPU-based systems.
-Chapters 7 and 8 examine datacenter fabric security and confidential AI
-observability. Chapter 9 synthesizes the cross-layer lessons, limitations, and
-future outlook.
+The original contributions of this thesis are structured as follows:
+
+\begin{itemize}
+\item \textbf{Chapter~\ref{ch:background}:} Provides the background and unifying concepts needed to read the paper-centric chapters.
+\item \textbf{Chapter~\ref{ch:quantum-sources}:} Begins at the photonic device layer with integrated quantum sources, addressing \textbf{RQ3}.
+\item \textbf{Chapter~\ref{ch:qkd-dpu}:} Moves from quantum key generation toward QKD post-processing on programmable network hardware, addressing \textbf{RQ2}.
+\item \textbf{Chapters~\ref{ch:dpu-pqc} and~\ref{ch:edge-ai}:} Study post-quantum cryptographic acceleration and deployment in DPU-based systems, addressing \textbf{RQ1}.
+\item \textbf{Chapters~\ref{ch:rdma} and~\ref{ch:confidential-ai}:} Examine datacenter fabric security and confidential AI observability, addressing \textbf{RQ4}.
+\item \textbf{Chapter~\ref{ch:cross-layer}:} Synthesizes the cross-layer lessons, limitations, and future outlook, addressing \textbf{RQ4}.
+\end{itemize}

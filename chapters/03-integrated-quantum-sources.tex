@@ -1,4 +1,5 @@
 \chapter{Integrated Quantum Sources for Quantum Networks}
+\label{ch:quantum-sources}
 
 \section{From Photonic Devices to Network Components}
 
@@ -20,22 +21,8 @@ The research questions in Chapter 1 are still to be finalized. For the present d
 
 This chapter also sets up the transition to programmable network infrastructure in Chapter 4. The quantum source provides the raw optical resource, while later chapters ask how the resulting key material, cryptographic work, and observability tasks can be handled by DPUs, SmartNICs, and datacenter network systems.
 
-\section{Thermal Stability of Dual-Coupled Microring Resonators}
-\label{sec:ch3_paper1}
-
-\subsection{Publication Details and Contributions}
-This section includes the paper \enquote{Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator}, presented at the 2026 International Conference on Science and Electrical Engineering (ICSEE).
-
-The author contributed to connecting the device studies to network requirements, simulation-driven evaluation, and thesis-level system interpretation. The experimental device work, modeling, and supervision were collaborative efforts with co-authors.
-
-\subsection{Role in the Dissertation}
-This paper establishes the measurement and stability foundation for the chapter. Its key role is to show whether thermal tuning of the auxiliary resonator preserves predictable free spectral range behavior for channelized quantum network operation.
-
-\cleardoublepage
-% \includepdf[pages=-, pagecommand={\thispagestyle{fancy}}]{source-materials/papers/paper3_1_fsr_stability.pdf}
-
 \section{Simulation-Driven Design of Entanglement Sources}
-\label{sec:ch3_paper2}
+\label{sec:ch3_paper1}
 
 \subsection{Publication Details and Contributions}
 This section includes the paper \enquote{Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks}, submitted to the 26th International Conference on Transparent Optical Networks (ICTON 2026).
@@ -43,18 +30,32 @@ This section includes the paper \enquote{Simulation-Driven Optimization of Dual-
 The author contributed to connecting the device studies to network requirements, simulation-driven evaluation, and thesis-level system interpretation. The experimental device work, modeling, and supervision were collaborative efforts with co-authors.
 
 \subsection{Role in the Dissertation}
-This paper serves as the modeling and optimization counterpart to the experimental stability results. It presents a coupled-mode-theory digital twin for the DCM source, relating auxiliary-cavity detuning, inter-ring coupling, and dispersion to photon-pair purity, brightness, and Schmidt number.
+This paper establishes the theoretical and modeling foundation for the chapter. It presents a coupled-mode-theory digital twin for the dual-coupled micro-ring (DCM) source, relating auxiliary-cavity detuning, inter-ring coupling, and dispersion to photon-pair purity, brightness, and Schmidt number. By mapping low-level physical parameters to network-facing metrics, it defines the optimization space required to engineer quantum sources for specific network applications.
 
 \cleardoublepage
 % \includepdf[pages=-, pagecommand={\thispagestyle{fancy}}]{source-materials/papers/paper3_2_icton_dcm.pdf}
 
+\section{Thermal Stability of Dual-Coupled Microring Resonators}
+\label{sec:ch3_paper2}
+
+\subsection{Publication Details and Contributions}
+This section includes the paper \enquote{Free Spectral Range Stability under Linear thermal Tuning in a Dual-Coupled Microring Resonator}, presented at the 2026 International Conference on Science and Electrical Engineering (ICSEE).
+
+The author contributed to connecting the device studies to network requirements, simulation-driven evaluation, and thesis-level system interpretation. The experimental device work, modeling, and supervision were collaborative efforts with co-authors.
+
+\subsection{Role in the Dissertation}
+Building on the theoretical model, this paper provides the experimental validation of the device's stability. While the previous paper demonstrated how the source can be optimized in simulation, this work grounds those findings in physical reality. Its key role is to show that thermal tuning of the auxiliary resonator---a necessary control mechanism---preserves the predictable free spectral range behavior required for channelized quantum network operation.
+
+\cleardoublepage
+% \includepdf[pages=-, pagecommand={\thispagestyle{fancy}}]{source-materials/papers/paper3_1_fsr_stability.pdf}
+
 \section{Synthesis: Toward Model-Driven Network Photonics}
 
-Taken together, the two papers move the DCM source from a promising integrated-photonics component toward a network-engineering object. The first paper asks whether thermal control preserves the spectral regularity needed for channelized use. The second paper asks whether the same class of device can be represented by a predictive model that exposes source quality as a function of controllable design and tuning parameters.
+Taken together, the two papers move the DCM source from a promising integrated-photonics component toward a predictable network-engineering object. The first paper establishes that the device can be represented by a predictive model, exposing source quality as a function of controllable design and tuning parameters. The second paper grounds this model in physical reality, demonstrating that thermal control preserves the spectral regularity needed for channelized use in deployed optical infrastructure.
 
-The resulting thesis claim is deliberately bounded. The chapter does not show a complete deployed quantum network, nor does it by itself close the practical-security gap of QKD systems. Instead, it establishes that source behavior can be measured, modeled, and optimized in terms that later network layers can consume. This is important because quantum-secure communication is often limited by interfaces between layers: physical devices expose imperfect states; protocols assume state properties; network planners allocate wavelengths and power budgets; operators need stable, remotely configurable behavior.
+The resulting thesis claim is deliberately bounded. The chapter does not show a complete deployed quantum network, nor does it by itself close the practical-security gap of QKD systems. Instead, it establishes that source behavior can be modeled, optimized, and physically stabilized in terms that later network layers can consume. This is important because quantum-secure communication is often limited by interfaces between layers: physical devices expose imperfect states; protocols assume idealized state properties; network planners allocate wavelengths and power budgets; and operators need stable, remotely configurable behavior.
 
-The chapter also highlights two limitations that should remain visible in the final dissertation. First, predictive source models must be validated against fabricated devices across process variation and environmental drift. A digital twin that is not continually tied back to measurement risks becoming another idealized model. Second, source optimization is only one part of system security. Higher purity and stable channel spacing can improve the assumptions available to entanglement-based protocols, but coexistence noise, detector behavior, post-processing, authentication, and operational monitoring still determine whether a practical system remains secure \cite{Xu2020}.
+The chapter also highlights two limitations that should remain visible in the final dissertation. First, predictive source models must be continuously validated against fabricated devices across process variation and environmental drift. A digital twin that is not tied back to measurement risks becoming another idealized model. Second, source optimization is only one part of system security. Higher purity and stable channel spacing can improve the assumptions available to entanglement-based protocols, but coexistence noise, detector behavior, post-processing, authentication, and operational monitoring still determine whether a practical system remains secure \cite{Xu2020}.
 
 These limitations are useful rather than incidental. They motivate the rest of the thesis, which follows quantum-secure networking beyond the photonic source and into programmable post-processing, cryptographic acceleration, datacenter transport behavior, and confidential-AI observability.
 
