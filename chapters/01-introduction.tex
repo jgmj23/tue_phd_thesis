@@ -149,25 +149,71 @@ post-quantum cryptography, post-quantum secured edge AI pipelines,
 ordering-related risks in RDMA over optical fabrics, and observability for
 confidential AI infrastructure.
 
-Table~\ref{tab:rq-pillar-chapter} summarizes how the research questions, pillars,
-and paper-bearing chapters relate to one another.
+Figure~\ref{fig:field-venn} situates the paper-bearing contributions across the
+three disciplinary domains they bridge. The individual papers cluster on the
+pairwise overlaps and outer regions, while the all-three intersection at the
+centre is occupied by the dissertation's cross-layer synthesis and its
+integrative patents---a visual restatement of the thesis's central claim.
 
-\begin{table}[htbp]
+\begin{figure}[htbp]
     \centering
-    \caption{Mapping between research questions, research pillars, and the
-    chapters in which they are primarily addressed.}
-    \label{tab:rq-pillar-chapter}
-    \begin{tabular}{@{}lll@{}}
-        \toprule
-        \textbf{Research question} & \textbf{Pillar} & \textbf{Chapter(s)} \\
-        \midrule
-        RQ1 (PQC acceleration) & High-performance PQC & \ref{ch:dpu-pqc}, \ref{ch:edge-ai} \\
-        RQ2 (scalable QKD) & Topology-aware QKD & \ref{ch:qkd-dpu} \\
-        RQ3 (photonic sources) & Integrated photonic sources & \ref{ch:quantum-sources} \\
-        RQ4 (cross-layer interaction) & All three pillars & \ref{ch:rdma}, \ref{ch:confidential-ai}, \ref{ch:cross-layer} \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+    \begin{tikzpicture}[scale=0.95, every node/.style={transform shape}]
+        % Domain circles (blended via fill opacity).
+        \begin{scope}[fill opacity=0.22, draw opacity=0.9, line width=0.8pt]
+            \fill[vennQuantum] (-1.6,1.1) circle (2.6);
+            \fill[vennCrypto]  (1.6,1.1)  circle (2.6);
+            \fill[vennNetwork] (0,-1.3)   circle (2.6);
+        \end{scope}
+        \begin{scope}[draw opacity=0.9, line width=0.8pt]
+            \draw[vennQuantum] (-1.6,1.1) circle (2.6);
+            \draw[vennCrypto]  (1.6,1.1)  circle (2.6);
+            \draw[vennNetwork] (0,-1.3)   circle (2.6);
+        \end{scope}
+
+        % Domain titles.
+        \node[vennQuantum!60!black, font=\small\bfseries, align=center] at (-2.7,3.0)
+            {Quantum\\technologies};
+        \node[vennCrypto!60!black, font=\small\bfseries, align=center] at (2.7,3.0)
+            {Post-quantum\\cryptography \&\\security};
+        \node[vennNetwork!55!black, font=\small\bfseries, align=center] at (0,-3.45)
+            {Programmable\\networks \& systems};
+
+        % Paper markers (numbers keyed to the legend).
+        \tikzset{paper/.style={circle, draw=black, fill=white, inner sep=0pt,
+            minimum size=4.5mm, font=\scriptsize\bfseries}}
+        % Quantum only.
+        \node[paper] at (-2.4,1.8) {1};
+        \node[paper] at (-2.6,1.0) {2};
+        % Quantum cap Networks.
+        \node[paper] at (-1.2,-0.3) {3};
+        % Crypto cap Networks.
+        \node[paper] at (0.9,-0.1) {4};
+        \node[paper] at (1.4,-0.5) {5};
+        \node[paper] at (1.0,-0.7) {6};
+        \node[paper] at (1.85,-0.1) {8};
+        \node[paper] at (1.4,-1.0) {9};
+        % Networks only.
+        \node[paper] at (0,-2.55) {7};
+
+        % Centre: cross-layer synthesis / integrative patents.
+        \node[star, star points=5, star point ratio=2.3, fill=yellow!85!orange,
+            draw=black, line width=0.6pt, minimum size=7mm] at (0,0.35) {};
+    \end{tikzpicture}
+
+    \caption{Positioning of the dissertation's contributions across the three
+    disciplinary domains they bridge. Numbered markers denote the paper-bearing
+    contributions; the central star marks the cross-layer synthesis and the
+    integrative patents that occupy the all-three intersection.
+    \emph{Quantum:} (1)~dual-coupled micro-ring entanglement sources,
+    (2)~free-spectral-range stability under thermal tuning.
+    \emph{Quantum$\cap$Networks:} (3)~QKD post-processing offload on BlueField-3.
+    \emph{Cryptography$\cap$Networks:} (4)~HQC key-encapsulation offload,
+    (5)~heterogeneous DPU architecture for PQC, (6)~securing edge-AI pipelines,
+    (8)~intrusion detection for confidential-AI clusters,
+    (9)~payload-free attack detection in confidential-AI training.
+    \emph{Networks:} (7)~cross-QP ordering in RDMA over optical fabrics.}
+    \label{fig:field-venn}
+\end{figure}
 
 \section{Structure}
 
