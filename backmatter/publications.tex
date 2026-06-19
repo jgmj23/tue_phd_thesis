@@ -3,8 +3,23 @@
 
 {\Large \textbf{Summary of original work}}
 
-\newrefcontext[labelprefix=P]
+% Scoped refcontext: the labelprefix=P numbering stays inside this block and
+% does not leak into the main bibliography. Papers are tagged my_contribution
+% but not patent, so the patents below are excluded here.
+\begin{refcontext}[labelprefix=P]
 \nocite{meyer2026icton,meyer2026icsee,meyer2026qkd,meyer2026hqc,meyer2026heterogeneous,meyer2026edgeai,meyer2026rdma,meyer2026intrusion,meyer2026detecting}
-\printbibliography[heading=none,keyword={my_contribution}]
+\printbibliography[heading=none,keyword={my_contribution},notkeyword={patent}]
+\end{refcontext}
+
+\vspace{1cm}
+
+{\Large \textbf{Patents}}
+
+% Independent refcontext with its own labelprefix, so patents (inventions) are
+% numbered separately (I1, I2, ...) rather than continuing the P-series.
+\begin{refcontext}[labelprefix=I]
+\nocite{meyer-patent-mhke,meyer-patent-pqcoffload,meyer-patent-roseqkd,meyer-patent-qnetauth}
+\printbibliography[heading=none,keyword={patent}]
+\end{refcontext}
 
 \vspace{1cm}
