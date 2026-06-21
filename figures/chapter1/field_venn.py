@@ -35,23 +35,23 @@ CIRCLES = [
 ]
 
 TITLES = [
-    ("Integrated photonic\nsources", (155, 80), SRC_T),
-    ("Topology-aware QKD\narchitectures", (710, 80), QKD_T),
-    ("High-performance\npost-quantum cryptography", (430, 735), PQC_T),
+    ("Integrated photonic\nsources", (107, 80), SRC_T),
+    ("Topology-aware QKD\narchitectures", (782, 80), QKD_T),
+    ("High-performance\npost-quantum cryptography", (425, 757), PQC_T),
 ]
 
 # Papers: label -> centre (draw.io coords).
 PAPERS = {
-    "1": (200, 170), "2": (190, 250),          # sources
-    "3": (650, 185),                            # QKD
+    "1": (274, 190), "2": (218, 280),          # sources
+    "3": (581, 187),                            # QKD
     "4": (320, 545), "5": (470, 615), "6": (555, 550),  # PQC
-    "7": (400, 340), "8": (470, 355), "9": (430, 395),  # centre (RQ4)
+    "7": (400, 340), "8": (455, 340), "9": (430, 395),  # centre (RQ4)
 }
 
 # Patents: label -> centre.
 PATENTS = {
-    "I1": (440, 555), "I2": (375, 605),  # PQC pillar
-    "I3": (635, 295), "I4": (700, 250),  # QKD pillar
+    "1": (432, 535), "2": (375, 605),  # PQC pillar
+    "3": (600, 290), "4": (685, 230),  # QKD pillar
 }
 
 
@@ -65,7 +65,7 @@ def main():
                             linewidth=2.5, alpha=0.9, zorder=2))
 
     for text, (x, y), colour in TITLES:
-        ax.text(x, y, text, ha="center", va="center", fontsize=14,
+        ax.text(x, y, text, ha="center", va="center", fontsize=18,
                 fontweight="bold", color=colour, zorder=5)
 
     for label, (x, y) in PAPERS.items():
@@ -90,8 +90,8 @@ def main():
     ax.text(lx + 22, ly + 34, "Patents", ha="left", va="center", fontsize=13,
             zorder=5)
 
-    ax.set_xlim(40, 790)
-    ax.set_ylim(790, 30)  # inverted -> draw.io-style top-left origin
+    ax.set_xlim(0, 850)
+    ax.set_ylim(810, 10)  # inverted -> draw.io-style top-left origin
     ax.set_aspect("equal")
     ax.axis("off")
 

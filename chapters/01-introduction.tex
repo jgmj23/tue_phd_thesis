@@ -26,13 +26,31 @@ Predicting the exact arrival of a CRQC, often colloquially referred to as ``Q-Da
 
 \subsection{The Hardware Gap}
 
-While the threat timeline is accelerating, a substantial gap remains between the state of the art in quantum hardware and the scale required for cryptanalysis. Breaking a standard 2048-bit RSA key using Shor's algorithm requires a fault-tolerant quantum computer capable of sustaining millions of operations. Historically, this was estimated to require around 20 million physical qubits.% TODO: citation (Gidney \& Eker\aa, 2019)
-However, recent algorithmic optimizations and architectural improvements, such as approximate residue arithmetic, magic state cultivation, and advanced quantum low-density parity check (qLDPC) codes, have drastically reduced these estimates. Current projections suggest that RSA-2048 could be factored in under a week using fewer than one million noisy physical qubits~\cite{gidney2025how}, and potentially under 100,000 physical qubits with next-generation qLDPC architectures~\cite{gidney2026pinnacle}.
+While the threat timeline is accelerating, a substantial gap remains between the state of the art in quantum hardware and the scale required for cryptanalysis. Breaking a standard 2048-bit RSA key using Shor's algorithm requires a fault-tolerant quantum computer capable of sustaining millions of operations. Historically, this was estimated to require around 20 million physical qubits~\cite{gidney2021factoring}.
+However, recent algorithmic optimizations and architectural improvements, such as approximate residue arithmetic, magic state cultivation, and advanced quantum low-density parity check (qLDPC) codes, have drastically reduced these estimates. Current projections suggest that RSA-2048 could be factored in under a week using fewer than one million noisy physical qubits~\cite{gidney2025how}, and potentially under 100,000 physical qubits with next-generation qLDPC architectures~\cite{webster2026pinnacle}.
 
 Despite these theoretical reductions, building a CRQC remains a monumental engineering challenge. As of 2026, gate-model superconducting processors have reached the order of one thousand physical qubits, with IBM's Condor processor featuring 1,121 superconducting qubits.% TODO: citation (IBM Condor)
 Other leading modalities, such as neutral atom arrays by Atom Computing and QuEra, have also reached the 1,000-qubit milestone.% TODO: citation (Atom Computing / QuEra neutral-atom arrays)
 Meanwhile, systems with lower physical qubit counts, such as Quantinuum's trapped-ion processors and Google's Willow chip, have focused on demonstrating high-fidelity operations and below-threshold error correction to create the first robust logical qubits.% TODO: citation (Quantinuum trapped-ion; Google Willow)
 Bridging the gap from today's hardware to the scale required for a CRQC necessitates solving complex control, cooling, and error-correction challenges.
+
+It is important to stress that the achieved and required qubit counts are not directly comparable. The processors built to date consist of \emph{noisy} physical qubits, whereas the resource estimates above count the \emph{fault-tolerant} physical qubits needed once quantum error correction is layered on top, under idealized assumptions such as a physical error rate of $10^{-3}$ and microsecond-scale code cycles. The meaningful observation is therefore not a single headline ratio but the structural trend shown in Figure~\ref{fig:hardware_gap}: the estimated cost of breaking RSA-2048 has fallen by several orders of magnitude in little over a decade through algorithmic and error-correction advances, while hardware has scaled more slowly. The result is a hardware gap that remains large today but is being closed from both ends.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/chapter1/hardware_gap.pdf}
+    \caption{The hardware gap for factoring RSA-2048. The descending trend shows
+    successive estimates of the physical qubits \emph{required} to factor a
+    2048-bit RSA integer~\cite{fowler2012surface,gidney2021factoring,gidney2025how,webster2026pinnacle},
+    while the ascending trend shows the largest gate-model quantum processors
+    actually \emph{built}~\cite{arute2019quantum}. The two are not a like-for-like
+    comparison: achieved counts are noisy physical qubits, whereas the required
+    counts assume fault-tolerant physical qubits with error correction (physical
+    error rate $\approx 10^{-3}$). The shaded region between the trends is the
+    hardware gap, which has narrowed as the required estimate dropped faster than
+    hardware has grown.}
+    \label{fig:hardware_gap}
+\end{figure}
 
 \subsection{Harvest Now, Decrypt Later}
 
@@ -160,22 +178,9 @@ the thesis's central claim.
     \includegraphics[width=0.85\textwidth]{figures/chapter1/field_venn.pdf}
 
     \caption{Mapping of the dissertation's contributions onto its three research
-    pillars. Circular markers denote peer-reviewed papers; star markers denote
-    patents. Contributions in a single pillar primarily advance that pillar,
-    while those in the central all-three intersection are the cross-layer (RQ4)
-    works that draw on every pillar.
-    \emph{Integrated photonic sources:} (1)~dual-coupled micro-ring entanglement
-    sources, (2)~free-spectral-range stability under thermal tuning.
-    \emph{Topology-aware QKD architectures:} (3)~QKD post-processing offload on
-    BlueField-3, (I3)~ROSE-QKD receiver-only QKD, (I4)~authentication of quantum
-    networks.
-    \emph{High-performance post-quantum cryptography:} (4)~HQC key-encapsulation
-    offload, (5)~heterogeneous DPU architecture for PQC, (6)~securing edge-AI
-    pipelines, (I1)~multi-hybrid cryptographic key exchange, (I2)~PQC offload on
-    network interface cards.
-    \emph{Centre (all three pillars):} (7)~cross-QP ordering in RDMA over optical
-    fabrics, (8)~intrusion detection for confidential-AI clusters,
-    (9)~payload-free attack detection in confidential-AI training.}
+    pillars. Circular markers denote peer-reviewed papers and star markers denote
+    patents, with cross-layer (RQ4) contributions sitting in the central
+    all-three intersection.}
     \label{fig:field-venn}
 \end{figure}
 
