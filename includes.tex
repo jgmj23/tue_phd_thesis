@@ -26,13 +26,6 @@
 \usepackage{bookmark}
 \usepackage{tcolorbox}
 \usepackage{enumitem}
-\usepackage{tikz}
-\usetikzlibrary{positioning,shapes.geometric}
-
-% Colour-vision-deficiency-friendly palette (Wong) for the field Venn diagram.
-\definecolor{vennQuantum}{RGB}{0,114,178}
-\definecolor{vennCrypto}{RGB}{213,94,0}
-\definecolor{vennNetwork}{RGB}{0,158,115}
 \usepackage[
   backend=biber,
   dashed=false,
@@ -57,12 +50,42 @@
   {\titlerule\vspace{2ex}\bfseries\filleft\huge}
   [\vspace{1.3ex}\titlerule]
 
+% Keep running heads short so a long chapter/section title can never collide
+% with the page number on the opposite side of the header.
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
 \fancyhf{}
-\fancyhead[LE,RO]{\thepage}
-\fancyhead[RE]{\nouppercase{\leftmark}}
-\fancyhead[LO]{\nouppercase{\rightmark}}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[RE]{\small\nouppercase{\leftmark}}
+\fancyhead[LO]{\small\nouppercase{\rightmark}}
 \fancyfoot{}
 \renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\footrulewidth}{0pt}
 
 \captionsetup{font=small}
+
+% --- Publication cover page ----------------------------------------------------
+% Prints a dedicated page that announces the next included paper by its title and
+% full bibliographic reference, immediately before the paper PDF is embedded.
+% Usage: \publicationcover{<my_contribution bib key>}
+\newcommand{\publicationcover}[1]{%
+  \cleardoublepage
+  \thispagestyle{empty}%
+  {\centering
+    \vspace*{0.22\textheight}
+    {\large\scshape Included Publication\par}
+    \vspace{3ex}
+    {\Large\bfseries \citetitle*{#1}\par}
+    \vspace{3ex}
+    \rule{0.6\textwidth}{0.4pt}\par
+  }
+  \vfill
+  {\small
+    \noindent\textbf{Full reference:}\par
+    \vspace{0.5ex}
+    \noindent\fullcite{#1}\par
+  }
+  \vspace{0.12\textheight}
+  \clearpage
+}
