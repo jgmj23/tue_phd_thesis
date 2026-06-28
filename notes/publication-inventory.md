@@ -1,6 +1,6 @@
 # Publication Inventory
 
-Last updated: 2026-06-18.
+Last updated: 2026-06-28.
 
 This note records the initial publication inputs for a compilation-style thesis.
 The source list is `source-materials/prior-writing/joey_publications.docx`,
@@ -37,15 +37,15 @@ chapter drafting.
 
 | Topic | Publication | Status assumption | Local source status |
 | --- | --- | --- | --- |
-| DPU/PQC | "Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography" | accepted | Source in `/Users/jomeyer/Documents/Projects/Pisa/NetworkingLetters/pqc_networking_letters_final.tex`; bibliography in `/Users/jomeyer/Documents/Projects/Pisa/NetworkingLetters/references.bib`. |
+| DPU/PQC | "Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography" | in review (IEEE Networking Letters) | Source in `/Users/jomeyer/Documents/Projects/Pisa/NetworkingLetters/pqc_networking_letters_final.tex`; bibliography in `/Users/jomeyer/Documents/Projects/Pisa/NetworkingLetters/references.bib`. |
 | DPU/PQC | "Offloading Post-Quantum Cryptography to Data Processing Units: A Performance Analysis of HQC Key Encapsulation" | accepted / published | Source in `/Users/jomeyer/Documents/Projects/HQConDPUs/Round2/HQC_on_DPUs-Resubmission-2/access.tex`; bibliography in `/Users/jomeyer/Documents/Projects/HQConDPUs/Round2/HQC_on_DPUs-Resubmission-2/references.bib`; DOI listed in CV as `10.1109/ACCESS.2026.3681219`. |
 | Quantum photonics | "Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator" | accepted | Source repository supplied by user: `https://github.com/jgmj23/ICSEE26---FSRstableDCM`. Local final PDF and presentation also found in `/Users/jomeyer/Documents/Projects/DCM/ICSEE26/`. |
 | Quantum photonics | "Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks" | accepted / invited | Source in `/Users/jomeyer/Documents/Projects/DCM/ICTON26_DCM/main.tex`; bibliography in `/Users/jomeyer/Documents/Projects/DCM/ICTON26_DCM/refs.bib`. |
 | Confidential AI / DPU observability | "Intrusion Detection for Confidential AI Training Clusters: A Cross-Layer Observability Framework" | accepted / invited | Source in `/Users/jomeyer/Documents/Projects/ConfidentialCompute/agents/paperA_icton/Overleaf/1_main.tex`; bibliography in `/Users/jomeyer/Documents/Projects/ConfidentialCompute/agents/paperA_icton/Overleaf/references.bib`. |
 | Optical/RDMA security | "Exploiting Cross-QP Ordering in RDMA over Optical Fabrics" | accepted / invited | Candidate latest source in `/Users/jomeyer/Documents/Projects/ICTON26_RDMA_Ordering/Paper/1_main.tex`; bibliography in `/Users/jomeyer/Documents/Projects/ICTON26_RDMA_Ordering/Paper/references.bib`. Older parallel source also exists under `icton26_rdma/`. |
-| Confidential AI / DPU observability | "Detecting Attacks in Confidential AI Training Without Payload Access: A DPU-Based Experimental Study" | accepted | Draft source likely in `/Users/jomeyer/Documents/Projects/ConfidentialCompute/agents/paperB_tifs/draft/paperB_full_draft.tex`; bibliography source still needs confirmation. |
-| Edge AI / DPU/PQC | "Securing Edge AI Pipelines: Offloading Image I/O and Post-Quantum Cryptography to DPUs" | in progress; assume eventual acceptance for planning | Source repository supplied by user: `https://github.com/jgmj23/EDGEAI`, branch or source label `main_ica3pp`. User noted it is not totally done yet. |
-| QKD/DPU | "QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics" | accepted / submitted | Source in `/Users/jomeyer/Documents/Projects/QKD_DPU_QCE26/paper/paper.tex`; bibliography in `/Users/jomeyer/Documents/Projects/QKD_DPU_QCE26/paper/bibliography.bib`. |
+| Confidential AI / DPU observability | "Detecting Attacks in Confidential AI Training Without Payload Access: A DPU-Based Experimental Study" | in review (IEEE TIFS) | Draft source likely in `/Users/jomeyer/Documents/Projects/ConfidentialCompute/agents/paperB_tifs/draft/paperB_full_draft.tex`; bibliography source still needs confirmation. |
+| Edge AI / DPU/PQC | "Securing Edge AI Pipelines: Offloading Image I/O and Post-Quantum Cryptography to DPUs" | in review (ICA3PP) | Source repository supplied by user: `https://github.com/jgmj23/EDGEAI`, branch or source label `main_ica3pp`. |
+| QKD/DPU | "QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics" | in review (IEEE Quantum Week / QCE, Toronto) | Source in `/Users/jomeyer/Documents/Projects/QKD_DPU_QCE26/paper/paper.tex`; bibliography in `/Users/jomeyer/Documents/Projects/QKD_DPU_QCE26/paper/bibliography.bib`. |
 
 ## Camera-Ready / Accepted Manuscript Files
 
@@ -60,9 +60,10 @@ Manuscript PDFs are local-only thesis inputs. They live under
 | "Real-Time Post-Quantum Secured Image Pipeline on NVIDIA BlueField-3 DPU" | supplied 2026-06-18; accepted/camera-ready manuscript PDF | `source-materials/papers/camera-ready/real-time-pq-secured-image-pipeline-bluefield3-dpu-camera-ready.pdf` |
 | "Exploiting Cross-QP Ordering in RDMA over Optical Fabrics" | supplied 2026-06-18; camera-ready PDF | `source-materials/papers/camera-ready/cross-qp-ordering-rdma-optical-fabrics-camera-ready.pdf` |
 | "Cross-Layer Observability for Intrusion Detection in Confidential AI Training Clusters" | supplied 2026-06-18; camera-ready PDF | `source-materials/papers/camera-ready/cross-layer-observability-confidential-ai-training-clusters-camera-ready.pdf` |
-| "Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography" | not supplied in the 2026-06-18 camera-ready drop; final manuscript/version pending | TODO |
-| "QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics" | not supplied in the 2026-06-18 camera-ready drop; completion/final manuscript pending | TODO |
-| "Detecting Attacks in Confidential AI Training Without Payload Access: A DPU-Based Experimental Study" | not supplied in the 2026-06-18 camera-ready drop; completion/final manuscript pending | TODO |
+| "QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics" | supplied 2026-06-28; in review at IEEE Quantum Week (QCE, Toronto); draft PDF | `source-materials/papers/camera-ready/QKD_PostProc_DPUs.pdf` |
+| "Detecting Attacks in Confidential AI Training Without Payload Access: A DPU-Based Experimental Study" | supplied 2026-06-28; in review at IEEE TIFS; draft PDF | `source-materials/papers/camera-ready/Conf_Compute_TIFS.pdf` |
+| "Securing Edge AI Pipelines: Offloading Image I/O and Post-Quantum Cryptography to DPUs" | supplied 2026-06-28; in review at ICA3PP; draft PDF | `source-materials/papers/camera-ready/EDGEAI.pdf` |
+| "Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography" | in review at IEEE Networking Letters; draft PDF not yet in `camera-ready/` folder (user noted a draft is attached) | TODO: drop draft PDF into `source-materials/papers/camera-ready/` |
 
 ## Not In Thesis Body
 
@@ -111,6 +112,11 @@ link to the next chapter.
 
 ## Open Inputs
 
-- Merge and clean project bibliographies into `references/thesis.bib`.
-- Reconcile the remaining camera-ready gaps tracked in issue
-  `006-collect-camera-ready-manuscripts`.
+- Merge and clean project bibliographies into `references/thesis.bib` (ongoing;
+  references are added as chapters are drafted).
+- Drop the Heterogeneous DPU / PQC (IEEE Networking Letters) draft PDF into
+  `source-materials/papers/camera-ready/`; it is the only thesis-body
+  manuscript still missing a local file.
+- Note: the three confidential-AI/QKD/edge manuscripts dropped on 2026-06-28
+  are in-review drafts, not camera-ready. Replace them with camera-ready
+  versions once accepted.
