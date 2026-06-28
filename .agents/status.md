@@ -1,4 +1,9 @@
-# Issue Status
+# Issue Status (ARCHIVED)
+
+> **Archived.** This table is a historical record of the issue-based workflow
+> used through June 2026. The thesis now uses a lightweight trunk-based
+> workflow (see `AGENTS.md` and `.agents/workflow.md`); the live to-do list is
+> `.agents/backlog.md`. This file is no longer updated.
 
 Last updated: 2026-06-18.
 

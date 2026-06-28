@@ -45,3 +45,10 @@ source-materials/templates/abraham-cano-draft/
 
 # Notebook noise
 .ipynb_checkpoints/
+
+# Python noise
+__pycache__/
+*.pyc
+
+# Local scratch / experiments (not thesis source)
+scratch/
