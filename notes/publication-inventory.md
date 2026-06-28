@@ -63,7 +63,7 @@ Manuscript PDFs are local-only thesis inputs. They live under
 | "QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics" | supplied 2026-06-28; in review at IEEE Quantum Week (QCE, Toronto); draft PDF | `source-materials/papers/camera-ready/QKD_PostProc_DPUs.pdf` |
 | "Detecting Attacks in Confidential AI Training Without Payload Access: A DPU-Based Experimental Study" | supplied 2026-06-28; in review at IEEE TIFS; draft PDF | `source-materials/papers/camera-ready/Conf_Compute_TIFS.pdf` |
 | "Securing Edge AI Pipelines: Offloading Image I/O and Post-Quantum Cryptography to DPUs" | supplied 2026-06-28; in review at ICA3PP; draft PDF | `source-materials/papers/camera-ready/EDGEAI.pdf` |
-| "Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography" | in review at IEEE Networking Letters; draft PDF not yet in `camera-ready/` folder (user noted a draft is attached) | TODO: drop draft PDF into `source-materials/papers/camera-ready/` |
+| "Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography" | supplied 2026-06-28; in review at IEEE Networking Letters; draft PDF | `source-materials/papers/camera-ready/pqc_networking_letters_final.pdf` |
 
 ## Not In Thesis Body
 
@@ -114,9 +114,7 @@ link to the next chapter.
 
 - Merge and clean project bibliographies into `references/thesis.bib` (ongoing;
   references are added as chapters are drafted).
-- Drop the Heterogeneous DPU / PQC (IEEE Networking Letters) draft PDF into
-  `source-materials/papers/camera-ready/`; it is the only thesis-body
-  manuscript still missing a local file.
-- Note: the three confidential-AI/QKD/edge manuscripts dropped on 2026-06-28
-  are in-review drafts, not camera-ready. Replace them with camera-ready
-  versions once accepted.
+- All nine thesis-body manuscripts now have a local PDF. Note that several are
+  in-review drafts (Heterogeneous DPU / Networking Letters, QKD / QCE,
+  confidential-AI / TIFS, Edge AI / ICA3PP), not camera-ready. Replace them
+  with camera-ready versions once accepted.

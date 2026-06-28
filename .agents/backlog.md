@@ -10,11 +10,9 @@ reorder, and delete items freely. Work happens directly on `main`.
 
 ## Manuscripts (local-only, gitignored)
 
-- Drop the Heterogeneous DPU / PQC (IEEE Networking Letters) draft PDF into
-  `source-materials/papers/camera-ready/` — the only thesis-body paper still
-  missing a local file. (8 of 9 supplied as of 2026-06-28.)
-- Swap the three 2026-06-28 in-review drafts (QKD QCE, TIFS, EDGEAI ICA3PP)
-  for camera-ready PDFs once accepted.
+- All 9 thesis-body manuscripts have local PDFs as of 2026-06-28.
+- Swap the in-review drafts (Heterogeneous DPU / Networking Letters, QKD / QCE,
+  TIFS, EDGEAI / ICA3PP) for camera-ready PDFs once accepted.
 
 ## References
 
