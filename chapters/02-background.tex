@@ -1,103 +1,373 @@
 \chapter{Background and Unifying Concepts}
 \label{ch:background}
 
-\section{Post-Quantum Cryptography and Deployment Constraints}
+The paper-centric chapters that follow span photonic devices, quantum-key
+post-processing, post-quantum cryptographic acceleration, datacenter transport,
+and security observability. Read individually, they appear to belong to separate
+research communities, each with its own models, metrics, and implicit assumptions.
+This chapter provides the shared vocabulary and the analytical lens that make them
+a single dissertation. It advances a cross-layer view of secure communication in
+which a design choice or operational constraint at one layer is judged by its
+consequences at the others.
 
-Post-quantum cryptography (PQC) replaces public-key mechanisms vulnerable to
-large-scale quantum attacks with algorithms believed to resist both classical
-and quantum adversaries. For networked systems, however, the migration to PQC is
-not finished when an algorithm is selected. Key encapsulation mechanisms,
-digital signatures, certificates, handshakes, and identity-provisioning systems
-must all meet operational latency and throughput requirements while preserving
-security margins and interoperability. TODO: citation.
+The chapter first introduces that cross-layer lens, describing how information
+value, deployment constraints, and adversary models necessitate a multi-tiered
+response to the quantum threat. It then presents the data processing unit (DPU) as
+the common hardware substrate that connects cryptographic primitives to the
+infrastructure. Following this framework, it establishes the detailed background
+for each of the three parts of the thesis---quantum key distribution (Part~I),
+post-quantum cryptography (Part~II), and programmable datacenter infrastructure
+(Part~III)---in the order in which they appear in the body. Finally, it synthesizes
+these concepts to show how they constrain and enable one another.
 
-The included PQC work studies this deployment problem through workloads such as
-ML-KEM, ML-DSA, and HQC. These algorithms differ in computational structure,
-memory behavior, message size, and suitability for batching. As a result, the
-right execution strategy depends on both the cryptographic operation and the
-system context in which it runs. A mechanism that performs well for a single
-operation on a host CPU may behave differently when thousands of operations must
-be processed under datacenter provisioning, service-mesh, or secure-channel
-constraints.
+\section{The Cross-Layer Security Stack}
+\label{sec:bg-stack}
 
-The central deployment questions are therefore architectural: where should
-cryptographic work run, how should requests be batched, how much latency can be
-tolerated, what resources become bottlenecks, and how deterministic is the
-result under load? These questions motivate the use of programmable network
-infrastructure as a recurring platform in this dissertation.
+The introduction framed the quantum threat not merely as an algorithm-selection
+problem, but as a systemic architectural challenge driven by ``Harvest Now,
+Decrypt Later'' (HNDL) adversaries. Because the cost of storing and eventually
+decrypting intercepted traffic is immense, the threat model must account for the
+decay rate of information value. Unconditionally high-value, slowly decaying secrets---such
+as state infrastructure keys or long-lived intellectual property---justify
+the deployment complexity and bespoke hardware of physics-based security, primarily
+quantum key distribution (QKD). The photonic devices that enable QKD are difficult
+to scale, but they offer information-theoretic security that is immune to algorithmic
+advances.
+
+In contrast, the much larger volume of computationally protected traffic---ranging
+from session tokens to standard web traffic---decays rapidly. It is served by
+post-quantum cryptography (PQC), which replaces vulnerable public-key mechanisms
+with new mathematical hard problems believed to resist both classical and quantum
+algorithms. PQC must operate at datacenter scale, requiring entirely different
+optimization strategies than QKD. Yet, both physics-based and computationally-based
+protections must ultimately run on the same programmable network fabric.
+
+To analyze this heterogeneous landscape, this dissertation structures the response
+along three distinct but interacting layers, illustrated in Figure~\ref{fig:cross_layer_stack}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/chapter2/cross_layer_stack.pdf}
+    \caption{The cross-layer security stack investigated in this dissertation. The device layer supplies physical resources; the protocol layer consumes those resources to produce key material and authenticated channels; the infrastructure layer determines deployment viability. The Data Processing Unit (DPU) serves as both the execution substrate and observation point spanning the upper layers.}
+    \label{fig:cross_layer_stack}
+\end{figure}
+
+\begin{itemize}
+  \item a \textbf{device layer}, where photonic sources and the physical channel
+        determine the quality and stability of the quantum states that security
+        protocols can assume. The governing quantities here are physical: spectral
+        purity, free spectral range, quality factors, and loss budgets.
+  \item a \textbf{protocol layer}, where QKD post-processing and post-quantum
+        algorithms turn raw physical or mathematical resources into usable key
+        material and authenticated channels. The governing quantities here are
+        algorithmic and informational: key distillation rates, security margins,
+        computational complexity, and message sizes.
+  \item an \textbf{infrastructure layer}, where programmable network hardware,
+        datacenter transport, and confidential-computing environments decide
+        whether those protocols can actually be deployed, accelerated, observed,
+        and defended at scale. The governing quantities here are operational:
+        latency, throughput, determinism, queue depth, and observability.
+\end{itemize}
+
+\subsection{The Cross-Layer Method}
+
+The recurring method of the thesis is to take a security or performance
+assumption stated at one layer and test what happens to it when it is mapped
+onto another. An isolationist view often hides systemic vulnerabilities. For
+instance, a protocol proof might assume perfect single-photon sources, while the
+device layer actually exposes multiphoton states subject to thermal drift. A
+post-quantum signature scheme might be highly efficient when benchmarked on a
+single idle core, but its tail latency might collapse under heavy datacenter
+batching. A transport layer might be provably encrypted by MACsec or IPsec, yet
+still leak critical application state through traffic ordering and timing behavior.
+Finally, an infrastructure defender operating a confidential-computing cluster must
+detect intrusions without seeing the payload, violating the assumptions of classical
+intrusion detection systems.
+
+Research questions RQ1--RQ3 each target a single layer---PQC deployment, QKD
+architecture, and photonic-source design. RQ4 binds them by exposing these
+cross-layer failure modes. The remainder of this chapter supplies the necessary
+background for each layer to make these interactions legible.
 
 \section{Programmable Network Infrastructure for Security Offload}
+\label{sec:bg-dpu}
 
-SmartNICs and DPUs extend the network interface from a passive I/O endpoint into
-a programmable execution environment. In BlueField-class systems, Arm CPU cores,
-network accelerators, memory resources, and in some settings GPU-connected
-execution paths can be used to move selected work away from the host. This
-creates an opportunity to place cryptographic operations, packet processing,
-storage or image I/O, telemetry, and policy enforcement closer to the network
-boundary.
+The single piece of hardware common to nearly every contribution in this thesis is
+the data processing unit (DPU). It is introduced first because it underpins the QKD,
+PQC, and infrastructure chapters alike.
 
-Offload is not automatically beneficial. It introduces its own costs: data
-movement, queueing, synchronization, resource contention, and additional
-software complexity. The useful question is not whether a DPU is faster in
-isolation, but which part of a security pipeline should be moved, under which
-batching and traffic conditions, and with which visibility into system state.
-This dissertation uses DPUs both as accelerators for post-quantum workloads and
-as observation points for security-sensitive infrastructure.
+SmartNICs and DPUs represent a paradigm shift in datacenter architecture. They extend
+the network interface from a passive I/O endpoint---responsible only for moving packets
+between the wire and host memory---into an active, programmable execution environment.
+In modern DPU architectures like the NVIDIA BlueField series, the device features a
+cluster of general-purpose Arm CPU cores, dedicated hardware accelerators (including
+inline cryptographic engines for AES-GCM and public-key acceleration), substantial
+on-board memory, and programmable packet-processing pipelines \textsc{TODO: citation (BlueField/DOCA architecture)}.
+In more advanced configurations, DPUs provide direct GPU-connected datapaths (e.g., GPUDirect RDMA)
+that bypass the host CPU entirely.
 
-\section{QKD Networks and Scalable Architectures}
+This architecture makes it possible to place security-critical operations---such as
+key distillation, cryptographic encapsulation, storage encryption, telemetry collection,
+and firewall policy enforcement---at the edge of the host rather than deep inside its
+operating system~\cite{meyer2026hqc}. By moving these functions to the DPU, the host CPU
+is freed to run tenant workloads, and the infrastructure provider retains a secure,
+isolated domain to enforce policies even if the host is compromised.
 
-Quantum key distribution (QKD) provides a different approach to secure key
-establishment by using quantum states and classical post-processing to generate
-shared secret keys. A deployable QKD system is more than a quantum channel. It
-requires source and detector hardware, synchronization, sifting, error
-reconciliation, privacy amplification, authentication, key management, and
-interfaces to classical applications.
+\subsection{The Offload Decision Framework}
 
-The scalability challenge appears when QKD moves from a laboratory link to a
-multi-user network. Topology, receiver placement, trusted-node assumptions,
-post-processing throughput, and classical integration all influence whether a
-QKD architecture can grow beyond isolated point-to-point demonstrations. This
-dissertation treats scalable QKD architecture as part of the broader
-quantum-resilient communication problem, while patent-sensitive concepts such as
-ROSE-QKD remain limited to title-level context unless approved disclosure text
-is supplied.
+However, offload is not automatically beneficial. Moving a task from a powerful,
+high-frequency x86 host CPU to a lower-power Arm core on a DPU introduces significant
+overheads: data movement across the PCIe bus, queueing delays, synchronization locks,
+resource contention among DPU cores, and additional software complexity. The host CPU
+will almost always win a raw single-thread benchmark.
 
-\section{Integrated Photonic Sources for Deployable QKD}
+Therefore, the useful question is never whether a DPU is ``faster'' in isolation. The
+relevant architectural questions are:
+\begin{enumerate}
+    \item \textbf{Partitioning:} Which specific part of a pipeline should move to the DPU?
+    \item \textbf{Batching:} Under what traffic conditions and batch sizes does the offload break even?
+    \item \textbf{Bottlenecks:} What becomes the new system bottleneck once the compute task has moved?
+    \item \textbf{Determinism:} How stable is the latency distribution under heavy, concurrent load?
+\end{enumerate}
 
-Integrated photonics addresses the device-level side of deployable quantum
-communication. For entanglement-based QKD, source stability, spectral
-engineering, tunability, quality factor, loss, and compatibility with telecom
-wavelength grids all affect whether a photonic device can support practical
-network operation. Device behavior therefore has system-level consequences:
-source drift, resonance spacing, and thermal response influence how easily a
-quantum source can be controlled, multiplexed, and integrated with classical
-network infrastructure.
+These questions recur in identical form across different domains in this thesis. They
+dictate how QKD post-processing scales, whether post-quantum key encapsulation meets
+handshake latency budgets, and how secured edge-AI pipelines manage image I/O. For this
+reason, the DPU is treated here as a unifying substrate rather than as a detail of any
+single chapter.
 
-The photonic-source work in this dissertation focuses on dual-coupled microring
-resonators as candidate sources for frequency-bin entanglement. The relevant
-background includes free spectral range behavior, thermal tuning, Q-factor
-engineering, lithium niobate and silicon nitride platform tradeoffs, and
-wavelength-division multiplexing compatibility. These topics connect the device
-chapters to the larger architectural question of how quantum communication
-components can become deployable network building blocks.
+Furthermore, the same programmability that enables offload also transforms the DPU into
+a natural observation point. Placed inline between the network and the host, the DPU
+can inspect traffic metadata, connection timing, and queue depths without host interference,
+a capability that becomes the foundation of the confidential AI observability discussed
+in Part~III.
 
-\section{Cross-Layer Architecture Evaluation}
+\section{Quantum Key Distribution and Integrated Photonic Sources}
+\label{sec:bg-qkd}
 
-The common method across the dissertation is to identify a security or
-deployment assumption at one layer, then evaluate how it changes when mapped
-onto another layer. For PQC, this means studying how algorithmic costs interact
-with DPU execution, batching, and datacenter-scale workloads. For QKD, it means
-connecting quantum key generation and post-processing to programmable network
-hardware and classical integration points. For integrated photonics, it means
-relating device-level spectral behavior to network-level deployability. For
-datacenter security and confidential AI, it means examining what can still be
-observed or protected when payload access, ordering assumptions, or topology
-assumptions are constrained.
+Part~I treats quantum-secured communication from the device layer upward, addressing
+both the physical generation of quantum states and the classical protocol logic required
+to use them.
 
-This cross-layer perspective is the reason the dissertation combines topics
-that might otherwise appear separate: quantum photonic devices, QKD
-post-processing, post-quantum cryptographic acceleration, RDMA and optical
-fabrics, and confidential AI observability. The unifying question is how secure
-communication systems can be made scalable and deployable when the relevant
-constraints are distributed across the physical, cryptographic, network, and
-application layers.
+\subsection{Integrated Photonic Sources}
+
+Integrated photonics addresses the device-level bottleneck in deployable quantum
+communication. Traditional tabletop optics, with discrete non-linear crystals and
+mirrors, are too fragile, bulky, and expensive for wide-scale deployment. Photonic
+integrated circuits (PICs) aim to miniaturize these components onto a semiconductor
+chip using fabrication processes compatible with existing CMOS or telecom infrastructure.
+
+For entanglement-based QKD, the photon source is the critical component. It determines
+the spectral structure, brightness, purity, and long-term stability of the photon pairs
+that every subsequent protocol stage consumes~\cite{Wehner2018}. If a source emits
+multiphoton pulses or indistinguishable spectral modes drift due to temperature fluctuations,
+the visibility of quantum interference drops, the quantum bit error rate (QBER) rises,
+and the protocol may fail to generate secure keys.
+
+The photonic-source work in this dissertation focuses on microring resonators as
+candidate sources for frequency-bin entanglement via spontaneous four-wave mixing (SFWM).
+In a microring, light circulates and interferes constructively only at specific resonant
+frequencies separated by the Free Spectral Range (FSR). Key physics and engineering
+considerations include:
+
+\begin{itemize}
+    \item \textbf{Quality Factor ($Q$):} A measure of the resonator's photon lifetime.
+    High-$Q$ rings generate highly coherent, narrow-linewidth photons but are extremely
+    sensitive to fabrication variations and thermal drift.
+    \item \textbf{Thermal Tuning and Stability:} Refractive indices are temperature-dependent.
+    Maintaining precise alignment with standardized telecom grids requires continuous,
+    active thermal tuning, which can inadvertently affect the FSR and disrupt entanglement symmetry.
+    \item \textbf{Spectral Purity (Schmidt Number):} A mathematically pure bipartite entangled
+    state has a Schmidt number of 1. Real sources suffer from spectral correlations
+    that degrade purity, necessitating precise dispersion engineering or tight filtering.
+    \item \textbf{Platform Tradeoffs:} Silicon nitride ($\text{Si}_3\text{N}_4$) offers ultra-low
+    loss and broad transparency but lacks the strong electro-optic (Pockels) effect of
+    lithium niobate ($\text{LiNbO}_3$), meaning the choice of material dictates the tuning mechanisms
+    available~\cite{Kumar2015,Mao2018,Grebenchukov2023}.
+\end{itemize}
+
+These device-derived quantities are precisely the parameters that determine the budget
+available for coexistence with classical traffic. They define the point at which the
+device layer becomes legible to the network layer above it.
+
+\subsection{QKD Post-Processing}
+
+A deployable QKD system is far more than a quantum channel. The quantum channel only
+exchanges raw, error-prone measurement outcomes. A classical post-processing pipeline
+is required to distill these raw detections into secure, usable symmetric keys~\cite{Xu2020}.
+This pipeline consists of several computation-heavy stages:
+
+\begin{enumerate}
+    \item \textbf{Sifting:} Alice and Bob discard measurements where they used incompatible bases.
+    \item \textbf{Error Estimation:} A subset of bits is publicly compared to estimate the QBER,
+    bounding the maximum information an eavesdropper could have gained.
+    \item \textbf{Information Reconciliation:} Forward error correction, typically using large
+    Low-Density Parity-Check (LDPC) codes or Cascade, resolves discrepancies between Alice's and Bob's strings.
+    \item \textbf{Privacy Amplification:} A universal hash function compresses the reconciled string
+    to erase any partial information the eavesdropper holds, yielding the final secure key.
+\end{enumerate}
+
+All classical communication during these steps must be strictly authenticated to prevent
+man-in-the-middle attacks.
+
+Traditionally, these stages run on general-purpose host CPUs. However, as datacenter
+links scale to 400~Gbps and beyond, dedicating host cycles to key distillation becomes
+prohibitive. Furthermore, the latency introduced by software-based LDPC decoding undermines
+the ultra-low-latency transports, such as RDMA, that modern datacenters rely on.
+
+The scalability challenge of QKD is therefore an integration challenge: how can a
+comparatively low-rate, computation-heavy post-processing pipeline be offloaded onto
+programmable network hardware? The goal is to produce quantum-secured key material
+efficiently enough to seamlessly feed line-rate datacenter encryption without starving
+the host CPU. This requirement connects the integrated photonic source directly to the
+DPU substrate discussed in Section~\ref{sec:bg-dpu}.
+
+\section{Post-Quantum Cryptography and Deployment Constraints}
+\label{sec:bg-pqc}
+
+Post-quantum cryptography (PQC) represents the computationally secure counterpart to QKD.
+It replaces the integer factorization and discrete logarithm problems vulnerable to Shor's
+algorithm with entirely different mathematical structures believed to resist both classical
+and quantum cryptanalysis.
+
+The transition focuses on two main primitive types: Key Encapsulation Mechanisms (KEMs),
+which establish a shared symmetric key over an insecure channel, and Digital Signatures,
+which provide authentication and non-repudiation.
+
+\subsection{Algorithmic Families and Characteristics}
+
+The standardized and candidate algorithms studied in Part~II vary drastically in their
+underlying mathematics, leading to profound differences in computational structure,
+memory footprint, and message sizes \textsc{TODO: citation (NIST FIPS 203/204; HQC selection)}.
+
+\begin{itemize}
+    \item \textbf{Lattice-Based Cryptography:} Algorithms like ML-KEM (formerly Kyber) and
+    ML-DSA (formerly Dilithium) rely on the hardness of the Module Learning With Errors (MLWE)
+    problem. They offer an excellent balance: fast execution times, moderate key and ciphertext
+    sizes, and efficient hardware implementations. However, their reliance on polynomial sampling
+    and rejection sampling introduces variable timing that must be carefully managed to avoid
+    side-channel leaks.
+    \item \textbf{Code-Based Cryptography:} Algorithms like HQC (Hamming Quasi-Cyclic) rely on
+    the hardness of decoding random linear codes. While their encryption and decryption operations
+    are fast, they suffer from significantly larger public keys and ciphertexts compared to lattices.
+    Additionally, their operations involve large, dense bit-vector multiplications that have distinct
+    memory access patterns~\cite{meyer2026hqc}.
+\end{itemize}
+
+Table~\ref{tab:pqc-comparison} summarizes these structural differences.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparison of selected Post-Quantum Cryptographic primitives and their deployment profiles. Sizes and operations are approximations based on NIST security category 3 \textsc{TODO: citation (FIPS 203/204, HQC specs)}.}
+\label{tab:pqc-comparison}
+\renewcommand{\arraystretch}{1.3}
+\footnotesize
+\begin{tabularx}{\textwidth}{llcrr>{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Algorithm} & \textbf{Family} & \textbf{Type} & \textbf{PK (B)} & \textbf{CT/Sig (B)} & \textbf{Compute profile} \\
+\midrule
+ML-KEM-768 & Lattice & KEM & 1,184 & 1,088 & Fast polynomial arithmetic; SIMD-friendly (AVX/Neon). \\
+ML-DSA-65 & Lattice & Signature & 1,952 & 3,309 & Rejection sampling; highly variable timing. \\
+HQC-192 & Code & KEM & 4,522 & 9,026 & Bitwise math; memory-bound (large keys). \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Deployment and Architectural Constraints}
+
+For networked systems, the migration to PQC is not finished when a NIST standard is published.
+A mechanism that executes efficiently in a single-threaded benchmark may behave disastrously
+under datacenter provisioning constraints.
+
+Integrating PQC into protocols like TLS 1.3 or IPsec requires transmitting much larger
+public keys and ciphertexts during handshakes. This can trigger IP fragmentation, increasing
+latency and packet-loss probability. Furthermore, datacenters handle thousands of connections
+per second. KEM decapsulation and signature verification must therefore be deeply batched.
+Lattice schemes, with their variable-time rejection sampling, batch poorly on SIMD architectures
+because a single long-running sample stalls the entire vector lane.
+
+Consequently, the central questions are architectural: where should the cryptographic work run,
+how should requests be batched, how much latency can the service mesh tolerate, and which
+memory buses become bottlenecks? These are the questions that motivate offloading PQC onto
+the DPU substrate.
+
+These questions are tested most sharply not on isolated primitives, but inside complete
+application pipelines. For instance, the edge-AI setting examined in Part~II involves a
+pipeline where post-quantum protection, image I/O from sensors, and GPU-based inference
+all compete for the same datapath. In such scenarios, the theoretical efficiency of a PQC
+algorithm matters less than how gracefully its offload degrades when it must coexist
+with real application workloads.
+
+\section{Programmable Datacenter Fabrics and Confidential AI}
+\label{sec:bg-infra}
+
+Part~III turns to the infrastructure layer itself. It is here that the physical assumptions
+made by QKD protocols, and the mathematical assumptions made by PQC algorithms, are either
+upheld or quietly violated by the reality of datacenter networking.
+
+\subsection{RDMA over High-Throughput Optical Fabrics}
+
+Modern datacenters---especially those built for distributed AI training and high-performance
+computing---interconnect GPUs, DPUs, and storage using Remote Direct Memory Access (RDMA),
+commonly deployed as RDMA over Converged Ethernet (RoCEv2) over high-throughput optical fabrics.
+
+RDMA achieves its massive throughput and microsecond latency by bypassing the host operating
+system networking stack entirely. Applications interact directly with the NIC hardware via
+Queue Pairs (QPs). However, RDMA's performance and security properties rest on specific
+assumptions about message ordering and completion semantics. While strict ordering is guaranteed
+\emph{within} a single Queue Pair, ordering \emph{across} different Queue Pairs is much weaker
+and heavily dependent on the fabric's load-balancing and optical-switch behavior \textsc{TODO: citation (RoCEv2/RDMA ordering specification)}.
+
+When these lower-layer ordering and timing behaviors diverge from what the higher-layer
+application assumed, vulnerabilities emerge. For example, a channel that is provably
+encrypted via IPsec or MACsec can still expose exploitable structural information if an
+attacker observes the timing and out-of-order arrival of RDMA completions. This is a classic
+instance of the cross-layer failure mode at the heart of RQ4, and forms the core of the
+RDMA security analysis in Chapter~\ref{ch:rdma}.
+
+\subsection{Confidential Computing and Observability}
+
+As AI models become astronomically expensive to train, protecting the model weights and
+training data from unauthorized access becomes critical. Confidential computing addresses this
+by using hardware-based Trusted Execution Environments (TEEs), such as AMD SEV-SNP or Intel TDX,
+combined with strictly encrypted memory and PCIe links \textsc{TODO: citation (confidential computing/TEE overview)}.
+This ensures that the tenant's workload is protected even from a privileged hypervisor or a
+malicious infrastructure operator.
+
+However, the same cryptographic boundary that shields tenant data also blinds the defender.
+In a confidential AI training cluster, payloads are entirely opaque to the infrastructure provider.
+Classical Intrusion Detection Systems (IDS), which rely on deep packet inspection and payload
+signature matching, are rendered useless.
+
+The background question for the final part of this thesis is therefore: what observable signal
+survives the encryption and TEE boundaries? The answer lies in metadata, traffic structure,
+packet timing, and hardware telemetry extracted directly from the DPU. By combining these
+side-channel signals, it is possible to detect threats, such as data exfiltration or malware
+beaconing, without ever accessing the payload. This reframes the DPU of Section~\ref{sec:bg-dpu}
+from merely an accelerator into a privileged vantage point, extending the thesis focus from
+prevention and acceleration toward detection and response.
+
+\section{From Background to Contributions}
+\label{sec:bg-synthesis}
+
+The three layers introduced in this chapter are deliberately not independent. Their dependencies
+form strict, unidirectional chains that dictate system design:
+
+\begin{itemize}
+    \item \textbf{Device to Protocol:} Source-level spectral purity and FSR stability dictate
+    the baseline error rates. These error rates determine the size of the LDPC matrices required
+    in QKD post-processing.
+    \item \textbf{Protocol to Infrastructure:} The matrix dimensions and the determinism of
+    PQC rejection sampling dictate compute latency. This latency determines whether the algorithm
+    can be placed inline on a DPU without starving the line-rate datapath.
+    \item \textbf{Infrastructure to Protocol:} The ordering, timing, and visibility properties
+    of the RDMA fabric determine whether the mathematical protections of the cryptography actually
+    survive deployment against a network-level adversary.
+\end{itemize}
+
+This cross-layer perspective is the reason the dissertation combines topics---photonics, cryptography,
+and datacenter networking---that would otherwise appear separate. The unifying question that runs
+through every following chapter is how secure communication systems can be made scalable and
+deployable when the binding constraints are distributed across physical, mathematical, and
+operational boundaries. The body of the thesis now develops this layer by layer, beginning
+at the foundation with the integrated photonic source.

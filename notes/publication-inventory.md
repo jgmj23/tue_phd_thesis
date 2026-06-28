@@ -2,6 +2,12 @@
 
 Last updated: 2026-06-28.
 
+> For per-paper abstracts, full author lists, contributions, and headline
+> results, see `notes/paper-summaries.md` (the agent/author quick reference).
+> The canonical citation records live in `references/my_contribution.bib`.
+> Note: the real published titles for several papers differ from the working
+> titles used earlier here; the thesis now uses the real titles everywhere.
+
 This note records the initial publication inputs for a compilation-style thesis.
 The source list is `source-materials/prior-writing/joey_publications.docx`,
 with additional publication details from
@@ -88,7 +94,7 @@ language.
 | Multi-Hybrid Cryptographic Key Exchange (MHKE) | filed |
 | Computational offloading of operations necessary for Post-Quantum Cryptography on NV NICs | filed |
 | Rose-QKD | filed |
-| Authentication of Quantum Network | draft |
+| Capability-Based Authentication of Quantum Nodes via Statistical Analysis | draft |
 
 ## Planned Paper-Centric Thesis Structure
 

@@ -1,5 +1,55 @@
 \chapter*{Summary}
 \addcontentsline{toc}{chapter}{Summary}
 
-TODO: Write the required English summary. The English title of the dissertation should appear above or with this text when prepared for Hora Finita/title-page approval.
+\noindent\textbf{Cross-Layer Network Security in the Post-Quantum Era:
+From Integrated Quantum Sources to Datacenter-Scale Cryptography}
 
+\vspace{1.5em}
+
+The security of digital communication rests on mathematical problems that are
+easy to pose but, for classical computers, practically impossible to solve. The
+prospect of a cryptographically relevant quantum computer (CRQC) undermines this
+foundation: once such a machine exists, the public-key cryptography that protects
+nearly all modern infrastructure can be broken. Although the precise arrival of
+``Q-Day'' is uncertain, the threat is already operational through
+``Harvest Now, Decrypt Later'' attacks, in which adversaries store encrypted
+traffic today to decrypt it once the hardware matures. Mitigating this threat
+is not a single algorithm-selection problem but a tiered, heterogeneous
+re-engineering of communication systems. This shift is driven by fundamental
+trade-offs between security guarantees, deployment complexity, and performance:
+computationally secure post-quantum cryptography (PQC) scales to protect
+high-volume datacenter traffic but relies on mathematical assumptions, whereas
+quantum key distribution (QKD) offers unconditional, physics-based security at
+the cost of specialized optical hardware and dedicated infrastructure. A
+comprehensive defense must therefore integrate both paradigms.
+
+The central premise of this dissertation is that scalable quantum-resilient
+communication must be studied as an \emph{architecture} problem spanning the
+device, protocol, and infrastructure layers. A cryptographic primitive that is
+secure in isolation may still be impractical if it cannot meet the latency,
+throughput, determinism, power, or observability constraints of the network in
+which it runs; likewise, a quantum primitive becomes operational infrastructure
+only when its photonic devices, post-processing pipeline, and classical
+integration points are engineered together. The work was carried out within the
+QUARC doctoral network as an industrial doctorate embedded with NVIDIA's
+networking organization.
+
+The thesis is organized as a compilation of peer-reviewed publications grouped
+into three parts. Part~I treats QKD as a deployable network capability: it
+presents the design and characterization of integrated photonic entanglement
+sources for wavelength-division-multiplexed QKD, and the offload of QKD
+post-processing onto data processing units (DPUs). Part~II investigates how PQC
+algorithms can be executed efficiently on heterogeneous CPU--GPU--DPU platforms
+and applied to secure edge AI pipelines. Part~III examines the programmable
+datacenter substrate on which both mechanisms ultimately run, addressing the
+ordering- and timing-related risks of RDMA over high-throughput optical fabrics
+and cross-layer observability and intrusion detection for confidential AI
+infrastructure.
+
+Taken together, these contributions show that device-level, protocol-level, and
+infrastructure-level design choices are tightly coupled: decisions made at one
+layer constrain or enable the others. The synthesis argues that
+quantum-resilient communication is achievable with today's and near-future
+technology, but only through a cross-layer co-design that treats cryptography,
+photonics, and programmable network hardware as a single system rather than as
+independent components.

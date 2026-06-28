@@ -1,0 +1,43 @@
+<mxfile host="65bd71144e">
+    <diagram name="Cross Layer Stack" id="CLStack">
+        <mxGraphModel dx="914" dy="343" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="500" background="none" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="layer_device" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Device Layer&lt;/b&gt;&lt;br&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;Photonic sources, physical channel, quantum states&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0072B2;fillOpacity=20;strokeColor=#0072B2;strokeWidth=3;fontFamily=LMRoman10;fontColor=#004C77;align=left;verticalAlign=top;spacingLeft=10;spacingTop=10;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="320" width="415" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="box_source" value="Integrated Photonic Sources (Part I)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0072B2;strokeWidth=2;fontFamily=LMRoman10;fontColor=#004C77;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="114" y="379" width="388" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer_protocol" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Protocol Layer&lt;/b&gt;&lt;br&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;QKD post-processing, PQC algorithms (KEMs/Signatures)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D55E00;fillOpacity=20;strokeColor=#D55E00;strokeWidth=3;fontFamily=LMRoman10;fontColor=#8A3D00;align=left;verticalAlign=top;spacingLeft=10;spacingTop=10;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="200" width="415" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="box_qkd_pp" value="QKD Post-Processing (Part I)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#D55E00;strokeWidth=2;fontFamily=LMRoman10;fontColor=#8A3D00;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="114" y="260" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="box_pqc" value="PQC Algorithms (Part II)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#D55E00;strokeWidth=2;fontFamily=LMRoman10;fontColor=#8A3D00;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="310" y="260" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="layer_infra" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Infrastructure Layer&lt;/b&gt;&lt;br&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;Programmable networks, datacenter transport, TEEs&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#009E73;fillOpacity=20;strokeColor=#009E73;strokeWidth=3;fontFamily=LMRoman10;fontColor=#00674C;align=left;verticalAlign=top;spacingLeft=10;spacingTop=10;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="80" width="415" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="box_rdma" value="RDMA over Optics (Part III)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009E73;strokeWidth=2;fontFamily=LMRoman10;fontColor=#00674C;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="114" y="140" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="box_tee" value="Confidential AI (Part III)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009E73;strokeWidth=2;fontFamily=LMRoman10;fontColor=#00674C;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="310" y="140" width="190" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="box_dpu" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;Data Processing Unit (DPU)&lt;/b&gt;&lt;br&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;Execution Substrate &amp;amp; Vantage Point&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E69F00;fillOpacity=20;strokeColor=#E69F00;strokeWidth=3;fontFamily=LMRoman10;fontColor=#9E6B00;align=center;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="573" y="80" width="136" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn_dpu1" value="" style="endArrow=none;dashed=1;html=1;strokeWidth=2;strokeColor=#E69F00;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="layer_infra" target="box_dpu" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="conn_dpu2" value="" style="endArrow=none;dashed=1;html=1;strokeWidth=2;strokeColor=#E69F00;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="layer_protocol" target="box_dpu" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

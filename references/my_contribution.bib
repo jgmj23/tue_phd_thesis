@@ -1,87 +1,97 @@
 % Encoding: UTF-8
 %
-% Author's own contributions for the "List of Publications" backmatter.
-% Kept separate from references/thesis.bib so they do not appear in the main
-% bibliography. Filtered via the `keywords = {my_contribution}` field.
+% Author's own contributions for the "List of Publications" backmatter and the
+% per-chapter "Included Publication" cover pages. Kept separate from
+% references/thesis.bib so they do not appear in the main bibliography.
+% Filtered via the `keywords = {my_contribution}` field.
+%
+% Each record carries the FULL author list in true published order, with the
+% author's own name rendered as {\textbf{\underline{J. G. Meyer}}} wherever it
+% appears. Compound surnames are braced (e.g. {Tafur Monroy}, {Vegas Olmos}) so
+% biblatex keeps them intact. Titles, venues, and status reflect the camera-ready
+% or submitted manuscripts in source-materials/papers/. See
+% notes/paper-summaries.md for per-paper abstracts, contributions, and results.
 
 @inproceedings{meyer2026icton,
-  author    = {{\textbf{\underline{J. G. Meyer}}} and others},
-  title     = {Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Networks},
-  booktitle = {26th International Conference on Transparent Optical Networks (ICTON)},
+  author    = {{\textbf{\underline{J. G. Meyer}}} and A. Barreiro and A. Grebenchukov and E. Mentovich and J. A. {Jaramillo-Villegas} and J. J. {Vegas Olmos} and I. {Tafur Monroy}},
+  title     = {Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Optical Networks},
+  booktitle = {26th IEEE International Conference on Transparent Optical Networks (ICTON)},
   year      = {2026},
-  note      = {Submitted},
+  note      = {Accepted},
   keywords  = {my_contribution}
 }
 
 @inproceedings{meyer2026icsee,
-  author    = {{\textbf{\underline{J. G. Meyer}}} and others},
-  title     = {Free Spectral Range Stability under Linear thermal Tuning in a Dual-Coupled Microring Resonator},
-  booktitle = {2026 International Conference on Science and Electrical Engineering (ICSEE)},
+  author    = {{\textbf{\underline{J. G. Meyer}}} and A. Grebenchukov and A. Barreiro and J. A. {Jaramillo-Villegas} and J. J. {Vegas Olmos} and I. {Tafur Monroy}},
+  title     = {Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator},
+  booktitle = {IEEE International Conference on Science and Electrical Engineering (ICSEE)},
   year      = {2026},
   note      = {Presented},
   keywords  = {my_contribution}
 }
 
-@article{meyer2026qkd,
-  author    = {{\textbf{\underline{J. G. Meyer}}} and others},
+@inproceedings{meyer2026qkd,
+  author    = {{\textbf{\underline{J. G. Meyer}}} and J. J. {Vegas Olmos} and I. {Tafur Monroy}},
   title     = {QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics},
-  journal   = {TBD},
+  booktitle = {IEEE International Conference on Quantum Computing and Engineering (QCE)},
   year      = {2026},
-  note      = {Accepted manuscript},
+  note      = {In review},
   keywords  = {my_contribution}
 }
 
 @article{meyer2026hqc,
-  author    = {{\textbf{\underline{J. G. Meyer}}} and others},
+  author    = {{\textbf{\underline{J. G. Meyer}}} and E. Mentovich and I. {Tafur Monroy} and J. J. {Vegas Olmos}},
   title     = {Offloading Post-Quantum Cryptography to Data Processing Units: A Performance Analysis of HQC Key Encapsulation},
-  journal   = {TBD},
+  journal   = {IEEE Access},
+  volume    = {14},
+  pages     = {53831--53845},
   year      = {2026},
-  note      = {Accepted manuscript},
+  doi       = {10.1109/ACCESS.2026.3681219},
   keywords  = {my_contribution}
 }
 
 @article{meyer2026heterogeneous,
-  author    = {{\textbf{\underline{J. G. Meyer}}} and others},
-  title     = {Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography},
-  journal   = {TBD},
+  author    = {{\textbf{\underline{J. G. Meyer}}} and A. {Cano Aguilera} and F. Cugini and I. {Tafur Monroy} and J. J. {Vegas Olmos}},
+  title     = {GPU-Accelerated Post-Quantum Cryptography on Embedded DPU Architecture},
+  journal   = {IEEE Networking Letters},
   year      = {2026},
-  note      = {Accepted manuscript},
+  note      = {In review},
   keywords  = {my_contribution}
 }
 
-@article{meyer2026edgeai,
-  author    = {{\textbf{\underline{J. G. Meyer}}} and others},
-  title     = {Securing Edge AI Pipelines: Offloading Image I/O and Post-Quantum Cryptography to DPUs},
-  journal   = {TBD},
+@inproceedings{meyer2026edgeai,
+  author    = {J. S. Garc{\'i}a and {\textbf{\underline{J. G. Meyer}}} and I. {Tafur Monroy} and J. J. {Vegas Olmos} and S. Kosta},
+  title     = {Real-Time Post-Quantum Secured Image Pipeline on NVIDIA BlueField-3 DPU},
+  booktitle = {IEEE International Conference on Algorithms and Architectures for Parallel Processing (ICA3PP)},
   year      = {2026},
-  note      = {Manuscript},
+  note      = {In review},
   keywords  = {my_contribution}
 }
 
-@article{meyer2026rdma,
-  author    = {{\textbf{\underline{J. G. Meyer}}} and others},
+@inproceedings{meyer2026rdma,
+  author    = {{\textbf{\underline{J. G. Meyer}}} and I. {Tafur Monroy} and J. J. {Vegas Olmos}},
   title     = {Exploiting Cross-QP Ordering in RDMA over Optical Fabrics},
-  journal   = {TBD},
+  booktitle = {26th IEEE International Conference on Transparent Optical Networks (ICTON)},
   year      = {2026},
-  note      = {Accepted manuscript},
+  note      = {Accepted},
   keywords  = {my_contribution}
 }
 
-@article{meyer2026intrusion,
-  author    = {{\textbf{\underline{J. G. Meyer}}} and others},
-  title     = {Intrusion Detection for Confidential AI Training Clusters: A Cross-Layer Observability Framework},
-  journal   = {TBD},
+@inproceedings{meyer2026intrusion,
+  author    = {A. Barreiro and {\textbf{\underline{J. G. Meyer}}} and D. C. Lawo and I. {Tafur Monroy} and J. J. {Vegas Olmos}},
+  title     = {Cross-Layer Observability for Intrusion Detection in Confidential AI Training Clusters},
+  booktitle = {26th IEEE International Conference on Transparent Optical Networks (ICTON)},
   year      = {2026},
-  note      = {Accepted manuscript},
+  note      = {Accepted},
   keywords  = {my_contribution}
 }
 
 @article{meyer2026detecting,
-  author    = {{\textbf{\underline{J. G. Meyer}}} and others},
-  title     = {Detecting Attacks in Confidential AI Training Without Payload Access: A DPU-Based Experimental Study},
-  journal   = {TBD},
+  author    = {{\textbf{\underline{J. G. Meyer}}} and I. {Tafur Monroy} and J. J. {Vegas Olmos}},
+  title     = {Obscured, But Not Blind: Systematizing Observability in Confidential AI Training Clusters},
+  journal   = {IEEE Transactions on Information Forensics and Security},
   year      = {2026},
-  note      = {Accepted manuscript},
+  note      = {In review},
   keywords  = {my_contribution}
 }
 
@@ -114,7 +124,7 @@
 
 @misc{meyer-patent-qnetauth,
   author    = {{\textbf{\underline{J. G. Meyer}}} and others},
-  title     = {Authentication of Quantum Networks},
+  title     = {Capability-Based Authentication of Quantum Nodes via Statistical Analysis},
   note      = {Patent application (draft)},
   keywords  = {my_contribution,patent}
 }
