@@ -24,8 +24,8 @@ the cost of specialized optical hardware and dedicated infrastructure. A
 comprehensive defense must therefore integrate both paradigms.
 
 The central premise of this dissertation is that scalable quantum-resilient
-communication must be studied as an \emph{architecture} problem spanning the
-device, protocol, and infrastructure layers. A cryptographic primitive that is
+communication is fundamentally an integration challenge governed by the boundaries
+between the device, protocol, and infrastructure layers. A cryptographic primitive that is
 secure in isolation may still be impractical if it cannot meet the latency,
 throughput, determinism, power, or observability constraints of the network in
 which it runs; likewise, a quantum primitive becomes operational infrastructure
@@ -50,6 +50,6 @@ Taken together, these contributions show that device-level, protocol-level, and
 infrastructure-level design choices are tightly coupled: decisions made at one
 layer constrain or enable the others. The synthesis argues that
 quantum-resilient communication is achievable with today's and near-future
-technology, but only through a cross-layer co-design that treats cryptography,
-photonics, and programmable network hardware as a single system rather than as
-independent components.
+technology, but only by actively engineering the integration points where cryptography,
+photonics, and programmable network hardware meet, rather than treating them as
+independent disciplines.
