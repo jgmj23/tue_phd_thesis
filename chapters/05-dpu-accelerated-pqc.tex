@@ -1,31 +1,22 @@
 \chapter{DPU-Accelerated Post-Quantum Cryptography}
 \label{ch:dpu-pqc}
 
-\section{Chapter Motivation}
+\section{Offloading the Cost of Post-Quantum Migration}
 
-TODO: Motivate DPU acceleration as a practical response to the computational and integration costs of post-quantum cryptography migration.
+TODO: Motivate DPU acceleration as a practical response to the computational and integration costs of post-quantum cryptography migration, and explain how it connects to the thesis questions on programmable infrastructure, cryptographic migration, and cross-layer performance.
 
-\section{Relation to the Research Questions}
+\section{Contribution and Articles}
 
-TODO: Connect the DPU/PQC papers to the thesis questions on programmable infrastructure, cryptographic migration, and cross-layer performance.
+This chapter is built around two contributions that study how post-quantum cryptographic workloads can be executed efficiently on heterogeneous, programmable network hardware.
 
-\section{Publication Context and Author Contribution}
+The first contribution (P4), \enquote{Offloading Post-Quantum Cryptography to Data Processing Units: A Performance Analysis of HQC Key Encapsulation}, analyzes the offload of HQC key encapsulation to a BlueField DPU and characterizes the resulting performance.
+% TODO: Record the author's specific contributions and co-author context for P4.
 
-TODO: Record publication venues, status, co-author context, and the author's specific contributions for the included papers.
+The second contribution (P5), \enquote{Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography}, develops and evaluates a heterogeneous DPU architecture for accelerating post-quantum cryptography across CPU, GPU, and DPU resources.
+% TODO: Record the author's specific contributions and co-author context for P5.
 
-\section{Included Papers}
+TODO: Synthesize the findings across HQC offload and heterogeneous DPU acceleration, including what they reveal about bottlenecks, host interaction, and deployment constraints, and transition from isolated cryptographic acceleration to full application pipelines that combine data movement, AI workloads, and PQC.
 
-\publicationcover{meyer2026hqc}
-\includepdf[pages=-, pagecommand={\thispagestyle{fancy}}, width=\textwidth, height=\textheight, keepaspectratio]{source-materials/papers/camera-ready/hqc-pqc-offload-bluefield-dpu-ieee-access-2026-published.pdf}
+\includedpaper{P4}{Offloading Post-Quantum Cryptography to Data Processing Units: A Performance Analysis of HQC Key Encapsulation}{meyer2026hqc}{source-materials/papers/camera-ready/hqc-pqc-offload-bluefield-dpu-ieee-access-2026-published.pdf}
 
-\publicationcover{meyer2026heterogeneous}
-% TODO: Add \includepdf[...]{...} once the camera-ready PDF for the heterogeneous DPU architecture paper is available.
-\textit{The accepted manuscript will be inserted here in the final compilation.}
-
-\section{Post-Paper Discussion}
-
-TODO: Synthesize the findings across HQC offload and heterogeneous DPU acceleration, including what they reveal about bottlenecks, host interaction, and deployment constraints.
-
-\section{Link to the Next Chapter}
-
-TODO: Transition from isolated cryptographic acceleration to full application pipelines that combine data movement, AI workloads, and PQC.
+\includedpaperpending{P5}{Design and Evaluation of a Heterogeneous DPU Architecture for Accelerating Post-Quantum Cryptography}{meyer2026heterogeneous}

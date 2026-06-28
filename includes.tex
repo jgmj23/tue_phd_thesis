@@ -89,3 +89,49 @@
   \vspace{0.12\textheight}
   \clearpage
 }
+
+% --- Included paper (batched at chapter end) ----------------------------------
+% Appends a published paper at the end of a chapter, following the layout used in
+% A. Cano's thesis: an unnumbered, centered "P#: Title" heading, a ToC entry at
+% section level, the full bibliographic reference, then the embedded PDF.
+% The heading style switch is kept local (\begingroup..\endgroup) so the normal
+% chapter style is automatically restored for the next real chapter.
+% Usage: \includedpaper{<P-label>}{<title>}{<my_contribution bib key>}{<pdf path>}
+\newcommand{\includedpaper}[4]{%
+  \cleardoublepage
+  \begingroup
+    \titleformat{\chapter}[block]
+      {\normalfont\huge\bfseries\filcenter}{}{0pt}{}
+    \titlespacing*{\chapter}{0pt}{0pt}{20pt}
+    \chapter*{#1: #2}%
+  \endgroup
+  \addcontentsline{toc}{section}{#1: #2}%
+  {\small
+    \noindent\textbf{Full reference:}\par
+    \vspace{0.5ex}
+    \noindent\fullcite{#3}\par}%
+  \vspace{2ex}\par
+  \includepdf[pages=-, pagecommand={\thispagestyle{fancy}},
+              width=\textwidth, height=\textheight, keepaspectratio]{#4}%
+}
+
+% --- Included paper whose camera-ready PDF is not yet available ----------------
+% Same heading/ToC/reference layout as \includedpaper, but prints a placeholder
+% note instead of embedding a PDF. Replace with \includedpaper once the PDF is in.
+% Usage: \includedpaperpending{<P-label>}{<title>}{<my_contribution bib key>}
+\newcommand{\includedpaperpending}[3]{%
+  \cleardoublepage
+  \begingroup
+    \titleformat{\chapter}[block]
+      {\normalfont\huge\bfseries\filcenter}{}{0pt}{}
+    \titlespacing*{\chapter}{0pt}{0pt}{20pt}
+    \chapter*{#1: #2}%
+  \endgroup
+  \addcontentsline{toc}{section}{#1: #2}%
+  {\small
+    \noindent\textbf{Full reference:}\par
+    \vspace{0.5ex}
+    \noindent\fullcite{#3}\par}%
+  \vspace{2ex}\par
+  \noindent\textit{The accepted manuscript will be inserted here in the final compilation.}\par
+}

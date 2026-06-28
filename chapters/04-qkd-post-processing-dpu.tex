@@ -10,21 +10,6 @@ The QKD post-processing pipeline consists of several stages: sifting, error esti
 
 This chapter bridges the gap between quantum key generation and deployable datacenter network security by proposing and evaluating the offload of QKD post-processing to Data Processing Units (DPUs). Specifically, we explore the use of NVIDIA BlueField-3 DPUs to execute the post-processing pipeline inline, near the network edge. By decoupling key distillation from the host CPU, we enable quantum-secured RDMA (Q-RDMA) without compromising the host's compute capacity or the fabric's latency requirements.
 
-\section{Publication Context and Author Contributions}
-\label{sec:qkd-dpu-context}
-
-This chapter is based on the manuscript \enquote{QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics}. 
-% TODO: Update publication venue and status once finalized.
-
-As the primary author, Joseph G. Meyer led the conceptualization of the DPU-accelerated architecture, implemented the custom DPDK application for the classical communication channel, and designed the hardware/software co-design strategy for LDPC decoding. The co-authors contributed to the theoretical modeling of the QBER profiles, the integration with the emulated DV-QKD physical layer, and the review of the experimental methodology.
-
-\section{Manuscript: QKD Post-Processing Offload on BlueField-3 DPUs}
-\label{sec:qkd-dpu-manuscript}
-
-\publicationcover{meyer2026qkd}
-% TODO: Add \includepdf[pages=-, pagecommand={\thispagestyle{fancy}}, width=\textwidth, height=\textheight, keepaspectratio]{...} once the camera-ready PDF is available.
-\textit{The accepted manuscript will be inserted here in the final compilation.}
-
 \section{Implications for Datacenter Fabrics and Future Work}
 \label{sec:qkd-dpu-discussion}
 
@@ -36,9 +21,15 @@ Second, while the evaluated implementation focused on discrete-variable QKD (DV-
 
 Finally, managing the lifecycle of quantum keys across a large-scale datacenter fabric requires a robust control plane. Integrating DPU-based QKD nodes with Software-Defined Networking (SDN) controllers will be essential for dynamic key routing and policy enforcement.
 
-\section{Transition to Post-Quantum Cryptography}
-\label{sec:qkd-dpu-transition}
+\section{Contribution and Articles}
+\label{sec:qkd-dpu-context}
 
-While QKD offers information-theoretic security for key distribution, it requires specialized optical hardware and dedicated fiber links, making it challenging to deploy ubiquitously across all network segments. To achieve comprehensive quantum-safe security, QKD must be complemented by Post-Quantum Cryptography (PQC)---classical cryptographic algorithms believed to be secure against quantum computers. 
+This chapter is built around one contribution (P3), the manuscript \enquote{QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics}.
+% TODO: Update publication venue and status once finalized.
+As the primary author, Joseph G. Meyer led the conceptualization of the DPU-accelerated architecture, implemented the custom DPDK application for the classical communication channel, and designed the hardware/software co-design strategy for LDPC decoding. The co-authors contributed to the theoretical modeling of the QBER profiles, the integration with the emulated DV-QKD physical layer, and the review of the experimental methodology.
 
-The next chapter explores this complementary approach, shifting the focus from quantum-generated security material to the execution of PQC algorithms on programmable network infrastructure. By leveraging the same DPU architecture used for QKD post-processing, we investigate how to accelerate PQC to secure network traffic where QKD is not feasible.
+The paper closes the gap between quantum key generation and deployable datacenter security by offloading the full post-processing pipeline---sifting, error estimation, reconciliation, and privacy amplification---onto a BlueField-3 DPU, and by injecting the distilled keys directly into the DPU's hardware encryptors so that quantum-secured RDMA retains line-rate latency and throughput.
+
+While QKD offers information-theoretic security for key distribution, it requires specialized optical hardware and dedicated fiber links, making it challenging to deploy ubiquitously across all network segments. To achieve comprehensive quantum-safe security, QKD must be complemented by Post-Quantum Cryptography (PQC)---classical cryptographic algorithms believed to be secure against quantum computers. The next chapter explores this complementary approach, shifting the focus from quantum-generated security material to the execution of PQC algorithms on the same programmable network infrastructure used here for QKD post-processing.
+
+\includedpaperpending{P3}{QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics}{meyer2026qkd}

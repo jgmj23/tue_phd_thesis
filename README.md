@@ -46,15 +46,26 @@ Keep one active owner per issue. If two agents need the same chapter, split the 
 
 ## Build
 
-The thesis skeleton currently uses Tectonic by default. A fuller TeX installation with `latexmk`, `xelatex`, and `biber` can also be used later.
+The thesis is built with Tectonic. Build (or rebuild) the PDF with:
 
 ```sh
 make pdf
 ```
 
-This writes `thesis.pdf`.
+This writes `thesis.pdf` at the repo root. Agents are expected to run this
+after every significant change so the latest content is visible in the PDF.
 
-Alternative full-TeX build:
+`make pdf` passes `-Z search-path=tools/biblatex` so Tectonic uses a vendored
+`biblatex` that matches the system `biber`; without it, the build fails with a
+`biblatex control file version ... incompatible` error. See
+`tools/biblatex/README.md` for details and how to update it.
+
+Run the build with normal (non-sandboxed) filesystem and network access:
+Tectonic caches fonts/packages under `~/Library/Caches/Tectonic` and may fetch
+resources on first use.
+
+Alternative full-TeX build (only on machines with a complete TeX Live install,
+including `latexmk`, `xelatex`, and `biber`):
 
 ```sh
 make latexmk

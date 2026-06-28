@@ -1,27 +1,15 @@
 \chapter{Ordering, Timing, and Optical Fabric Attacks}
 \label{ch:rdma}
 
-\section{Chapter Motivation}
+\section{When Lower-Layer Behavior Breaks Higher-Layer Assumptions}
 
-TODO: Motivate why secure systems can still fail when lower-layer network or optical-fabric behavior violates assumptions made by higher layers.
+TODO: Motivate why secure systems can still fail when lower-layer network or optical-fabric behavior violates assumptions made by higher layers, and connect RDMA ordering behavior to the thesis questions on cross-layer security and datacenter-scale deployment risk.
 
-\section{Relation to the Research Questions}
+\section{Contribution and Articles}
 
-TODO: Connect RDMA ordering behavior to the thesis questions on cross-layer security and datacenter-scale deployment risk.
+This chapter is built around one contribution (P7), \enquote{Exploiting Cross-QP Ordering in RDMA over Optical Fabrics}, which examines how cross-queue-pair ordering and timing behavior in RDMA over high-throughput optical fabrics can be exploited, exposing the limits of purely cryptographic security arguments.
+% TODO: Record the author's specific contributions and co-author context for P7.
 
-\section{Publication Context and Author Contribution}
+TODO: Discuss what the paper shows about ordering assumptions, optical-layer effects, and the limits of cryptographic security, and transition from fabric-level attacks to security monitoring and observability when confidential-computing systems restrict payload access.
 
-TODO: Record publication venue, status, co-author context, and the author's specific contributions for the included paper.
-
-\section{Included Paper}
-
-\publicationcover{meyer2026rdma}
-\includepdf[pages=-, pagecommand={\thispagestyle{fancy}}, width=\textwidth, height=\textheight, keepaspectratio]{source-materials/papers/camera-ready/cross-qp-ordering-rdma-optical-fabrics-camera-ready.pdf}
-
-\section{Post-Paper Discussion}
-
-TODO: Discuss what the paper shows about ordering assumptions, optical-layer effects, and the limits of purely cryptographic security arguments.
-
-\section{Link to the Next Chapter}
-
-TODO: Transition from fabric-level attacks to security monitoring and observability when confidential-computing systems restrict payload access.
+\includedpaper{P7}{Exploiting Cross-QP Ordering in RDMA over Optical Fabrics}{meyer2026rdma}{source-materials/papers/camera-ready/cross-qp-ordering-rdma-optical-fabrics-camera-ready.pdf}
