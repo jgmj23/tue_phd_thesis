@@ -2,7 +2,24 @@
 
 \section{Foundations of Digital Trust}
 
-For millennia, the art of secret communication relied on an arms race between the ingenuity of code-makers and the persistence of code-breakers. From the simple substitution ciphers of antiquity, such as the Caesar cipher, to the intricate electromechanical rotor machines of the Second World War, security historically depended on the secrecy of the method and the physical complexity of the device.
+For millennia, the art of secret communication relied on an arms race between the ingenuity of code-makers and the persistence of code-breakers. From the simple substitution ciphers of antiquity, such as the Caesar cipher (Figure~\ref{fig:caesar_cipher}), to the intricate electromechanical rotor machines of the Second World War, security historically depended on the secrecy of the method and the physical complexity of the device.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.62\textwidth]{figures/chapter1/caesar_cipher.pdf}
+    \caption{The cipher disk used to encrypt and decrypt with the Caesar cipher.
+    The secret key is simply the shift value $k$ (here $k = 3$). Encryption
+    aligns the outer plaintext ring against the inner ciphertext ring, rotated by
+    $k$ positions, and replaces each letter of the message with the one it meets
+    on the inner ring; decryption is the inverse operation, reading from the inner
+    ring back out. Formally, $E_k(x) = (x + k) \bmod 26$ and
+    $D_k(y) = (y - k) \bmod 26$. The intercepted ciphertext below is left for the
+    reader to recover. Its repeated letter already invites frequency analysis,
+    and with only $25$ possible shifts the cipher is trivially brute-forced. A
+    modern cipher such as AES-256, by contrast, draws its key from
+    $2^{256} \approx 10^{77}$ possibilities.}
+    \label{fig:caesar_cipher}
+\end{figure}
 
 In the modern digital era, this dynamic stabilized around computational complexity. The bedrock of the internet, global commerce, and secure infrastructure rests on mathematical problems, such as factoring large integers or computing discrete logarithms, that are trivially easy to construct but practically impossible for classical computers to solve.
 
@@ -66,7 +83,7 @@ If building a CRQC is still years or decades away, why must communication infras
 
 The urgency of this threat depends fundamentally on information value decay. Capturing, securely storing, and eventually processing petabytes of traffic on early fault-tolerant quantum computers will be astronomically expensive. Because not all secrets are created equal, this economic reality creates a natural divergence in how data must be protected. High-decay data, such as e-commerce transactions or session tokens, lose their value within weeks; by the time a CRQC is available, their residual value is effectively zero. In contrast, low-decay data, such as state secrets, genomic databases, or critical intellectual property, can retain immense value for decades, making them viable targets for long-term archiving today.
 
-This divergence in data lifespan mandates a tiered, heterogeneous approach to network security. A ``one-size-fits-all'' architecture is no longer viable when different secrets carry vastly different risk profiles. The massive volume of high- and medium-decay data requires computationally secure protection at datacenter scale, justifying the deployment of DPU-accelerated post-quantum cryptography (PQC). However, unconditionally high-value, low-decay secrets demand the potential for eternal security. Protecting these assets justifies the deployment complexity of physics-based security, such as quantum key distribution (QKD) and integrated photonics. Consequently, mitigating the quantum threat requires a proactive, cross-layer re-engineering of communication systems well before the hardware to break them fully matures.
+This divergence in data lifespan mandates a tiered, heterogeneous approach to network security. A ``one-size-fits-all'' architecture is no longer viable when different secrets carry vastly different risk profiles. The massive volume of high- and medium-decay data requires computationally secure protection at datacenter scale, justifying the deployment of PQC accelerated by data processing units (DPUs). However, unconditionally high-value, low-decay secrets demand the potential for eternal security. Protecting these assets justifies the deployment complexity of physics-based security, such as QKD and integrated photonics. Consequently, mitigating the quantum threat requires a proactive, cross-layer re-engineering of communication systems well before the hardware to break them fully matures.
 
 \section{Scope and Contributions}
 
@@ -143,7 +160,7 @@ inventions (I1--I4) can be found in the List of Publications.
 The dissertation advances its central theme by grouping the four research questions into three core parts. The thesis chapters are organized as follows:
 
 \begin{itemize}
-\item \textbf{Chapter~\ref{ch:background}} provides the background and unifying concepts needed to read the paper-centric chapters, establishing the terminology for both quantum and post-quantum mechanisms.
+\item \textbf{Chapter~\ref{ch:background}} establishes the two threads common to every contribution: the cross-layer method used to analyze them, and the DPU substrate on which they are built and observed. Topic-specific background is developed in each paper-centric chapter where it is needed.
 
 \item \textbf{Part~I --- Quantum Key Distribution} treats quantum key distribution as a deployable network capability rather than only a point-to-point protocol.
 \begin{itemize}
