@@ -83,13 +83,17 @@ If building a CRQC is still years or decades away, why must communication infras
 
 The urgency of this threat depends fundamentally on information value decay. Capturing, securely storing, and eventually processing petabytes of traffic on early fault-tolerant quantum computers will be astronomically expensive. Because not all secrets are created equal, this economic reality creates a natural divergence in how data must be protected. High-decay data, such as e-commerce transactions or session tokens, lose their value within weeks; by the time a CRQC is available, their residual value is effectively zero. In contrast, low-decay data, such as state secrets, genomic databases, or critical intellectual property, can retain immense value for decades, making them viable targets for long-term archiving today.
 
-This divergence in data lifespan mandates a tiered, heterogeneous approach to network security. A ``one-size-fits-all'' architecture is no longer viable when different secrets carry vastly different risk profiles. The massive volume of high- and medium-decay data requires computationally secure protection at datacenter scale, justifying the deployment of PQC accelerated by data processing units (DPUs). However, unconditionally high-value, low-decay secrets demand the potential for eternal security. Protecting these assets justifies the deployment complexity of physics-based security, such as QKD and integrated photonics. Consequently, mitigating the quantum threat requires a proactive, cross-layer re-engineering of communication systems well before the hardware to break them fully matures.
+This divergence in data lifespan determines \emph{which} cryptographic mechanism a given secret warrants, and is the first reason a single, uniform answer to the quantum threat is insufficient. The massive volume of high- and medium-decay data requires computationally secure protection at datacenter scale, justifying the deployment of PQC accelerated by data processing units (DPUs). Unconditionally high-value, low-decay secrets, by contrast, demand the potential for eternal security, justifying the deployment complexity of physics-based security such as QKD and integrated photonics. Many deployments fall between these poles and combine mechanisms---hybrid classical/PQC or PQC/QKD key exchange---rather than committing to one outright.
+
+Secret value, however, is not the only force pushing toward this heterogeneity. The migration is itself gradual and protracted: cryptographic standards are still maturing, confidence in newly standardized primitives remains incomplete, and large installed bases cannot be replaced overnight. The collapse of SIKE late in the NIST selection process is a reminder that a primitive long believed secure can fail abruptly.% TODO: citation (Castryck--Decru SIKE break, 2022)
+These conditions reward crypto-agility, the prolonged coexistence of legacy and post-quantum mechanisms, and hybrid combinations adopted as a hedge against immature primitives rather than because of any particular secret's value. A ``one-size-fits-all'' architecture is therefore untenable for several compounding reasons at once. Consequently, mitigating the quantum threat requires a proactive, cross-layer re-engineering of communication systems well before the hardware to break them fully matures.
 
 \section{Scope and Contributions}
 
 \subsection{An Architectural Problem}
 
-This transition is not only an algorithm-selection problem. A cryptographic
+Selecting mechanisms by secret value and managing a protracted transition are
+still not the whole problem. A cryptographic
 primitive that is secure in isolation may still be impractical if it cannot meet
 the latency, throughput, determinism, power, or observability constraints of the
 network in which it is deployed. Similarly, a quantum communication primitive
