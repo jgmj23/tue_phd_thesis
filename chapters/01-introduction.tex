@@ -77,32 +77,30 @@ It is important to stress that the achieved and required qubit counts are not di
     \label{fig:hardware_gap}
 \end{figure}
 
-\subsection{The Value of a Secret}
+\subsection{The Dual Path to Quantum Resilience}
 
-If building a CRQC is still years or decades away, why must communication infrastructure change today? The threat is driven by ``Harvest Now, Decrypt Later'' (HNDL), a strategy in which adversaries intercept and store encrypted traffic today with the intention of decrypting it once a CRQC becomes available~\cite{blanco2026practical}.
+If a large-scale CRQC remains years away, why must communication infrastructure change today? The imperative is driven by ``Harvest Now, Decrypt Later'' (HNDL) attacks, where adversaries intercept and store encrypted traffic today, intending to decrypt it once quantum hardware matures~\cite{blanco2026practical}.
 
-The urgency of this threat depends fundamentally on information value decay. Capturing, securely storing, and eventually processing petabytes of traffic on early fault-tolerant quantum computers will be astronomically expensive. Because not all secrets are created equal, this economic reality creates a natural divergence in how data must be protected. High-decay data, such as e-commerce transactions or session tokens, lose their value within weeks; by the time a CRQC is available, their residual value is effectively zero. In contrast, low-decay data, such as state secrets, genomic databases, or critical intellectual property, can retain immense value for decades, making them viable targets for long-term archiving today.
+The urgency of this threat depends fundamentally on information value decay. Capturing, securely storing, and eventually processing petabytes of traffic on early fault-tolerant quantum computers will be astronomically expensive. Because not all secrets are created equal, this economic reality creates a natural divergence in how data must be protected. High-decay data, such as e-commerce transactions or session tokens, lose their value within minutes. By the time a CRQC is available, their residual value is effectively zero. In contrast, low-decay data, such as state secrets, genomic databases, or critical intellectual property, can retain immense value for decades, making them viable targets for long-term archiving today.
 
-This divergence in data lifespan determines \emph{which} cryptographic mechanism a given secret warrants, and is the first reason a single, uniform answer to the quantum threat is insufficient. The massive volume of high- and medium-decay data requires computationally secure protection at datacenter scale, justifying the deployment of PQC accelerated by data processing units (DPUs). Unconditionally high-value, low-decay secrets, by contrast, demand the potential for eternal security, justifying the deployment complexity of physics-based security such as QKD and integrated photonics. Many deployments fall between these poles and combine mechanisms---hybrid classical/PQC or PQC/QKD key exchange---rather than committing to one outright.
+Defending against this threat relies on two fundamentally different paradigms: Post-Quantum Cryptography (PQC) and Quantum Key Distribution (QKD).
+PQC replaces vulnerable algorithms like RSA and elliptic curve cryptography with new computational problems, such as lattice- or hash-based cryptography, that are believed to be hard for both classical and quantum computers. Its primary advantage is scalability. PQC operates over existing classical networks. However, its security still rests on unproven mathematical assumptions. The unexpected collapse of candidate algorithms like SIKE highlights this risk. Building true confidence in new computational primitives requires years of intense cryptanalytic scrutiny.% TODO: citation (Castryck--Decru SIKE break, 2022)
 
-Secret value, however, is not the only force pushing toward this heterogeneity. The migration is itself gradual and protracted: cryptographic standards are still maturing, confidence in newly standardized primitives remains incomplete, and large installed bases cannot be replaced overnight. The collapse of SIKE late in the NIST selection process is a reminder that a primitive long believed secure can fail abruptly.% TODO: citation (Castryck--Decru SIKE break, 2022)
-These conditions reward crypto-agility, the prolonged coexistence of legacy and post-quantum mechanisms, and hybrid combinations adopted as a hedge against immature primitives rather than because of any particular secret's value. A ``one-size-fits-all'' architecture is therefore untenable for several compounding reasons at once. Consequently, mitigating the quantum threat requires a proactive, cross-layer re-engineering of communication systems well before the hardware to break them fully matures.
+In contrast, QKD offers information-theoretic security grounded in the laws of quantum mechanics. Because any attempt to eavesdrop on quantum states inevitably disturbs them, QKD provides a mathematically provable guarantee of secrecy that is immune to algorithmic breakthroughs or infinite computational power. While this theoretical guarantee is absolute, practical implementations remain vulnerable to hardware side-channels. Furthermore, its deployment comes at a steep practical cost. It requires specialized photonic hardware, dedicated optical channels, and complex control systems, making it difficult to scale.
+
+Because data spans a vast spectrum of value and lifespan, a uniform defense is both economically and architecturally impractical. The massive volume of high-decay data requires the scalable deployability of PQC. Unconditionally high-value, low-decay secrets demand the eternal security of QKD. Between these poles, a protracted transition period requires crypto-agility and the flexible combination of multiple cryptographic mechanisms to hedge against potential algorithmic failures. Modern networks must therefore support a heterogeneous cryptographic ecosystem.
 
 \section{Scope and Contributions}
 
-\subsection{An Architectural Problem}
+\subsection{The Cross-Layer Imperative}
 
-Selecting mechanisms by secret value and managing a protracted transition are
-still not the whole problem. A cryptographic
-primitive that is secure in isolation may still be impractical if it cannot meet
-the latency, throughput, determinism, power, or observability constraints of the
-network in which it is deployed. Similarly, a quantum communication primitive
-cannot become part of operational infrastructure unless the underlying photonic
-devices, network topology, post-processing pipeline, and classical integration
-points are engineered together. The central premise of this dissertation is
-therefore that scalable quantum-resilient communication is fundamentally an
-integration challenge governed by the boundaries between the device, protocol, and
-infrastructure layers.
+Recognizing the need for both PQC and QKD is only the first step; deploying them exposes a deeper architectural crisis. While PQC can often be deployed as a simple software update on end-user devices like laptops and web browsers, scaling either paradigm to the core of the network is far more complex.
+
+PQC introduces significantly larger key sizes, heavier signatures, and complex arithmetic. When deployed at the scale of modern datacenters, these algorithms consume excessive CPU cycles and severely degrade network throughput and latency. Restoring performance requires pushing cryptographic operations out of the host processor and into specialized network infrastructure, such as data processing units (DPUs).
+
+Similarly, scaling QKD beyond point-to-point physics experiments into operational infrastructure is an immense engineering challenge. It requires miniaturizing bulk optical components onto integrated photonic chips, designing high-throughput real-time post-processing pipelines to distill secure keys, and interfacing these quantum systems with classical network stacks.
+
+Consequently, mitigating the quantum threat is not merely an algorithm selection problem---it is a fundamental integration challenge. A cryptographic primitive that is secure in theory is useless if it violates the latency, throughput, power, or observability constraints of the network. Scalable quantum-resilient communication therefore demands a \emph{cross-layer} approach, requiring systems to be co-designed across the device layer (integrated photonics), the protocol layer (key distillation and hybrid exchange), and the infrastructure layer (DPU acceleration).
 
 \subsection{The QUARC Project}
 
