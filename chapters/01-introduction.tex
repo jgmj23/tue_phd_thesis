@@ -94,7 +94,7 @@ Because data spans a vast spectrum of value and lifespan, a uniform defense is b
 
 \subsection{The Cross-Layer Imperative}
 
-Recognizing the need for both PQC and QKD is only the first step; deploying them exposes a deeper architectural crisis. While PQC can often be deployed as a simple software update on end-user devices like laptops and web browsers, scaling either paradigm to the core of the network is far more complex.
+Recognizing the need for both PQC and QKD is only the first step; deploying them exposes a deeper architectural crisis. Neither solution can simply be dropped into existing systems as a software update.
 
 PQC introduces significantly larger key sizes, heavier signatures, and complex arithmetic. When deployed at the scale of modern datacenters, these algorithms consume excessive CPU cycles and severely degrade network throughput and latency. Restoring performance requires pushing cryptographic operations out of the host processor and into specialized network infrastructure, such as data processing units (DPUs).
 
@@ -104,7 +104,7 @@ Consequently, mitigating the quantum threat is not merely an algorithm selection
 
 \subsection{The QUARC Project}
 
-The work in this dissertation was carried out within QUARC (Quantum resistant
+To address these integration challenges within commercial infrastructure, the work in this dissertation was carried out within QUARC (Quantum resistant
 communications: Advance Learning in applied PQC Training), a Marie
 Sk\l{}odowska-Curie Actions doctoral network funded under Horizon Europe and run
 as an industrial doctorate~\cite{QUARC2022,quarcwebsite}. QUARC was established to
