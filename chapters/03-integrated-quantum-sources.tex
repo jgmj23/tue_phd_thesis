@@ -73,14 +73,38 @@ The primary figure of merit for the signal-to-noise ratio of a photon-pair sourc
 
 Another critical metric is the heralded single-photon purity. In entanglement-based protocols, the detection of an idler photon "heralds" the presence of the signal photon. If the source suffers from strong spectral correlations between the signal and idler, the heralded state will be mixed rather than pure, degrading the visibility of two-photon interference (such as the Hong-Ou-Mandel effect). The Schmidt number quantifies this purity: a Schmidt number of $1$ indicates a perfectly factorable, pure state. Dispersion engineering in microrings, as discussed in Section~\ref{sec:qsrc-nonlinear}, aims to minimize these correlations to approach ideal purity.
 
-\section{Packaging and the Chip-to-Fiber Interface}
-\label{sec:qsrc-packaging}
+\section{Distance Scaling and Quantum Repeaters}
+\label{sec:qsrc-distance}
 
-A major practical hurdle in integrated quantum photonics is the physical interface between the nanophotonic chip and the macroscopic optical fiber network. The mode field diameter of a silicon nitride waveguide is typically on the order of a micrometer, while a standard single-mode telecom fiber (SMF-28) has a mode field diameter of approximately 10 micrometers. This severe mode mismatch leads to significant insertion loss if not carefully managed.
+While point-to-point QKD has been demonstrated over hundreds of kilometers, it faces a fundamental scaling limit. In classical optical networks, the exponential attenuation of light in standard telecom fiber is overcome using optical amplifiers (such as erbium-doped fiber amplifiers, or EDFAs) spaced every 80 to 100 kilometers. However, the no-cloning theorem strictly forbids the deterministic amplification of unknown quantum states. 
 
-Two primary coupling strategies are employed: grating couplers and edge couplers. Grating couplers use periodic structures etched into the waveguide to diffract light out of the chip plane and into a vertically aligned fiber. They offer the advantage of wafer-scale testing but suffer from relatively high insertion loss and limited optical bandwidth. Edge couplers, or inverse tapers, gradually expand the waveguide mode to match the fiber mode at the facet of the chip. While they require precise cleaving and polishing of the chip facet, they provide much lower insertion loss and broader bandwidth, making them the preferred choice for high-efficiency quantum sources.
+As a result, the key rate in a direct QKD link decays exponentially with distance. While state-of-the-art techniques like Twin-Field QKD (TF-QKD)~\cite{lucamarini2018overcoming} have pushed the maximum transmission distance past 800 kilometers~\cite{wang2022twinfield}, the resulting secure key rates at these extreme distances are often on the order of bits per second---insufficient for encrypting high-volume datacenter traffic. Figure~\ref{fig:qkd-distance-rate} summarizes this distance--rate tradeoff: state-of-the-art demonstrations cluster below the repeaterless bound, and only quantum repeaters restore favourable scaling at long distance.
 
-Minimizing this coupling loss is not merely an optimization problem; it is a fundamental security requirement. In QKD, any loss in the quantum channel---including the coupling interface---exponentially reduces the secure key rate and lowers the threshold for acceptable channel noise. Therefore, the packaging of the microring source is as critical to the network's performance as the nonlinear generation process itself.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figures/chapter3/distance_keyrate.pdf}
+  \caption[Distance scaling of QKD secret key rate]{Secret key rate as a
+  function of transmission distance for quantum key distribution. In a direct,
+  repeaterless link the secret key rate is fundamentally limited by the
+  repeaterless Pirandola--Laurenza--Ottaviani--Banchi (PLOB)
+  bound~\cite{pirandola2017fundamental} (grey dashed) and decays exponentially
+  with distance.
+  Twin-Field QKD improves the asymptotic scaling to $\sqrt{\eta}$ (vermillion
+  dashed), extending reach beyond $1000$~km but only at rates of order bits per
+  second. Restoring favourable, polynomial scaling at long distance requires
+  quantum repeaters (green dash--dot, illustrative schematic), which lift the
+  achievable rate into the shaded region above the PLOB bound. Markers show
+  state-of-the-art WDM-compatible demonstrations (DV-, CV- and
+  TF-QKD)~\cite{wang2025highrate,dynes2016ultrahigh,dolphin2023hybrid,ribezzo2023underwater,chen2021twinfield511,pittaluga2021repeaterlike,liu2023experimental1000,zhou2023twinfield};
+  all lie below or near the repeaterless bound. Bounds assume standard $0.2$~dB/km fibre
+  and a $1$~GHz reference clock; the repeater curve is illustrative, not
+  measured.}
+  \label{fig:qkd-distance-rate}
+\end{figure}
+
+To overcome this distance-rate tradeoff and achieve polynomial scaling, a global quantum network requires \emph{quantum repeaters}~\cite{briegel1998quantum}. Quantum repeaters divide a long-distance link into shorter, manageable segments. They operate by establishing entanglement across each short segment and then using entanglement swapping (a joint Bell-state measurement) to stitch these segments together, effectively teleporting the entanglement to the endpoints. 
+
+The realization of quantum repeaters relies heavily on two components: quantum memories to store states until adjacent links succeed, and highly efficient, scalable sources of entangled photons to continuously populate the links. This necessity places immense pressure on the design of the photon sources: they must be bright, deterministic (or highly multiplexed), and spectrally compatible with the optical fibers carrying them.
 
 \section{Coexistence with Classical Infrastructure}
 \label{sec:qsrc-coexistence}

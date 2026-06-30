@@ -1,37 +1,108 @@
 \chapter{QKD Post-Processing on Programmable Network Hardware}
 \label{ch:qkd-dpu}
 
-\section{Bridging Quantum Key Generation and Datacenter Security}
-\label{sec:qkd-dpu-motivation}
+\section{Principles of Quantum Key Distribution}
+\label{sec:qkd-dpu-principles}
 
-Quantum Key Distribution (QKD) provides information-theoretic security by leveraging the fundamental principles of quantum mechanics to distribute symmetric cryptographic keys. While the physical layer of QKD---the generation, transmission, and detection of quantum states---has seen tremendous advancements in recent years, integrating these systems into modern datacenter architectures remains a significant challenge. Datacenter networks operate at terabit-per-second scales, relying heavily on low-latency, high-throughput protocols such as Remote Direct Memory Access (RDMA) over Converged Ethernet (RoCEv2). In contrast, QKD systems typically output raw key material at much lower rates and require computationally intensive post-processing to distill secure, usable cryptographic keys.
+Quantum Key Distribution (QKD) leverages the fundamental principles of quantum mechanics---specifically, the no-cloning theorem and the observer effect---to establish a shared, secret cryptographic key between two parties, typically referred to as Alice and Bob~\cite{Xu2020}. Unlike classical public-key cryptography, which relies on the presumed computational hardness of mathematical problems, QKD provides information-theoretic security. Any attempt by an eavesdropper (Eve) to measure the quantum states in transit unavoidably disturbs them, introducing detectable errors. By monitoring the quantum bit error rate (QBER), Alice and Bob can upper-bound the information leaked to Eve and distill a perfectly secure key through classical post-processing.
 
-The QKD post-processing pipeline consists of several stages: sifting, error estimation, information reconciliation (error correction), and privacy amplification. Traditionally, these steps are executed on general-purpose host CPUs. However, as datacenter link speeds scale to 400~Gbps and beyond, dedicating host CPU cycles to cryptographic key distillation becomes economically and operationally prohibitive. Furthermore, the latency introduced by host-based processing undermines the performance benefits of RDMA.
+QKD protocols fall into two primary paradigms (Figure~\ref{fig:qkd-paradigms}), distinguished chiefly by \emph{where the photon source sits and how much it must be trusted}:
+\begin{itemize}
+    \item \textbf{Prepare-and-Measure Protocols:} Here Alice hosts a \emph{trusted} source, encoding random bits in randomly chosen non-orthogonal bases and sending the photons to Bob, who measures in randomly chosen bases. The original BB84 protocol~\cite{bennett1984quantum} is the canonical example; its bit-level mechanics and classical post-processing are described in detail in Section~\ref{sec:qkd-dpu-bb84}, where BB84 underlies the post-processing pipeline studied in this chapter.
+    \item \textbf{Entanglement-Based Protocols:} Pioneered by Ekert in 1991 (the E91 protocol)~\cite{ekert1991quantum}, these schemes distribute pairs of entangled photons from a \emph{central source that need not be trusted}, sending one photon of each pair to Alice and one to Bob. Security is certified directly from the measured data by a Bell-inequality test: a Bell parameter $S$ exceeding its classical bound of $2$ proves the photons are genuinely entangled and uncorrelated with any classical variable held by an eavesdropper, and the magnitude of the violation bounds the information available to that eavesdropper.
+\end{itemize}
 
-This chapter bridges the gap between quantum key generation and deployable datacenter network security by proposing and evaluating the offload of QKD post-processing to Data Processing Units (DPUs). Specifically, we explore the use of NVIDIA BlueField-3 DPUs to execute the post-processing pipeline inline, near the network edge. By decoupling key distillation from the host CPU, we enable quantum-secured RDMA (Q-RDMA) without compromising the host's compute capacity or the fabric's latency requirements.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figures/chapter4/qkd_paradigms.pdf}
+  \caption{The two principal QKD paradigms differ in where the photon source
+  sits and how much it must be trusted. In \textbf{(a)} prepare-and-measure
+  (BB84), Alice hosts a \emph{trusted} source, preparing photons in randomly
+  chosen non-orthogonal bases and sending them to Bob over a quantum channel;
+  basis sifting and reconciliation proceed over a classical channel. In
+  \textbf{(b)} entanglement-based QKD (E91), a central party (Charlie) operates
+  a source that \emph{need not be trusted}, distributing one photon of each
+  entangled pair to Alice and one to Bob; security is instead certified by a
+  Bell-inequality test ($S>2$), so genuine entanglement---rather than trust in
+  the source---guarantees secrecy. In both paradigms, Alice and Bob exchange
+  basis and reconciliation information over an authenticated classical channel
+  and distil a shared secret key (matching bit strings); any eavesdropping on
+  the quantum channel raises the quantum bit error rate (QBER) and is thereby
+  detectable.}
+  \label{fig:qkd-paradigms}
+\end{figure}
 
-\section{Implications for Datacenter Fabrics and Future Work}
-\label{sec:qkd-dpu-discussion}
+Entanglement-based schemes are particularly crucial for the vision of a quantum internet~\cite{Wehner2018}. They enable device-independent QKD and supply the entanglement resource on which quantum teleportation and entanglement swapping rely---the primitives that, in the quantum repeaters of Section~\ref{sec:qsrc-distance}, route quantum states across multi-hop topologies rather than over single point-to-point links.
 
-The successful offload of QKD post-processing to DPUs represents a paradigm shift in how quantum security can be integrated into classical networks. By injecting the distilled keys directly into the DPU's hardware encryptors, RDMA latency and throughput remain identical to standard, non-quantum-secured MACsec. The jitter introduced by key rotation is negligible, demonstrating that Q-RDMA is viable for latency-sensitive datacenter applications.
+\section{The BB84 Protocol and Raw Key Generation}
+\label{sec:qkd-dpu-bb84}
 
-However, several challenges remain. First, the integration of the quantum physical layer directly into the DPU form factor is an ongoing area of research. Currently, external QKD devices must interface with the DPU, introducing potential PCIe bottlenecks. Future iterations of network hardware may see photonic integrated circuits (PICs) for quantum state detection embedded directly onto the DPU board.
+To understand the computational burden of QKD, it is necessary to first examine how raw key material is generated. The prototypical example is the BB84 protocol~\cite{bennett1984quantum}, a prepare-and-measure scheme that serves as the foundation for the synthetic quantum source evaluated in this chapter.
 
-Second, while the evaluated implementation focused on discrete-variable QKD (DV-QKD), Continuous-Variable QKD (CV-QKD) presents a different set of post-processing challenges, particularly in the reconciliation phase, which requires complex multidimensional algorithms. Extending DPU acceleration to support CV-QKD is a promising avenue for future work.
+In BB84, Alice seeks to share a secret key with Bob. She generates a sequence of random classical bits and encodes each bit into the polarization state of a single photon. Crucially, for each bit, she randomly chooses one of two non-orthogonal bases for the encoding: for instance, the rectilinear basis ($+$) or the diagonal basis ($\times$). A bit value of `0` might be encoded as horizontal ($|H\rangle$) or diagonal ($|D\rangle$) polarization, while a `1` is encoded as vertical ($|V\rangle$) or anti-diagonal ($|A\rangle$) polarization.
 
-Finally, managing the lifecycle of quantum keys across a large-scale datacenter fabric requires a robust control plane. Integrating DPU-based QKD nodes with Software-Defined Networking (SDN) controllers will be essential for dynamic key routing and policy enforcement.
+Alice transmits this stream of single photons to Bob over a quantum channel, such as a dedicated optical fiber. Upon receiving a photon, Bob must measure its state to recover the bit. However, because he does not know which basis Alice used, he randomly and independently chooses a measurement basis ($+$ or $\times$) for each incoming photon.
+
+If Bob guesses the same basis Alice used, quantum mechanics guarantees he will measure the correct bit (in an ideal, noiseless system). If he guesses the wrong basis, his measurement result is completely uncorrelated with Alice's original bit. Furthermore, the no-cloning theorem prevents an eavesdropper, Eve, from copying the photons to measure later. If Eve attempts to intercept and measure the photons in transit, her own random basis choices will inevitably disturb the quantum states, introducing a detectable error rate into the channel.
+
+The quantum transmission concludes with Alice and Bob each holding a string of bits (Bob's measurements and Alice's original bits) and a corresponding array of the bases they used. At this point, the quantum physical layer's job is complete. However, this raw key is entirely unusable for cryptography: it is riddled with errors from basis mismatches, optical channel noise, and potential eavesdropping.
+
+\section{The Computational Bottleneck of Post-Processing}
+\label{sec:qkd-dpu-bottleneck}
+
+Quantum Key Distribution (QKD) provides information-theoretic security by leveraging the fundamental principles of quantum mechanics to distribute symmetric cryptographic keys~\cite{Xu2020}. While the physical layer of QKD---the generation, transmission, and detection of quantum states discussed in Chapter~\ref{ch:quantum-sources}---has seen tremendous advancements, integrating these systems into modern datacenter architectures exposes a profound computational bottleneck.
+
+The quantum channel only exchanges raw, error-prone measurement outcomes; it does not distribute a ready-to-use cryptographic key. A classical post-processing pipeline is required to distill these raw detections into secure, usable symmetric key material. This pipeline consists of several computation-heavy stages:
+
+\begin{enumerate}
+    \item \textbf{Sifting:} Alice and Bob exchange their basis choices over an authenticated classical channel and discard measurements where incompatible bases were used.
+    \item \textbf{Error Estimation:} A subset of the sifted bits is publicly compared to estimate the quantum bit error rate (QBER). Because the protocol assumes all errors are caused by an eavesdropper, the QBER bounds the maximum information Eve could have gained.
+    \item \textbf{Information Reconciliation:} To resolve discrepancies between Alice's and Bob's strings caused by channel noise, the parties perform forward error correction. This is typically achieved using rate-adaptive Low-Density Parity-Check (LDPC) codes or the Cascade protocol. For LDPC, the receiver executes iterative belief propagation (e.g., the min-sum algorithm) to converge on the correct string.
+    \item \textbf{Privacy Amplification:} Once the strings match, Alice and Bob compress them using a universal hash function (such as Toeplitz matrix multiplication) to erase any partial information the eavesdropper might hold, yielding the final, perfectly secret key.
+\end{enumerate}
+
+The computational complexity of this pipeline is severe, particularly during information reconciliation and privacy amplification. As the QBER rises due to optical channel impairments or distance, LDPC decoding requires larger matrices, more iterations, and lower code rates, scaling the computational burden exponentially. Furthermore, all classical communication during these steps must be strictly authenticated to prevent man-in-the-middle attacks.
+
+\section{Programmable Network Hardware and the Trust Boundary}
+\label{sec:qkd-dpu-trust}
+
+Datacenter networks operate at terabit-per-second scales, relying heavily on low-latency, high-throughput transport protocols. Traditionally, QKD post-processing has been executed either on rigid FPGA appliances or on general-purpose host CPUs. Both integration models suffer from structural flaws when deployed in high-performance environments.
+
+Dedicating host CPU cycles to cryptographic key distillation becomes economically and operationally prohibitive. Executing iterative LDPC belief propagation and large-scale Toeplitz hashing on x86 processors squanders the very compute resources the datacenter is built to provide. Alternatively, offloading these tasks to a standalone FPGA appliance solves the compute bottleneck but fragments the trust boundary: the distilled key must still be securely transported from the appliance to the server's network interface card (NIC) where the actual data encryption takes place. Whether using an external Key Management System (KMS) or transferring the keys across the host's PCIe bus, this handoff adds latency, restricts key-injection throughput, and exposes the plaintext key material to potential software or bus vulnerabilities.
+
+This chapter proposes and evaluates an architecture that collapses the key generation and key consumption trust boundaries into a single network device. By offloading the entire post-processing pipeline to the Arm cores of an NVIDIA BlueField-3 Data Processing Unit (DPU), the architecture isolates the key material from the host CPU. The DPU natively performs sifting, LDPC error correction, and privacy amplification, ensuring the host CPU utilization remains at zero.
+
+\section{Quantum-Secured Datacenter Fabrics (Q-RDMA)}
+\label{sec:qkd-dpu-rdma}
+
+The primary motivation for offloading QKD to the DPU is to protect latency-sensitive datacenter workloads without degrading their performance. Modern distributed training clusters, storage backends, and high-frequency trading platforms rely on Remote Direct Memory Access (RDMA) over Converged Ethernet (RoCEv2) to bypass the host kernel and achieve microsecond latencies.
+
+Standard, software-based encryption fundamentally breaks RDMA by forcing traffic back through the host's CPU and memory subsystem. To securely encrypt RDMA, the cryptography must be applied inline by the network hardware.
+
+By executing QKD post-processing entirely within the DPU, the resulting quantum-secure keys never cross the PCIe bus to the host. Instead, they are formatted as Security Associations (SAs) and injected seamlessly into the DPU's local hardware IPsec or MACsec encryption engines. This enables quantum-secured RDMA (Q-RDMA). The data plane encryption operates transparently at line rate, while the continuous distillation of fresh keys occurs asynchronously on the DPU's Arm cores. Consequently, the fabric's latency and throughput remain completely isolated from the heavy computational cost of QKD key generation.
+
+\section{Experimental Emulation of the Quantum Channel}
+\label{sec:qkd-dpu-emulation}
+
+Systematic evaluation of network cryptography requires stable and reproducible conditions. Physical QKD optical hardware is notoriously sensitive to environmental drift, dark counts, and afterpulsing, making it difficult to isolate post-processing performance from optical layer instability. 
+
+To systematically stress-test the DPU architecture across varying error conditions, the implementation employs a synthetic BB84 source module on the DPU Arm cores. This module generates bit strings and basis arrays that precisely mimic the output of a physical quantum receiver, allowing the injection of reproducible QBER profiles. By decoupling the classical computing pipeline from the physical optical channel, the system can be rigorously benchmarked for sustained secret key rates, LDPC convergence, and IPsec key rotation overhead at varying error thresholds. While the qubit transmission layer is emulated, the entire post-processing pipeline, key derivation, and hardware IPsec injection are evaluated on real BlueField-3 silicon.
 
 \section{Contribution and Articles}
 \label{sec:qkd-dpu-context}
 
 This chapter is built around one contribution (P3), the manuscript \enquote{QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics}.
-% TODO: Update publication venue and status once finalized.
-As the primary author, Joseph G. Meyer led the conceptualization of the DPU-accelerated architecture, implemented the custom DPDK application for the classical communication channel, and designed the hardware/software co-design strategy for LDPC decoding. The co-authors contributed to the theoretical modeling of the QBER profiles, the integration with the emulated DV-QKD physical layer, and the review of the experimental methodology.
 
-The paper closes the gap between quantum key generation and deployable datacenter security by offloading the full post-processing pipeline---sifting, error estimation, reconciliation, and privacy amplification---onto a BlueField-3 DPU, and by injecting the distilled keys directly into the DPU's hardware encryptors so that quantum-secured RDMA retains line-rate latency and throughput.
+\subsection{Publication Details and Contributions}
+
+As the primary author, Joseph G. Meyer led the conceptualization of the DPU-accelerated architecture, implemented the custom Data Plane Development Kit (DPDK) application for the classical communication channel, and designed the hardware/software co-design strategy for LDPC decoding and IPsec key injection. The co-authors contributed to the theoretical modeling of the QBER profiles, the integration with the emulated DV-QKD physical layer, and the review of the experimental methodology.
 
 Beyond this article, the work on quantum-secured networking also contributed to several filed patent applications, \enquote{Multi-Hybrid Cryptographic Key Exchange (MHKE)} and \enquote{ROSE-QKD: Receiver-Only, Semi-Honest Emitter Quantum Key Distribution}, together with a draft application on \enquote{Capability-Based Authentication of Quantum Nodes via Statistical Analysis}. These inventions are reported at title level among the patents in the List of Publications (page~\pageref{listPublications}).
 
-While QKD offers information-theoretic security for key distribution, it requires specialized optical hardware and dedicated fiber links, making it challenging to deploy ubiquitously across all network segments. To achieve comprehensive quantum-safe security, QKD must be complemented by Post-Quantum Cryptography (PQC)---classical cryptographic algorithms believed to be secure against quantum computers. The next chapter explores this complementary approach, shifting the focus from quantum-generated security material to the execution of PQC algorithms on the same programmable network infrastructure used here for QKD post-processing.
+\subsection{Role in the Dissertation}
 
-\includedpaperpending{P3}{QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics}{meyer2026qkd}
+This paper addresses the core integration challenge outlined in \textbf{RQ2}: how to make QKD systems scalable and practical in high-performance datacenters. It closes the gap between quantum key generation (explored in Chapter~\ref{ch:quantum-sources}) and deployable datacenter security by offloading the full post-processing pipeline---sifting, error estimation, reconciliation, and privacy amplification---onto a BlueField-3 DPU. By injecting the distilled keys directly into the DPU's hardware encryptors, quantum-secured RDMA retains line-rate latency and throughput.
+
+While QKD offers information-theoretic security for key distribution, it requires specialized optical hardware and dedicated fiber links, making it challenging to deploy ubiquitously across all network segments. To achieve comprehensive quantum-safe security, QKD must be complemented by PQC---classical cryptographic algorithms believed to be secure against quantum computers. The next chapter explores this complementary approach, shifting the focus from quantum-generated security material to the execution of PQC algorithms on the same programmable network infrastructure used here for QKD post-processing.
+
+\includedpaper{P3}{QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics}{meyer2026qkd}{source-materials/papers/camera-ready/QKD_PostProc_DPUs.pdf}
