@@ -39,13 +39,45 @@ Entanglement-based schemes are particularly crucial for the vision of a quantum 
 
 To understand the computational burden of QKD, it is necessary to first examine how raw key material is generated. The prototypical example is the BB84 protocol~\cite{bennett1984quantum}, a prepare-and-measure scheme that serves as the foundation for the synthetic quantum source evaluated in this chapter.
 
-In BB84, Alice seeks to share a secret key with Bob. She generates a sequence of random classical bits and encodes each bit into the polarization state of a single photon. Crucially, for each bit, she randomly chooses one of two non-orthogonal bases for the encoding: for instance, the rectilinear basis ($+$) or the diagonal basis ($\times$). A bit value of `0` might be encoded as horizontal ($|H\rangle$) or diagonal ($|D\rangle$) polarization, while a `1` is encoded as vertical ($|V\rangle$) or anti-diagonal ($|A\rangle$) polarization.
+In BB84, Alice seeks to share a secret key with Bob. She generates a sequence of random classical bits and encodes each into a single photon. While nearly every textbook renders BB84 using $\uparrow\!\rightarrow\!\nearrow\!\searrow$ arrows denoting polarization encoding, we take the road less travelled here and carry the bits in the photon's \emph{frequency} (spectral) degree of freedom instead, aligning with the states produced by the quantum sources of Chapter~\ref{ch:quantum-sources}. BB84 is agnostic to the physical carrier: any pair of mutually unbiased bases suffices.
 
-Alice transmits this stream of single photons to Bob over a quantum channel, such as a dedicated optical fiber. Upon receiving a photon, Bob must measure its state to recover the bit. However, because he does not know which basis Alice used, he randomly and independently chooses a measurement basis ($+$ or $\times$) for each incoming photon.
+For each bit, Alice randomly chooses one of two such bases. In the frequency basis ($f$) she localizes the photon in one of two discrete frequency bins, encoding a `0` as $|f_0\rangle$ and a `1` as $|f_1\rangle$. In the phase basis ($\phi$) she instead prepares an equal superposition of the two bins, encoding a `0` as $|{+}\rangle$ and a `1` as $|{-}\rangle$, where $|{\pm}\rangle = (|f_0\rangle \pm |f_1\rangle)/\sqrt{2}$ are the two bins combined with relative phase $\varphi=0$ and $\varphi=\pi$, respectively.
+
+Alice transmits this stream of single photons to Bob over a quantum channel, such as a dedicated optical fiber. Upon receiving a photon, Bob must measure its state to recover the bit. However, because he does not know which basis Alice used, he randomly and independently chooses a measurement basis ($f$ or $\phi$) for each incoming photon: the frequency basis is read out by a filter that resolves which bin the photon occupies, while the phase basis requires electro-optically mixing the two bins before detection so that their relative phase becomes measurable.
 
 If Bob guesses the same basis Alice used, quantum mechanics guarantees he will measure the correct bit (in an ideal, noiseless system). If he guesses the wrong basis, his measurement result is completely uncorrelated with Alice's original bit. Furthermore, the no-cloning theorem prevents an eavesdropper, Eve, from copying the photons to measure later. If Eve attempts to intercept and measure the photons in transit, her own random basis choices will inevitably disturb the quantum states, introducing a detectable error rate into the channel.
 
-The quantum transmission concludes with Alice and Bob each holding a string of bits (Bob's measurements and Alice's original bits) and a corresponding array of the bases they used. At this point, the quantum physical layer's job is complete. However, this raw key is entirely unusable for cryptography: it is riddled with errors from basis mismatches, optical channel noise, and potential eavesdropping.
+The quantum transmission concludes with Alice and Bob each holding a string of bits (Bob's measurements and Alice's original bits) and a corresponding array of the bases they used. Table~\ref{tab:bb84-sifting} traces this process over a short sequence of rounds, showing how only the rounds in which their independently chosen bases happen to agree survive into the sifted key. At this point, the quantum physical layer's job is complete. However, this raw key is entirely unusable for cryptography: it is riddled with errors from basis mismatches, optical channel noise, and potential eavesdropping.
+
+\begin{table}[htbp]
+  \centering
+  \caption{A worked BB84 example over eight transmission rounds, using
+  frequency-bin rather than the customary polarization encoding. Alice encodes
+  each random bit in a randomly chosen basis---the frequency basis
+  ($f$: $|f_0\rangle$ for~0, $|f_1\rangle$ for~1) or the phase basis
+  ($\phi$: $|{+}\rangle$ for~0, $|{-}\rangle$ for~1, with
+  $|{\pm}\rangle=(|f_0\rangle\pm|f_1\rangle)/\sqrt{2}$)---and Bob measures in his
+  own randomly chosen basis. When the bases agree, Bob recovers Alice's bit;
+  when they disagree, his outcome is uncorrelated ($-$) and the round is
+  discarded during sifting. The surviving bits form the raw sifted key, from
+  which errors are still removed by the classical post-processing pipeline of
+  Section~\ref{sec:qkd-dpu-bottleneck}.}
+  \label{tab:bb84-sifting}
+  \begin{tabular}{l*{8}{c}}
+    \toprule
+    Round & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+    \midrule
+    Alice's bit          & 0 & 1 & 1 & 0 & 1 & 0 & 0 & 1 \\
+    Alice's basis        & $f$ & $\phi$ & $f$ & $\phi$ & $f$ & $\phi$ & $f$ & $\phi$ \\
+    State sent           & $|f_0\rangle$ & $|{-}\rangle$ & $|f_1\rangle$ & $|{+}\rangle$ & $|f_1\rangle$ & $|{+}\rangle$ & $|f_0\rangle$ & $|{-}\rangle$ \\
+    Bob's basis          & $f$ & $f$ & $f$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ & $\phi$ \\
+    Bob's bit            & 0 & $-$ & 1 & 0 & $-$ & 0 & $-$ & 1 \\
+    \midrule
+    Bases agree?         & \checkmark & $\times$ & \checkmark & \checkmark & $\times$ & \checkmark & $\times$ & \checkmark \\
+    Sifted key           & 0 & & 1 & 0 & & 0 & & 1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \section{The Computational Bottleneck of Post-Processing}
 \label{sec:qkd-dpu-bottleneck}
