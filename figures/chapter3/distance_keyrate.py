@@ -36,17 +36,21 @@ from matplotlib.lines import Line2D
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from figures.thesis_style import (
     apply_style,
-    BLUE, BLUE_D, VERM, VERM_D, GREEN, GREEN_D,
+    BLUE, BLUE_D, ORANGE, ORANGE_D, GREEN, GREEN_D,
     ORANGE, ORANGE_D, PURPLE, PURPLE_D, GREY, GREY_D,
 )
 
 apply_style()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+# Single shared copy of the demonstrations dataset lives under chapter4.
 DATA_FILE = os.path.join(HERE, "qkd_papers.csv")
+if not os.path.exists(DATA_FILE):
+    DATA_FILE = os.path.join(HERE, "..", "chapter4", "qkd_papers.csv")
 
 REP_RATE = 1e9            # reference system clock (1 GHz) to express bounds in bits/s
 FIBER_LOSS = 0.2         # dB/km, standard telecom single-mode fibre
+FIBER_LOSS_ULL = 0.16    # dB/km, ultra-low-loss fibre used by long-reach TF-QKD records
 
 # Protocol -> (fill color, edge color, marker)
 PROTOCOL_STYLE = {
@@ -115,21 +119,29 @@ def main():
     max_dist = max(df["distance_km"].max() * 1.1, 1100)
     distances = np.linspace(1, max_dist, 600)
 
-    plob = calculate_plob_bound(distances)
-    tf = calculate_tf_bound(distances)
+    # Each fundamental bound is a band: the standard-fibre edge (0.2 dB/km) and
+    # the ultra-low-loss edge (0.16 dB/km) used by long-reach TF-QKD records.
+    plob = calculate_plob_bound(distances, FIBER_LOSS)
+    plob_ull = calculate_plob_bound(distances, FIBER_LOSS_ULL)
+    tf = calculate_tf_bound(distances, FIBER_LOSS)
+    tf_ull = calculate_tf_bound(distances, FIBER_LOSS_ULL)
     rep = repeater_schematic(distances)
 
     y_top = 1e10
     y_bottom = 1e-1
 
-    # Repeater-accessible region: above the PLOB repeaterless bound.
-    ax.fill_between(distances, plob, y_top, color=GREEN, alpha=0.05,
+    # Repeater-accessible region: above the best-case (ultra-low-loss) PLOB bound.
+    ax.fill_between(distances, plob_ull, y_top, color=GREEN, alpha=0.05,
                     linewidth=0, zorder=0)
 
-    # Fundamental bounds.
-    ax.plot(distances, plob, ls="--", color=GREY, lw=2.0, zorder=2,
+    # Fundamental bounds drawn as fibre-loss bands (0.16-0.2 dB/km).
+    ax.fill_between(distances, plob, plob_ull, color=GREY, alpha=0.18,
+                    linewidth=0, zorder=1)
+    ax.fill_between(distances, tf, tf_ull, color=ORANGE, alpha=0.15,
+                    linewidth=0, zorder=1)
+    ax.plot(distances, plob_ull, ls="--", color=GREY, lw=2.0, zorder=2,
             label="PLOB repeaterless bound")
-    ax.plot(distances, tf, ls="--", color=VERM, lw=2.0, zorder=2,
+    ax.plot(distances, tf_ull, ls="--", color=ORANGE, lw=2.0, zorder=2,
             label=r"TF-QKD bound ($\sqrt{\eta}$)")
 
     # Illustrative repeater scaling (clearly labelled as schematic).
@@ -157,7 +169,7 @@ def main():
         0.015, 0.035,
         r"$R_{\mathrm{PLOB}} \leq -\log_2(1-\eta)$" + "\n"
         r"$R_{\mathrm{TF}} \leq -\log_2(1-\sqrt{\eta})$" + "\n"
-        r"$\eta = 10^{-\alpha L/10}$,  $\alpha = 0.2$ dB/km",
+        r"$\eta = 10^{-\alpha L/10}$,  $\alpha = 0.16$--$0.2$ dB/km",
         transform=ax.transAxes, fontsize=8.5, va="bottom", ha="left",
         bbox=dict(boxstyle="round,pad=0.45", facecolor="white",
                   edgecolor=GREY, alpha=0.92),
@@ -172,7 +184,7 @@ def main():
     line_handles = [
         Line2D([0], [0], ls="--", color=GREY, lw=2.0,
                label="PLOB repeaterless bound"),
-        Line2D([0], [0], ls="--", color=VERM, lw=2.0,
+        Line2D([0], [0], ls="--", color=ORANGE, lw=2.0,
                label=r"TF-QKD bound ($\sqrt{\eta}$)"),
         Line2D([0], [0], ls="-.", color=GREEN_D, lw=2.0,
                label="Repeater scaling (illustrative)"),

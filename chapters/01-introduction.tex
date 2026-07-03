@@ -104,7 +104,7 @@ Consequently, mitigating the quantum threat is not merely an algorithm selection
 
 \subsection{The QUARC Project}
 
-To address these integration challenges within commercial infrastructure, the work in this dissertation was carried out within QUARC (Quantum resistant
+The work in this dissertation was carried out within QUARC (Quantum resistant
 communications: Advance Learning in applied PQC Training), a Marie
 Sk\l{}odowska-Curie Actions doctoral network funded under Horizon Europe and run
 as an industrial doctorate~\cite{QUARC2022,quarcwebsite}. QUARC was established to
@@ -159,32 +159,39 @@ inventions (I1--I4) can be found in the List of Publications.
 
 \section{Structure}
 
-The dissertation advances its central theme by grouping the four research questions into three core parts. The thesis chapters are organized as follows:
+The structure of the dissertation is as follows:
 
-\begin{itemize}
-\item \textbf{Chapter~\ref{ch:background}} establishes the two threads common to every contribution: the cross-layer method used to analyze them, and the DPU substrate on which they are built and observed. Topic-specific background is developed in each paper-centric chapter where it is needed.
+\medskip
+\textbf{Chapter~\ref{ch:background}} establishes the two threads common to every contribution: the cross-layer method used to analyze them, and the DPU substrate on which they are built and observed. Topic-specific background is developed in each paper-centric chapter where it is needed.
 
-\item \textbf{Part~I --- Quantum Key Distribution} treats quantum key distribution as a deployable network capability rather than only a point-to-point protocol.
+\medskip
+The core contributions are then divided into three parts:
+
+\medskip
+\textbf{Part~I --- Quantum Key Distribution} treats quantum key distribution as a deployable network capability rather than only a point-to-point protocol.
 \begin{itemize}
 \item \textbf{Chapter~\ref{ch:quantum-sources}} discusses the integrated photonic foundations of practical quantum-secure networking, addresses RQ3, and presents P1 and P2.
 \item \textbf{Chapter~\ref{ch:qkd-dpu}} discusses scalable, topology-aware key exchange, addresses RQ2, and presents P3.
 \end{itemize}
 
-\item \textbf{Part~II --- Post-Quantum Cryptography} investigates how post-quantum cryptographic algorithms can be executed efficiently on heterogeneous platforms, collectively addressing RQ1.
+\medskip
+\textbf{Part~II --- Post-Quantum Cryptography} investigates how post-quantum cryptographic algorithms can be executed efficiently on heterogeneous platforms, collectively addressing RQ1.
 \begin{itemize}
 \item \textbf{Chapter~\ref{ch:dpu-pqc}} discusses CPU-GPU-DPU workload partitioning and latency tradeoffs for datacenter-scale PQC deployment, addresses RQ1, and presents P4 and P5.
 \item \textbf{Chapter~\ref{ch:edge-ai}} discusses the application of post-quantum mechanisms to secure edge AI pipelines, addresses RQ1, and presents P6.
 \end{itemize}
 
-\item \textbf{Part~III --- Programmable Datacenter Infrastructure} addresses the programmable network substrate on which both the post-quantum and quantum mechanisms must ultimately run, exposing the cross-layer interactions at the heart of RQ4.
+\medskip
+\textbf{Part~III --- Programmable Datacenter Infrastructure} addresses the programmable network substrate on which both the post-quantum and quantum mechanisms must ultimately run, exposing the cross-layer interactions at the heart of RQ4.
 \begin{itemize}
 \item \textbf{Chapter~\ref{ch:rdma}} discusses workload offload and the ordering- and timing-related risks of RDMA over high-throughput optical fabrics, addresses RQ4, and presents P7.
 \item \textbf{Chapter~\ref{ch:confidential-ai}} discusses cross-layer observability and intrusion detection for confidential AI infrastructure, addresses RQ4, and presents P8 and P9.
 \end{itemize}
 
-\item \textbf{Chapter~\ref{ch:cross-layer}} synthesizes the cross-layer lessons from the preceding chapters to fully resolve RQ4, discussing limitations and the future outlook.
-\end{itemize}
+\medskip
+Finally, \textbf{Chapter~\ref{ch:cross-layer}} synthesizes the cross-layer lessons from the preceding parts to fully resolve RQ4, discussing limitations and the future outlook.
 
+\medskip
 While this structure divides the thesis sequentially by technological domain, scalable quantum-resilient communication is an inherently cross-layer challenge. As illustrated in Figure~\ref{fig:field-venn}, these domains are highly entangled in practice. The pairwise overlaps mark where QKD and PQC integrate directly with programmable network hardware, while a multi-hybrid key-exchange architecture draws on all three parts simultaneously.
 
 \begin{figure}[htbp]

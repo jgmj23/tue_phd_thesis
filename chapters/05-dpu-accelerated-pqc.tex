@@ -1,9 +1,73 @@
 \chapter{DPU-Accelerated Post-Quantum Cryptography}
 \label{ch:dpu-pqc}
 
-\section{Offloading the Cost of Post-Quantum Migration}
+\section{Post-Quantum Cryptography and Its Deployment Cost}
+\label{sec:pqc-background}
 
-TODO: Motivate DPU acceleration as a practical response to the computational and integration costs of post-quantum cryptography migration, and explain how it connects to the thesis questions on programmable infrastructure, cryptographic migration, and cross-layer performance.
+Post-quantum cryptography (PQC) represents the computationally secure counterpart to QKD.
+It replaces the integer factorization and discrete logarithm problems vulnerable to Shor's
+algorithm with entirely different mathematical structures believed to resist both classical
+and quantum cryptanalysis. The transition focuses on two main primitive types: key
+encapsulation mechanisms (KEMs), which establish a shared symmetric key over an insecure
+channel, and digital signatures, which provide authentication and non-repudiation.
+
+\subsection{Algorithmic Families and Characteristics}
+
+The standardized and candidate algorithms studied in this part vary drastically in their
+underlying mathematics, leading to profound differences in computational structure,
+memory footprint, and message sizes~\cite{nistfips203,nistfips204,nistfips205,nistir8545}.
+
+\begin{itemize}
+    \item \textbf{Lattice-Based Cryptography:} Algorithms like ML-KEM (formerly Kyber) and
+    ML-DSA (formerly Dilithium) rely on the hardness of the module learning with errors (MLWE)
+    problem. They offer an excellent balance: fast execution times, moderate key and ciphertext
+    sizes, and efficient hardware implementations. However, their reliance on polynomial sampling
+    and rejection sampling introduces variable timing that must be carefully managed to avoid
+    side-channel leaks.
+    \item \textbf{Code-Based Cryptography:} Algorithms like HQC (Hamming Quasi-Cyclic) rely on
+    the hardness of decoding random linear codes. While their encryption and decryption operations
+    are fast, they suffer from significantly larger public keys and ciphertexts compared to lattices.
+    Additionally, their operations involve large, dense bit-vector multiplications that have distinct
+    memory access patterns~\cite{meyer2026hqc}.
+\end{itemize}
+
+Table~\ref{tab:pqc-comparison} summarizes these structural differences.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparison of selected Post-Quantum Cryptographic primitives and their deployment profiles. Sizes and operations are approximations based on NIST security category 3~\cite{nistfips203,nistfips204,nistir8545}.}
+\label{tab:pqc-comparison}
+\renewcommand{\arraystretch}{1.3}
+\footnotesize
+\begin{tabularx}{\textwidth}{llcrr>{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Algorithm} & \textbf{Family} & \textbf{Type} & \textbf{PK (B)} & \textbf{CT/Sig (B)} & \textbf{Compute profile} \\
+\midrule
+ML-KEM-768 & Lattice & KEM & 1,184 & 1,088 & Fast polynomial arithmetic; SIMD-friendly (AVX/Neon). \\
+ML-DSA-65 & Lattice & Signature & 1,952 & 3,309 & Rejection sampling; highly variable timing. \\
+HQC-192 & Code & KEM & 4,522 & 9,026 & Bitwise math; memory-bound (large keys). \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Deployment and Architectural Constraints}
+
+For networked systems, the migration to PQC is not finished when a NIST standard is published.
+A mechanism that executes efficiently in a single-threaded benchmark may behave disastrously
+under datacenter provisioning constraints.
+
+Integrating PQC into protocols like TLS 1.3 or IPsec requires transmitting much larger
+public keys and ciphertexts during handshakes. This can trigger IP fragmentation, increasing
+latency and packet-loss probability. Furthermore, datacenters handle thousands of connections
+per second. KEM decapsulation and signature verification must therefore be deeply batched.
+Lattice schemes, with their variable-time rejection sampling, batch poorly on SIMD architectures
+because a single long-running sample stalls the entire vector lane.
+
+Consequently, the central questions are architectural: where should the cryptographic work run,
+how should requests be batched, how much latency can the service mesh tolerate, and which
+memory buses become bottlenecks? These are the questions that motivate offloading PQC onto
+the DPU substrate introduced in Chapter~\ref{ch:background}, and they organize the two
+contributions that follow.
 
 \section{Contribution and Articles}
 

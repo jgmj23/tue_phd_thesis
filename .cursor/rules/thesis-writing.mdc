@@ -22,9 +22,10 @@ When writing or editing thesis chapters (`chapters/**/*.tex`), follow these proj
 For chapters that include published papers, follow this structure:
 
 1. **Pre-Paper Wrapper**:
-   - Write thesis-formatted sections introducing the topic.
-   - Include a subsection for **Publication Details and Contributions** (venue, status, author contribution).
-   - Include a subsection for **Role in the Dissertation** (relation to thesis questions and why it belongs there).
+   - Write short, concise thesis-formatted sections introducing the papers and/or patents.
+   - **Do not mention individual author contributions**. Focus instead on what the paper or patent as a whole contributes to the thesis.
+   - Explicitly state that the papers/patents were **accepted and presented at** their respective conferences or venues.
+   - Explain their **Role in the Dissertation** (how they relate to the thesis questions and why they belong there).
 
 2. **Included Papers**:
    - **Do not copy raw LaTeX text** from the papers.

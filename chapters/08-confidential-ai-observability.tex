@@ -3,7 +3,27 @@
 
 \section{Detecting Threats Without Payload Access}
 
-TODO: Motivate the observability problem in confidential AI training clusters, where payloads may be encrypted or inaccessible to defenders, and explain how DPU-side telemetry and cross-layer observability extend the thesis from prevention and acceleration to detection and response.
+As AI models become astronomically expensive to train, protecting the model weights and
+training data from unauthorized access becomes critical. Confidential computing addresses this
+by using hardware-based trusted execution environments (TEEs), such as AMD SEV-SNP or Intel TDX,
+combined with strictly encrypted memory and PCIe links \textsc{TODO: citation (confidential computing/TEE overview)}.
+This ensures that the tenant's workload is protected even from a privileged hypervisor or a
+malicious infrastructure operator.
+
+However, the same cryptographic boundary that shields tenant data also blinds the defender.
+In a confidential AI training cluster, payloads are entirely opaque to the infrastructure provider.
+Classical intrusion detection systems (IDS), which rely on deep packet inspection and payload
+signature matching, are rendered useless.
+
+The background question for this part of the thesis is therefore: what observable signal
+survives the encryption and TEE boundaries? The answer lies in metadata, traffic structure,
+packet timing, and hardware telemetry extracted directly from the DPU. By combining these
+side-channel signals, it is possible to detect threats, such as data exfiltration or malware
+beaconing, without ever accessing the payload. This reframes the DPU of Chapter~\ref{ch:background}
+from merely an accelerator into a privileged vantage point, extending the thesis focus from
+prevention and acceleration toward detection and response.
+
+% TODO: Expand with paper-specific framing for P8 and P9.
 
 \section{Contribution and Articles}
 

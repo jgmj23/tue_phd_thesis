@@ -3,7 +3,17 @@
 
 \section{Securing the Edge AI Data Path}
 
-TODO: Motivate edge AI pipelines as an application context where security, image I/O, accelerators, and network offload interact, and explain how pipeline-level offload tests whether the DPU/PQC mechanisms of earlier chapters remain useful within a broader application workflow.
+The deployment questions raised for isolated post-quantum primitives in
+Chapter~\ref{ch:dpu-pqc} are tested most sharply not on isolated primitives, but
+inside complete application pipelines. The edge-AI setting examined here involves a
+pipeline where post-quantum protection, image I/O from sensors, and GPU-based inference
+all compete for the same datapath. In such scenarios, the theoretical efficiency of a PQC
+algorithm matters less than how gracefully its offload degrades when it must coexist
+with real application workloads. Pipeline-level offload therefore tests whether the
+DPU and PQC mechanisms of the preceding chapter remain useful within a broader,
+contention-prone application workflow.
+
+% TODO: Expand the motivation with paper-specific context (sensor/inference setting, threat model) for P6.
 
 \section{Contribution and Articles}
 

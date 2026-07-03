@@ -3,7 +3,25 @@
 
 \section{When Lower-Layer Behavior Breaks Higher-Layer Assumptions}
 
-TODO: Motivate why secure systems can still fail when lower-layer network or optical-fabric behavior violates assumptions made by higher layers, and connect RDMA ordering behavior to the thesis questions on cross-layer security and datacenter-scale deployment risk.
+Modern datacenters---especially those built for distributed AI training and high-performance
+computing---interconnect GPUs, DPUs, and storage using RDMA, commonly deployed as RDMA over
+Converged Ethernet (RoCEv2) over high-throughput optical fabrics.
+
+RDMA achieves its massive throughput and microsecond latency by bypassing the host operating
+system networking stack entirely. Applications interact directly with the NIC hardware via
+queue pairs (QPs). However, RDMA's performance and security properties rest on specific
+assumptions about message ordering and completion semantics. While strict ordering is guaranteed
+\emph{within} a single queue pair, ordering \emph{across} different queue pairs is much weaker
+and heavily dependent on the fabric's load-balancing and optical-switch behavior~\cite{rfc5040,ibta_rocev2}.
+
+When these lower-layer ordering and timing behaviors diverge from what the higher-layer
+application assumed, vulnerabilities emerge. For example, a channel that is provably
+encrypted via IPsec or MACsec can still expose exploitable structural information if an
+attacker observes the timing and out-of-order arrival of RDMA completions. This is a classic
+instance of the cross-layer failure mode at the heart of RQ4, and it motivates the RDMA
+security analysis developed in this chapter.
+
+% TODO: Expand with paper-specific threat model and attack setup for P7.
 
 \section{Contribution and Articles}
 

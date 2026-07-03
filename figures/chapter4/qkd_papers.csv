@@ -1,0 +1,12 @@
+year,authors,protocol,distance_km,key_rate_bps,wavelength_nm,fiber_type,wdm_compatible,reference,bibkey,notes
+2025,Wang et al.,CV-QKD,100,12600000,1550,SMF,Yes,arXiv:2503.14843,wang2025highrate,OFDM multi-carrier 12.6 Mbps
+2025,Wang et al.,CV-QKD,50,113000000,1550,SMF,Yes,arXiv:2503.14843,wang2025highrate,OFDM multi-carrier 113 Mbps
+2025,Wang et al.,CV-QKD,10,1000000000,1550,SMF,Yes,arXiv:2503.14843,wang2025highrate,OFDM multi-carrier ~1 Gbps
+2016,Dynes et al.,DV-QKD,100,139000,1550,deployed fiber,Yes,10.1038/srep35149,dynes2016ultrahigh,Coexistence with 10 Tb/s classical WDM
+2023,Dolphin et al.,DV-QKD,50,1820000,1550,SMF,Yes,10.1038/s41534-023-00751-3,dolphin2023hybrid,Hybrid InP/SiN chip; 1.82 Mbps at 10 dB
+2023,Dolphin et al.,DV-QKD,250,186,1550,SMF,Yes,10.1038/s41534-023-00751-3,dolphin2023hybrid,Hybrid InP/SiN chip; 186 bps asymptotic at 250 km
+2023,Ribezzo et al.,DV-QKD,100,10000,1550,submarine fiber,Yes,10.1103/PhysRevApplied.20.044052,ribezzo2023underwater,Sicily-Malta 100 km underwater fiber
+2021,Chen et al.,TF-QKD,511,500,1550,ultra-low-loss fiber,Yes,10.1038/s41566-021-00828-5,chen2021twinfield511,SNS-TF-QKD field fiber 511 km
+2021,Pittaluga et al.,TF-QKD,600,100,1550,ultra-low-loss fiber,Yes,10.1038/s41566-021-00811-0,pittaluga2021repeaterlike,Dual-band stabilization ITU-grid
+2023,Liu et al.,TF-QKD,1002,1,1550,ultra-low-loss fiber,Yes,10.1103/PhysRevLett.130.210801,liu2023experimental1000,SNS-TF-QKD beyond 1000 km
+2023,Zhou et al.,TF-QKD,350,100,1550,lab fiber,Yes,10.1038/s41467-023-36573-2,zhou2023twinfield,TF-QKD without service fiber

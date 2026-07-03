@@ -46,8 +46,23 @@ directly.
 - Prefer source figures and reproducible exports where practical.
 - Use descriptive, content-specific section titles in chapters rather than generic template names (e.g., "From Photonic Devices to Network Components" instead of "Chapter Motivation").
 - For paper-centric chapters, preserve the accepted/camera-ready paper formatting where possible by including the final PDF using `\includepdf` from the `pdfpages` package instead of copying raw LaTeX text.
-- Before each included paper, add a short thesis-formatted section with publication venue/status, author contribution, relation to the thesis questions, and why the paper belongs there.
+- Before the included papers/patents, add a short, concise thesis-formatted section (e.g., "Contribution and Articles"). Do not mention individual author contributions; focus instead on what the paper or patent as a whole contributes to the thesis. Explicitly state that the papers/patents were accepted and presented at their respective conferences or venues. Include how they relate to the thesis questions and why they belong there.
 - After each included paper, add a thesis-formatted discussion/transition section.
+- Abbreviations: define once, then abbreviate. Spell out each technical acronym
+  in full at its *first* appearance in the thesis-authored prose, immediately
+  followed by the abbreviation in parentheses (e.g. "data processing unit
+  (DPU)"), and use the bare abbreviation everywhere after that. Treat the whole
+  of the author's narrative (Chapters, chapter wrappers, synthesis) as one
+  continuous document for this purpose — do **not** re-expand a term in a later
+  chapter just because that chapter introduces a new topic. Two deliberate
+  exceptions: the Summary/abstract is self-contained and defines its own
+  acronyms, and the embedded camera-ready paper PDFs keep their own
+  definitions. Very common acronyms (CPU, GPU, TLS, RSA, etc.) may be used bare.
+- Keep the List of Abbreviations (`frontmatter/abbreviations.tex`) in sync with
+  the prose. Whenever you introduce a new technical acronym or remove the last
+  use of an existing one, add or drop the corresponding row. Keep entries
+  alphabetised by abbreviation. Exclude purely structural labels (e.g. `RQ1`,
+  `P4`, `I2`) and bare product/brand names.
 
 ## Build And Verification
 

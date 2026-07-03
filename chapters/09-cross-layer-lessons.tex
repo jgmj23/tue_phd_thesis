@@ -7,7 +7,32 @@ TODO: Summarize the contributions across quantum photonic sources, QKD post-proc
 
 \section{Cross-Layer Lessons}
 
-TODO: Identify thesis-level lessons that recur across the papers, especially where assumptions at one layer depend on implementation choices at another.
+The three layers developed across this thesis are not independent. Their dependencies
+form strict, largely unidirectional chains that, taken together, answer RQ4 and dictate
+system design:
+
+\begin{itemize}
+    \item \textbf{Device to Protocol:} Source-level spectral purity and FSR stability
+    (Chapter~\ref{ch:quantum-sources}) dictate the baseline error rates. These error rates
+    determine the size of the LDPC matrices required in QKD post-processing
+    (Chapter~\ref{ch:qkd-dpu}).
+    \item \textbf{Protocol to Infrastructure:} The matrix dimensions and the determinism of
+    PQC rejection sampling (Chapter~\ref{ch:dpu-pqc}) dictate compute latency. This latency
+    determines whether the algorithm can be placed inline on a DPU without starving the
+    line-rate datapath (Chapters~\ref{ch:dpu-pqc} and~\ref{ch:edge-ai}).
+    \item \textbf{Infrastructure to Protocol:} The ordering, timing, and visibility properties
+    of the RDMA fabric (Chapter~\ref{ch:rdma}) determine whether the mathematical protections of
+    the cryptography actually survive deployment against a network-level adversary, and what
+    signal remains for a defender once payloads are opaque (Chapter~\ref{ch:confidential-ai}).
+\end{itemize}
+
+This cross-layer perspective is the reason the dissertation combines topics---photonics,
+cryptography, and datacenter networking---that would otherwise appear separate. The unifying
+question that runs through every chapter is how secure communication systems can be made
+scalable and deployable when the binding constraints are distributed across physical,
+mathematical, and operational boundaries.
+
+TODO: Deepen each lesson with concrete quantitative evidence drawn from the included papers.
 
 \section{Limitations}
 
