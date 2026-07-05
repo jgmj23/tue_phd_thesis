@@ -7,6 +7,9 @@ reorder, and delete items freely. Work happens directly on `main`.
 
 - Chapter 1 (introduction): continue reworking framing and figures.
 - Chapter 3 (integrated quantum sources): integrate remaining papers.
+- Chapters 5--6 (Part II, PQC): drafted with full wrappers, figures, and
+  transitions (2026-07-03). Swap `\includedpaperpending{P5}` for
+  `\includedpaper` once the Networking Letters camera-ready lands.
 
 ## Manuscripts (local-only, gitignored)
 

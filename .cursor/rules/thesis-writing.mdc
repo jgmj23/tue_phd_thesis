@@ -13,10 +13,19 @@ When writing or editing thesis chapters (`chapters/**/*.tex`), follow these proj
 - ❌ BAD: `\section{Chapter Motivation}`
 - ✅ GOOD: `\section{From Photonic Devices to Network Components}`
 
+## Punctuation
+- **Go light on em dashes** (`---` in LaTeX). Prefer commas, parentheses, colons, or separate sentences when they read as naturally.
+- Reserve em dashes for a deliberate aside or a sharp contrast that would feel awkward with other punctuation—not as a default joiner between clauses.
+- ❌ BAD: `The DPU offloads the work---preserving GPU capacity---and keeps plaintext out of the host---which is the central claim.`
+- ✅ GOOD: `The DPU offloads the work, preserving GPU capacity, and keeps plaintext out of the host. That placement is the central claim.`
+
 ## Citations and Bibliography
 - Use **numbered references** in first-citation order (`style=ieee`, `sorting=none`).
 - Use the **single canonical bibliography** located at `references/thesis.bib`.
 - Never invent citations. If a citation is missing, use `TODO: citation`.
+
+## Figures and Tables
+- **Keep captions concise and focused.** Captions should explain what the figure or table *shows*, not re-teach the underlying concepts or duplicate extensive explanations already present in the main text.
 
 ## Paper-Centric Chapters Structure
 For chapters that include published papers, follow this structure:
