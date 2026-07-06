@@ -100,23 +100,28 @@
 % section level, the full bibliographic reference, then the embedded PDF.
 % The heading style switch is kept local (\begingroup..\endgroup) so the normal
 % chapter style is automatically restored for the next real chapter.
-% Usage: \includedpaper{<P-label>}{<title>}{<my_contribution bib key>}{<pdf path>}
-\newcommand{\includedpaper}[4]{%
+% The optional first argument passes extra options straight through to
+% \includepdf. Its main use is trimming excessively wide source margins so the
+% embedded text is not shrunk too far by the book-page rescaling, e.g.
+% \includedpaper[trim=110 103 103 69, clip]{...} for a Springer LNCS PDF.
+% trim values are "left bottom right top" in PDF points (72pt = 1in).
+% Usage: \includedpaper[<extra includepdf opts>]{<P-label>}{<title>}{<my_contribution bib key>}{<pdf path>}
+\newcommand{\includedpaper}[5][]{%
   \cleardoublepage
   \begingroup
     \titleformat{\chapter}[block]
       {\normalfont\huge\bfseries\filcenter}{}{0pt}{}
     \titlespacing*{\chapter}{0pt}{0pt}{20pt}
-    \chapter*{#1: #2}%
+    \chapter*{#2: #3}%
   \endgroup
-  \addcontentsline{toc}{section}{#1: #2}%
+  \addcontentsline{toc}{section}{#2: #3}%
   {\small
     \noindent\textbf{Full reference:}\par
     \vspace{0.5ex}
-    \noindent\fullcite{#3}\par}%
+    \noindent\fullcite{#4}\par}%
   \vspace{2ex}\par
   \includepdf[pages=-, pagecommand={\thispagestyle{fancy}},
-              width=14cm, height=21cm, keepaspectratio]{#4}%
+              width=14cm, height=21cm, keepaspectratio, #1]{#5}%
 }
 
 % --- Included paper whose camera-ready PDF is not yet available ----------------

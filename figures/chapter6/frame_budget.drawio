@@ -1,0 +1,86 @@
+<mxfile host="65bd71144e">
+    <diagram name="Frame Budget" id="FrameBudget">
+        <mxGraphModel dx="1200" dy="640" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="840" pageHeight="430" background="none" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+
+                <mxCell id="titleTop" value="&lt;b&gt;Latency: one 1080p frame lives inside a hard 33.3&amp;nbsp;ms budget (30&amp;nbsp;fps)&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontStyle=1;fontSize=16;fontColor=#333333;fontFamily=LMRoman10;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="18" width="640" height="24" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="segPQC" value="PQC&lt;br&gt;auth + decrypt&lt;br&gt;&lt;b&gt;~7 ms&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E69F00;fillOpacity=25;strokeColor=#9E6B00;strokeWidth=2.5;fontFamily=LMRoman10;fontColor=#9E6B00;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="48" y="92" width="156" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="segDec" value="decode +&lt;br&gt;preprocess&lt;br&gt;&lt;b&gt;~5 ms&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0072B2;fillOpacity=25;strokeColor=#004C77;strokeWidth=2.5;fontFamily=LMRoman10;fontColor=#004C77;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="204" y="92" width="117" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="segPCIe" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#CC79A7;fillOpacity=60;strokeColor=#8E4B73;strokeWidth=1.5;fontFamily=LMRoman10;" parent="1" vertex="1">
+                    <mxGeometry x="321" y="92" width="6" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="segHead" value="headroom for downstream stages&amp;nbsp; (~21 ms)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#5A5A5A;fillOpacity=12;strokeColor=#5A5A5A;strokeWidth=2;dashed=1;fontFamily=LMRoman10;fontColor=#333333;fontSize=13;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="327" y="92" width="461" height="52" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="pcieLabel" value="PCIe DMA (&lt;1%)" style="text;html=1;align=center;verticalAlign=bottom;fontFamily=LMRoman10;fontColor=#8E4B73;fontSize=12;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="264" y="52" width="120" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="pcieLead" value="" style="endArrow=none;html=1;strokeColor=#8E4B73;strokeWidth=1.5;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="324" y="70" as="sourcePoint"/>
+                        <mxPoint x="324" y="92" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="secureBrace" value="" style="shape=curlyBracket;html=1;rounded=1;strokeColor=#333333;strokeWidth=2;flipV=1;direction=north;fontFamily=LMRoman10;" parent="1" vertex="1">
+                    <mxGeometry x="48" y="150" width="279" height="14" as="geometry"/>
+                </mxCell>
+                <mxCell id="secureLabel" value="secure ingest on one BlueField-3 Arm core &amp;#8212; &lt;b&gt;12.5 ms&lt;/b&gt; (38% of budget)" style="text;html=1;align=center;verticalAlign=top;fontFamily=LMRoman10;fontColor=#333333;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="8" y="166" width="360" height="20" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="deadlineLine" value="" style="endArrow=none;html=1;dashed=1;strokeColor=#D55E00;strokeWidth=2.5;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="788" y="76" as="sourcePoint"/>
+                        <mxPoint x="788" y="164" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="deadlineTxt" value="33.3 ms&lt;br&gt;deadline" style="text;html=1;align=right;verticalAlign=middle;fontFamily=LMRoman10;fontColor=#8A3D00;fontSize=12;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="648" y="46" width="138" height="30" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="divider" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#DDDDDD;strokeWidth=1.5;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="40" y="212" as="sourcePoint"/>
+                        <mxPoint x="800" y="212" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="titleBot" value="&lt;b&gt;Throughput: the accelerator's time is the scarce resource, spent per frame &amp;#215; every node&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontStyle=1;fontSize=16;fontColor=#333333;fontFamily=LMRoman10;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="228" width="700" height="24" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="rowLbl1" value="crypto + preprocess&lt;br&gt;&lt;b&gt;on the accelerator&lt;/b&gt;" style="text;html=1;align=right;verticalAlign=middle;fontFamily=LMRoman10;fontColor=#8A3D00;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="272" width="158" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="bar1Inf" value="inference" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0072B2;fillOpacity=25;strokeColor=#004C77;strokeWidth=2.5;fontFamily=LMRoman10;fontColor=#004C77;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="272" width="456" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="bar1Steal" value="displaced" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D55E00;fillOpacity=40;strokeColor=#8A3D00;strokeWidth=2.5;fontFamily=LMRoman10;fontColor=#8A3D00;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="656" y="272" width="144" height="40" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="rowLbl2" value="crypto + preprocess&lt;br&gt;&lt;b&gt;on the DPU&lt;/b&gt;" style="text;html=1;align=right;verticalAlign=middle;fontFamily=LMRoman10;fontColor=#00674C;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="332" width="158" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="bar2Inf" value="inference (100% of SMs)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0072B2;fillOpacity=25;strokeColor=#004C77;strokeWidth=2.5;fontFamily=LMRoman10;fontColor=#004C77;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="332" width="600" height="40" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="botNote" value="the displaced slice is inference the accelerator never runs &amp;#8212; and it recurs on every frame, across the whole fleet" style="text;html=1;align=center;verticalAlign=middle;fontFamily=LMRoman10;fontColor=#5A5A5A;fontSize=12;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="382" width="600" height="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

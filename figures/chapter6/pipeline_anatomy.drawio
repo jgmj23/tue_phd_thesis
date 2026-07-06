@@ -1,0 +1,57 @@
+<mxfile host="65bd71144e">
+    <diagram name="Pipeline Anatomy" id="PipelineAnatomy">
+        <mxGraphModel dx="1100" dy="600" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="840" pageHeight="360" background="none" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+
+                <mxCell id="feBox" value="shared ingest front-end" style="rounded=0;html=1;dashed=1;fillColor=none;strokeColor=#0072B2;strokeWidth=2;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fontFamily=LMRoman10;fontColor=#004C77;fontSize=13;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="32" y="116" width="384" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="ingest" value="&lt;b&gt;Ingest&lt;/b&gt;&lt;br&gt;sensors / edge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0072B2;fillOpacity=20;strokeColor=#0072B2;strokeWidth=3;fontFamily=LMRoman10;fontColor=#004C77;fontSize=15;" parent="1" vertex="1">
+                    <mxGeometry x="48" y="146" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="preprocess" value="&lt;b&gt;Decode &amp;amp; preprocess&lt;/b&gt;&lt;br&gt;raw signals &amp;#8594; tensors" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0072B2;fillOpacity=20;strokeColor=#0072B2;strokeWidth=3;fontFamily=LMRoman10;fontColor=#004C77;fontSize=15;" parent="1" vertex="1">
+                    <mxGeometry x="216" y="146" width="184" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" value="" style="endArrow=classic;html=1;strokeColor=#5A5A5A;strokeWidth=2.5;fontFamily=LMRoman10;" parent="1" source="ingest" target="preprocess" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="train" value="&lt;b&gt;Train&lt;/b&gt;&lt;br&gt;offline &amp;#183; throughput-bound&lt;br&gt;&lt;font color=&quot;#5A5A5A&quot;&gt;days&amp;#8211;weeks&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#009E73;fillOpacity=20;strokeColor=#009E73;strokeWidth=3;fontFamily=LMRoman10;fontColor=#00674C;fontSize=15;" parent="1" vertex="1">
+                    <mxGeometry x="492" y="44" width="196" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="model" value="Model&lt;br&gt;weights" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#5A5A5A;fillOpacity=10;strokeColor=#5A5A5A;strokeWidth=2.5;fontFamily=LMRoman10;fontColor=#333333;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="726" y="52" width="96" height="56" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="focusBox" value="" style="rounded=1;html=1;dashed=1;fillColor=#D55E00;fillOpacity=6;strokeColor=#D55E00;strokeWidth=2;fontFamily=LMRoman10;" parent="1" vertex="1">
+                    <mxGeometry x="480" y="238" width="352" height="88" as="geometry"/>
+                </mxCell>
+                <mxCell id="inference" value="&lt;b&gt;Serve / inference&lt;/b&gt;&lt;br&gt;online &amp;#183; latency-bound" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D55E00;fillOpacity=20;strokeColor=#D55E00;strokeWidth=3;fontFamily=LMRoman10;fontColor=#8A3D00;fontSize=15;" parent="1" vertex="1">
+                    <mxGeometry x="492" y="252" width="196" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="deadline" value="&lt;b&gt;strict latency&lt;/b&gt;&lt;br&gt;budget" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E69F00;fillOpacity=25;strokeColor=#9E6B00;strokeWidth=2.5;fontFamily=LMRoman10;fontColor=#9E6B00;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="726" y="256" width="96" height="52" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="e2" value="training data" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#5A5A5A;strokeWidth=2.5;fontFamily=LMRoman10;fontColor=#5A5A5A;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="preprocess" target="train" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" value="live payloads" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#5A5A5A;strokeWidth=2.5;fontFamily=LMRoman10;fontColor=#5A5A5A;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.7;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="preprocess" target="inference" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" value="" style="endArrow=classic;html=1;strokeColor=#5A5A5A;strokeWidth=2.5;fontFamily=LMRoman10;" parent="1" source="train" target="model" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" value="weights" style="endArrow=classic;html=1;dashed=1;strokeColor=#5A5A5A;strokeWidth=2.5;fontFamily=LMRoman10;fontColor=#5A5A5A;fontSize=13;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="model" target="inference" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="focusTag" value="latency-critical path studied in this chapter" style="text;html=1;align=center;verticalAlign=middle;fontFamily=LMRoman10;fontColor=#8A3D00;fontSize=12;fontStyle=2;" parent="1" vertex="1">
+                    <mxGeometry x="480" y="326" width="352" height="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

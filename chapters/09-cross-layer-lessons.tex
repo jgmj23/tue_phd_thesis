@@ -3,7 +3,7 @@
 
 \section{Summary of Contributions}
 
-TODO: Summarize the contributions across quantum photonic sources, QKD post-processing, PQC acceleration, edge AI pipelines, RDMA/optical-fabric attacks, and confidential AI observability.
+TODO: Summarize the contributions across quantum photonic sources, QKD post-processing, PQC acceleration, end-to-end real-time pipelines, RDMA/optical-fabric attacks, and confidential AI observability.
 
 \section{Cross-Layer Lessons}
 
@@ -19,7 +19,7 @@ system design:
     \item \textbf{Protocol to Infrastructure:} The matrix dimensions and the determinism of
     PQC rejection sampling (Chapter~\ref{ch:dpu-pqc}) dictate compute latency. This latency
     determines whether the algorithm can be placed inline on a DPU without starving the
-    line-rate datapath (Chapters~\ref{ch:dpu-pqc} and~\ref{ch:edge-ai}).
+    line-rate datapath (Chapters~\ref{ch:dpu-pqc} and~\ref{ch:ai-pipelines}).
     \item \textbf{Infrastructure to Protocol:} The ordering, timing, and visibility properties
     of the RDMA fabric (Chapter~\ref{ch:rdma}) determine whether the mathematical protections of
     the cryptography actually survive deployment against a network-level adversary, and what
