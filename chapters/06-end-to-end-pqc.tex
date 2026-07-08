@@ -8,23 +8,23 @@
 
 Chapter~\ref{ch:dpu-pqc} demonstrated that post-quantum cryptographic primitives can be accelerated efficiently on programmable network hardware. However, evaluating an algorithm in isolation, where a key encapsulation mechanism or a digital signature is the only workload on the processor, provides an incomplete picture of datacenter deployment. In production, cryptography is never an isolated benchmark. It is merely one stage in a continuous, contention-prone data path, forced to share processors, memory bandwidth, and trust boundaries with the very application it protects.
 
-To evaluate post-quantum security realistically, one must therefore evaluate it within a live pipeline. This chapter carries the post-quantum primitives into an end-to-end artificial intelligence workload. It focuses on the ingest-and-inference path, where cryptography must execute alongside decoding, preprocessing, and the execution of the model itself. The central problem shifts from algorithmic speed to architectural placement: where should the secure channel be terminated so that the cryptography does not steal capacity from the revenue-generating application accelerator?
+To evaluate post-quantum security realistically, one must therefore evaluate it within a live pipeline. This chapter carries the post-quantum primitives into an end-to-end AI workload. It focuses on the ingest-and-inference path, where cryptography must execute alongside decoding, preprocessing, and the execution of the model itself. The central problem shifts from algorithmic speed to architectural placement: where should the secure channel be terminated so that the cryptography does not steal capacity from the revenue-generating application accelerator?
 
 \section{The AI Pipeline}
 \label{sec:ai-pipeline}
 
-An artificial intelligence pipeline is a continuous lifecycle rather than a single computational step. It begins with data ingestion, where raw signals, such as high-resolution video frames, audio streams, or sensor telemetry, are collected at the edge and transmitted to the datacenter. Before this raw data can be fed into a neural network, it must be decoded, normalized, and preprocessed into an application-ready tensor format.
+An AI pipeline is a continuous lifecycle rather than a single computational step. It begins with data ingestion, where raw signals, such as high-resolution video frames, audio streams, or sensor telemetry, are collected at the edge and transmitted to the datacenter. Before this raw data can be fed into a neural network, it must be decoded, normalized, and preprocessed into an application-ready tensor format.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{figures/chapter6/pipeline_anatomy.pdf}
-  \caption{The end-to-end data lifecycle in an artificial intelligence pipeline. Data is ingested from the edge and preprocessed into tensors, which then drive offline training and online, real-time inference. While training optimizes model weights for throughput, inference applies those weights to live payloads under strict latency budgets.}
+  \caption{The end-to-end data lifecycle in an AI pipeline. Data is ingested from the edge and preprocessed into tensors, which then drive offline training and online, real-time inference. While training optimizes model weights for throughput, inference applies those weights to live payloads under strict latency budgets.}
   \label{fig:pipeline-anatomy}
 \end{figure}
 
 Once data is ingested and shaped, it drives two distinct phases: training and inference. Training is typically a throughput-oriented, offline process where massive datasets are consumed to optimize model weights over days or weeks. Inference, by contrast, is a latency-critical, online process. In a real-time system, the entire ingest-to-inference path must complete within a strict temporal budget. For example, a system processing live video might need to ingest, decode, preprocess, and execute inference within a hard per-frame deadline.
 
-To meet these budgets, the pipeline distributes work across heterogeneous hardware. General-purpose host CPUs traditionally handle network I/O and orchestration. Dedicated application accelerators, primarily GPUs, execute the dense matrix multiplications required for model training and inference. More recently, data processing units (DPUs) have been introduced to offload network packet processing and infrastructure tasks. The performance of the pipeline depends entirely on how effectively work is routed among these components to avoid stalls and contention.
+To meet these budgets, the pipeline distributes work across heterogeneous hardware. General-purpose host CPUs traditionally handle network I/O and orchestration. Dedicated application accelerators, primarily GPUs, execute the dense matrix multiplications required for model training and inference. More recently, DPUs have been introduced to offload network packet processing and infrastructure tasks. The performance of the pipeline depends entirely on how effectively work is routed among these components to avoid stalls and contention.
 
 \section{The Economics of Secure Inference}
 \label{sec:end-to-end-economics}
@@ -83,10 +83,10 @@ Read against Chapter~\ref{ch:dpu-pqc}, this contribution completes Part~\ref{par
 % clearance inside the tightest measured ink margin so nothing is clipped.
 \includedpaper[trim=110 103 103 56, clip]{P6}{Real-Time Post-Quantum Secured Image Pipeline on NVIDIA BlueField-3 DPU}{meyer2026edgeai}{source-materials/papers/camera-ready/EDGEAI.pdf}
 
-\section{Discussion}
+\section{Part II Epilogue}
 \label{sec:end-to-end-discussion}
 
-The transition to post-quantum cryptography is often framed as a purely mathematical challenge, but as Part~\ref{part:pqc} has demonstrated, the true challenge is architectural. The heavy computational requirements of these new primitives threaten to overwhelm the host processors and application accelerators that power the modern datacenter. Addressing this requires moving cryptography out of the host and into the network infrastructure. By leveraging programmable data processing units (DPUs) to isolate and accelerate this burden---whether by offloading memory-bound schemes to Arm cores, batching lattice schemes on embedded GPUs, or terminating an entire secure AI pipeline at network ingress---the central claim holds: post-quantum protection can be made practical at scale by treating security and the network device as a single co-designed data path. The DPU is no longer just a network interface; it becomes the boundary where the secure channel ends and the application begins.
+The transition to post-quantum cryptography is often framed as a purely mathematical challenge, but as Part~\ref{part:pqc} has demonstrated, the true challenge is architectural. The heavy computational requirements of these new primitives threaten to overwhelm the host processors and application accelerators that power the modern datacenter. Addressing this requires moving cryptography out of the host and into the network infrastructure. By leveraging DPUs to isolate and accelerate this burden---whether by offloading memory-bound schemes to Arm cores, batching lattice schemes on embedded GPUs, or terminating an entire secure AI pipeline at network ingress---the central claim holds: post-quantum protection can be made practical at scale by treating security and the network device as a single co-designed data path. The DPU is no longer just a network interface; it becomes the boundary where the secure channel ends and the application begins.
 
 This conclusion marks a pivotal shift in the scale of the thesis. Thus far, the analysis has followed a progressive zoom outward. Part~\ref{part:qkd} focused on the device level, examining foundational quantum security mechanisms. Part~\ref{part:pqc} zoomed out to the node level, evaluating how cryptographic algorithms and pipelines can be accelerated on DPUs without crippling application performance. 
 

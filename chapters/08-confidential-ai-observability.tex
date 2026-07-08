@@ -8,7 +8,7 @@ The setting that forces this inversion is confidential AI infrastructure. Modern
 \section{Detection Under Opacity}
 \label{sec:conf-dilemma}
 
-Classical datacenter security assumes that the operator can observe enough of the workload to decide whether it is behaving normally. Network intrusion detection systems (IDSs), endpoint monitors, and forensic tools often rely on payload inspection, process visibility, file-system state, or privileged control over the host. Confidential computing deliberately removes much of that visibility. Hardware trusted execution environments (TEEs), such as AMD SEV-SNP and Intel TDX, protect tenant memory and execution state from a privileged hypervisor, while emerging confidential accelerator designs extend the encrypted boundary across GPU memory, PCIe, and network paths (TODO: citation).
+Classical datacenter security assumes that the operator can observe enough of the workload to decide whether it is behaving normally. Network intrusion detection systems (IDSs), endpoint monitors, and forensic tools often rely on payload inspection, process visibility, file-system state, or privileged control over the host. Confidential computing deliberately removes much of that visibility. Hardware trusted execution environments (TEEs), such as AMD Secure Encrypted Virtualization--Secure Nested Paging (SEV-SNP) and Intel Trust Domain Extensions (TDX), protect tenant memory and execution state from a privileged hypervisor~\cite{amdsevsnp2020,inteltdx}, while emerging confidential accelerator designs extend the encrypted boundary across GPU memory, PCIe, and network paths~\cite{nvidiahoppercc}.
 
 The result is a conflict between two security obligations. The tenant needs confidentiality from the cloud operator and from any compromised infrastructure component. The operator still needs to keep the cluster healthy, detect abuse, and prevent one tenant's compromised job from harming other workloads. If defence depends on deep packet inspection (DPI), payload signatures, or host introspection, then the confidential-computing boundary makes defence structurally incompatible with the privacy guarantee. Prevention alone is not enough: attacks, misconfigurations, and compromised jobs still occur. The open question is therefore not whether confidential AI can hide payloads, but whether it can remain observable enough to defend.
 
@@ -71,7 +71,7 @@ Together, the papers move from feasibility to systematization. The first asks wh
 
 \includedpaper{P9}{Obscured, But Not Blind: Systematizing Observability in Confidential AI Training Clusters}{meyer2026detecting}{source-materials/papers/camera-ready/Conf_Compute_TIFS.pdf}
 
-\section{Metadata as Cross-Layer Currency}
+\section{Part III Epilogue}
 \label{sec:conf-discussion}
 
 The lesson of this chapter is not that metadata is good or bad in itself. Metadata is the currency that remains when payloads are hidden. In Chapter~\ref{ch:rdma}, that currency funds an attack: fabric timing and ordering reveal structure that higher layers assumed was private. In this chapter, the same class of signal funds defence: DPU telemetry, traffic rhythm, and control-plane events let the operator reason about encrypted workloads without violating their confidentiality.

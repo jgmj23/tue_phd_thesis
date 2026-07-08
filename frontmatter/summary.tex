@@ -12,7 +12,7 @@ prospect of a cryptographically relevant quantum computer (CRQC) undermines this
 foundation: once such a machine exists, the public-key cryptography that protects
 nearly all modern infrastructure can be broken. Although the precise arrival of
 ``Q-Day'' is uncertain, the threat is already operational through
-``Harvest Now, Decrypt Later'' attacks, in which adversaries store encrypted
+``Harvest Now, Decrypt Later'' (HNDL) attacks, in which adversaries store encrypted
 traffic today to decrypt it once the hardware matures. Mitigating this threat
 is not a single algorithm-selection problem but a tiered, heterogeneous
 re-engineering of communication systems. This shift is driven by fundamental
@@ -21,7 +21,7 @@ computationally secure post-quantum cryptography (PQC) scales to protect
 high-volume datacenter traffic but relies on mathematical assumptions, whereas
 quantum key distribution (QKD) offers unconditional, physics-based security at
 the cost of specialized optical hardware and dedicated infrastructure. A
-comprehensive defense must therefore integrate both paradigms.
+comprehensive defence must therefore integrate both paradigms.
 
 The central premise of this dissertation is that scalable quantum-resilient
 communication is fundamentally an integration challenge governed by the boundaries
@@ -31,20 +31,21 @@ throughput, determinism, power, or observability constraints of the network in
 which it runs; likewise, a quantum primitive becomes operational infrastructure
 only when its photonic devices, post-processing pipeline, and classical
 integration points are engineered together. The work was carried out within the
-QUARC doctoral network as an industrial doctorate embedded with NVIDIA's
+Quantum Resistant Communications: Advance Learning in Applied PQC Training
+(QUARC) doctoral network as an industrial doctorate embedded with NVIDIA's
 networking organization.
 
-The thesis is organized as a compilation of peer-reviewed publications grouped
-into three parts. Part~I treats QKD as a deployable network capability: it
-presents the design and characterization of integrated photonic entanglement
-sources for wavelength-division-multiplexed QKD, and the offload of QKD
-post-processing onto data processing units (DPUs). Part~II investigates how PQC
-algorithms can be executed efficiently on heterogeneous CPU--GPU--DPU platforms
-and applied to secure end-to-end real-time pipelines. Part~III examines the programmable
-datacenter substrate on which both mechanisms ultimately run, addressing the
+The thesis is organized around peer-reviewed publications, manuscripts under
+review, and patent applications grouped into three parts. Part~I treats QKD as a
+deployable network capability: it presents the design and characterization of
+integrated photonic entanglement sources for wavelength-division-multiplexed
+QKD, and the offload of QKD post-processing onto data processing units (DPUs).
+Part~II investigates how PQC algorithms can be executed efficiently on
+heterogeneous CPU--GPU--DPU platforms and applied to secure end-to-end real-time
+pipelines. Part~III examines datacenter-scale security, addressing the
 ordering- and timing-related risks of RDMA over high-throughput optical fabrics
-and cross-layer observability and intrusion detection for confidential AI
-infrastructure.
+and cross-layer observability and intrusion detection for confidential artificial
+intelligence (AI) infrastructure.
 
 Taken together, these contributions show that device-level, protocol-level, and
 infrastructure-level design choices are tightly coupled: decisions made at one

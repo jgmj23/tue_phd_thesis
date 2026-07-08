@@ -17,14 +17,14 @@ For millennia, the art of secret communication relied on an arms race between th
     $D_k(y) = (y - k) \bmod 26$. The intercepted ciphertext below is left for the
     reader to recover. Its repeated letter already invites frequency analysis,
     and with only $25$ possible shifts the cipher is trivially brute-forced. A
-    modern cipher such as AES-256, by contrast, draws its key from
+    modern Advanced Encryption Standard (AES) cipher such as AES-256, by contrast, draws its key from
     $2^{256} \approx 10^{77}$ possibilities.}
     \label{fig:caesar_cipher}
 \end{figure}
 
 In the modern digital era, this dynamic stabilized around computational complexity. The bedrock of the internet, global commerce, and secure infrastructure rests on mathematical problems, such as factoring large integers or computing discrete logarithms, that are trivially easy to construct but practically impossible for classical computers to solve.
 
-In late 1994, mathematician Peter Shor disrupted this equilibrium. He demonstrated that a hypothetical quantum computer could efficiently solve these exact mathematical problems, effectively neutralizing the public-key cryptography that secures modern communications.% TODO: citation (Shor, 1994)
+In late 1994, mathematician Peter Shor disrupted this equilibrium. He demonstrated that a hypothetical quantum computer could efficiently solve these exact mathematical problems, effectively neutralizing the public-key cryptography that secures modern communications~\cite{shor1994algorithms}.
 A few weeks later, in January 1995, the author of this dissertation was born. The race was on.
 
 \section{The Quantum Threat}
@@ -55,14 +55,14 @@ Q-Day nevertheless differs from a conventional zero-day in one respect that is c
 While the threat timeline is accelerating, a substantial gap remains between the state of the art in quantum hardware and the scale required for cryptanalysis. Breaking a standard 2048-bit RSA key using Shor's algorithm requires a fault-tolerant quantum computer capable of sustaining millions of operations. Historically, this was estimated to require around 20 million physical qubits~\cite{gidney2021factoring}.
 However, recent algorithmic optimizations and architectural improvements, such as approximate residue arithmetic, magic state cultivation, and advanced quantum low-density parity check (qLDPC) codes, have drastically reduced these estimates. Current projections suggest that RSA-2048 could be factored in under a week using fewer than one million noisy physical qubits~\cite{gidney2025how}, and potentially under 100,000 physical qubits with next-generation qLDPC architectures~\cite{webster2026pinnacle}.
 
-Despite these theoretical reductions, building a CRQC remains a monumental engineering challenge. As of 2026, gate-model superconducting processors have reached the order of one thousand physical qubits, with IBM's Condor processor featuring 1,121 superconducting qubits.% TODO: citation (IBM Condor)
-Other leading modalities, such as neutral atom arrays by Atom Computing and QuEra, have also reached the 1,000-qubit milestone.% TODO: citation (Atom Computing / QuEra neutral-atom arrays)
-Meanwhile, systems with lower physical qubit counts, such as Quantinuum's trapped-ion processors and Google's Willow chip, have focused on demonstrating high-fidelity operations and below-threshold error correction to create the first robust logical qubits.% TODO: citation (Quantinuum trapped-ion; Google Willow)
+Despite these theoretical reductions, building a CRQC remains a monumental engineering challenge. As of 2026, gate-model superconducting processors have reached the order of one thousand physical qubits, with IBM's Condor processor featuring 1,121 superconducting qubits~\cite{ibmcondor2023}.
+Other leading modalities have advanced in parallel: neutral-atom arrays from Atom Computing have crossed the 1,000-qubit milestone~\cite{atomcomputing2023}, while reconfigurable QuEra--Harvard arrays have demonstrated the first logical qubits at scale~\cite{bluvstein2024logical}.
+Meanwhile, systems with lower physical qubit counts, such as Quantinuum's trapped-ion processors and Google's Willow chip, have focused on demonstrating high-fidelity operations and below-threshold error correction to create the first robust logical qubits~\cite{moses2023racetrack,googleqai2025below}.
 Bridging the gap from today's hardware to the scale required for a CRQC necessitates solving complex control, cooling, and error-correction challenges.
 
 It is important to stress that the achieved and required qubit counts are not directly comparable. The processors built to date consist of \emph{noisy} physical qubits, whereas the resource estimates above count the \emph{fault-tolerant} physical qubits needed once quantum error correction is layered on top, under idealized assumptions such as a physical error rate of $10^{-3}$ and microsecond-scale code cycles. The meaningful observation is therefore not a single headline ratio but the structural trend shown in Figure~\ref{fig:hardware_gap}: the estimated cost of breaking RSA-2048 has fallen by several orders of magnitude in little over a decade through algorithmic and error-correction advances, while hardware has scaled more slowly. The result is a hardware gap that remains large today but is being closed from both ends.
 
-The rapid narrowing of this hardware margin has dismantled the consensus that infrastructure owners have decades to prepare. Just recently, the United States government slashed its original 2035 migration target~\cite{nsm10} by more than five years, mandating full post-quantum deployment across critical systems by 2030~\cite{eo14412,omb2026m2615}. This example shows that quantum resilience is no longer a gradual future upgrade, but an immediate infrastructure requirement. Consequently, the debate over \emph{whether} to adopt quantum-resilient cryptography is effectively settled; the primary engineering challenge is now \emph{how} to integrate these demanding new protocols into production networks before the hardware gap closes entirely.
+The rapid narrowing of this hardware margin has dismantled the consensus that infrastructure owners have decades to prepare. Just recently, the United States government slashed its original 2035 migration target~\cite{nsm10} by five years, mandating full post-quantum deployment across critical systems by 2030~\cite{eo14412,omb2026m2615}. This example shows that quantum resilience is no longer a gradual future upgrade, but an immediate infrastructure requirement. Consequently, the debate over \emph{whether} to adopt quantum-resilient cryptography is effectively settled; the primary engineering challenge is now \emph{how} to integrate these demanding new protocols into production networks before the hardware gap closes entirely.
 
 \begin{figure}[htbp]
     \centering
@@ -86,8 +86,8 @@ If a large-scale CRQC remains years away, why must communication infrastructure 
 
 The urgency of this threat depends fundamentally on information value decay. Capturing, securely storing, and eventually processing petabytes of traffic on early fault-tolerant quantum computers will be astronomically expensive. Because not all secrets are created equal, this economic reality creates a natural divergence in how data must be protected. High-decay data, such as e-commerce transactions or session tokens, lose their value within minutes. By the time a CRQC is available, their residual value is effectively zero. In contrast, low-decay data, such as state secrets, genomic databases, or critical intellectual property, can retain immense value for decades, making them viable targets for long-term archiving today.
 
-Defending against this threat relies on two fundamentally different paradigms: Post-Quantum Cryptography (PQC) and Quantum Key Distribution (QKD).
-PQC replaces vulnerable algorithms like RSA and elliptic curve cryptography with new computational problems, such as lattice- or hash-based cryptography, that are believed to be hard for both classical and quantum computers. Its primary advantage is scalability. PQC operates over existing classical networks. However, its security still rests on unproven mathematical assumptions. The unexpected collapse of candidate algorithms like SIKE highlights this risk. Building true confidence in new computational primitives requires years of intense cryptanalytic scrutiny.% TODO: citation (Castryck--Decru SIKE break, 2022)
+Defending against this threat relies on two fundamentally different paradigms: PQC and QKD.
+PQC replaces vulnerable algorithms like RSA and elliptic curve cryptography with new computational problems, such as lattice- or hash-based cryptography, that are believed to be hard for both classical and quantum computers. Its primary advantage is scalability. PQC operates over existing classical networks. However, its security still rests on unproven mathematical assumptions. The unexpected collapse of candidate algorithms like SIKE highlights this risk~\cite{castryck2023sidh}. Building true confidence in new computational primitives requires years of intense cryptanalytic scrutiny.
 
 In contrast, QKD offers information-theoretic security grounded in the laws of quantum mechanics. Because any attempt to eavesdrop on quantum states inevitably disturbs them, QKD provides a mathematically provable guarantee of secrecy that is immune to algorithmic breakthroughs or infinite computational power. While this theoretical guarantee is absolute, practical implementations remain vulnerable to hardware side-channels. Furthermore, its deployment comes at a steep practical cost. It requires specialized photonic hardware, dedicated optical channels, and complex control systems, making it difficult to scale.
 
@@ -107,9 +107,9 @@ Consequently, mitigating the quantum threat is not merely an algorithm selection
 
 \subsection{The QUARC Project}
 
-The work in this dissertation was carried out within QUARC (Quantum resistant
-communications: Advance Learning in applied PQC Training), a Marie
-Sk\l{}odowska-Curie Actions doctoral network funded under Horizon Europe and run
+The work in this dissertation was carried out within Quantum Resistant
+Communications: Advance Learning in Applied PQC Training (QUARC), a Marie
+Sk\l{}odowska-Curie Actions (MSCA) doctoral network funded under Horizon Europe and run
 as an industrial doctorate~\cite{QUARC2022,quarcwebsite}. QUARC was established to
 train a cohort of doctoral researchers in the practical application of
 post-quantum cryptography as the first standardized PQC algorithms moved from
@@ -181,13 +181,13 @@ The core contributions are then divided into three parts:
 \textbf{Part~II --- Post-Quantum Cryptography} investigates how post-quantum cryptographic algorithms can be executed efficiently on heterogeneous platforms, collectively addressing RQ1.
 \begin{itemize}
 \item \textbf{Chapter~\ref{ch:dpu-pqc}} discusses CPU-GPU-DPU workload partitioning and latency tradeoffs for datacenter-scale PQC deployment, addresses RQ1, and presents P4 and P5.
-\item \textbf{Chapter~\ref{ch:ai-pipelines}} discusses the application of post-quantum mechanisms to secure end-to-end AI pipelines, addresses RQ1, and presents P6.
+\item \textbf{Chapter~\ref{ch:ai-pipelines}} discusses the application of post-quantum mechanisms to secure end-to-end artificial intelligence (AI) pipelines, addresses RQ1, and presents P6.
 \end{itemize}
 
 \medskip
 \textbf{Part~III --- Datacenter-Scale Security} widens the lens from individual devices and nodes to the datacenter operating as a whole, and stops treating the shared substrate beneath it as a trustworthy given. It examines that substrate first as an attack surface and then as a defensive vantage point, exposing the cross-layer interactions at the heart of RQ4.
 \begin{itemize}
-\item \textbf{Chapter~\ref{ch:rdma}} treats the infrastructure as an attack surface, spanning device-level side channels through to the ordering- and timing-related risks of RDMA over high-throughput optical fabrics, addresses RQ4, and presents P7.
+\item \textbf{Chapter~\ref{ch:rdma}} treats the infrastructure as an attack surface, spanning device-level side channels through to the ordering- and timing-related risks of remote direct memory access (RDMA) over high-throughput optical fabrics, addresses RQ4, and presents P7.
 \item \textbf{Chapter~\ref{ch:confidential-ai}} inverts that argument into a defence, using cross-layer observability and intrusion detection to protect confidential AI training clusters, addresses RQ4, and presents P8 and P9.
 \end{itemize}
 

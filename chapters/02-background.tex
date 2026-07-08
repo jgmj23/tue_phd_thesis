@@ -66,7 +66,7 @@ along three distinct but interacting layers, illustrated in Figure~\ref{fig:cros
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{figures/chapter2/cross_layer_stack.pdf}
-    \caption{The cross-layer security stack investigated in this dissertation. The device layer supplies physical resources; the protocol layer consumes those resources to produce key material and authenticated channels; the infrastructure layer determines deployment viability. The Data Processing Unit (DPU) serves as both the execution substrate and observation point spanning the upper layers.}
+    \caption{The cross-layer security stack investigated in this dissertation. The device layer supplies physical resources; the protocol layer consumes those resources to produce key material and authenticated channels; the infrastructure layer determines deployment viability. The DPU serves as both the execution substrate and observation point spanning the upper layers.}
     \label{fig:cross_layer_stack}
 \end{figure}
 
@@ -113,15 +113,16 @@ The single piece of hardware common to nearly every contribution in this thesis 
 the DPU. It is introduced here, once, because it underpins the QKD, PQC, and
 infrastructure chapters alike.
 
-SmartNICs and DPUs represent a paradigm shift in datacenter architecture. They extend
+Smart network interface cards (SmartNICs) and DPUs represent a paradigm shift in datacenter architecture. They extend
 the network interface from a passive I/O endpoint---responsible only for moving packets
 between the wire and host memory---into an active, programmable execution environment.
 In modern DPU architectures like the NVIDIA BlueField series, the device features a
 cluster of general-purpose Arm CPU cores, dedicated hardware accelerators (including
-inline cryptographic engines for AES-GCM and public-key acceleration), substantial
+inline cryptographic engines for Advanced Encryption Standard--Galois/Counter Mode
+(AES-GCM) and public-key acceleration), substantial
 on-board memory, and programmable packet-processing pipelines~\cite{burstein2021nvidia}.
 In more advanced configurations, DPUs provide direct GPU-connected datapaths (e.g.,
-GPUDirect remote direct memory access, RDMA) that bypass the host CPU entirely
+GPUDirect RDMA) that bypass the host CPU entirely
 (Figure~\ref{fig:dpu_architecture}).
 
 \begin{figure}[htbp]
