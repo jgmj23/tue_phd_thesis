@@ -69,6 +69,18 @@
 
 \captionsetup{font=small}
 
+% Encourage figures to share a page with surrounding text instead of being
+% banished to a page of their own. LaTeX's default float thresholds send a
+% fairly tall figure+caption to an isolated page; loosening them lets such a
+% float sit at the top or bottom of a normal text page.
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+
 % --- Publication cover page ----------------------------------------------------
 % Prints a dedicated page that announces the next included paper by its title and
 % full bibliographic reference, immediately before the paper PDF is embedded.
