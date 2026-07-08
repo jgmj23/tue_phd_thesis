@@ -131,7 +131,7 @@ titles everywhere (bib, List of Publications, cover headings, chapter prose).
 - **Bib key:** `meyer2026detecting` · **Chapter:** 08 (Observability for Confidential AI Infrastructure) · `\includedpaperpending` (PDF not yet embedded)
 - **Venue / status:** IEEE Transactions on Information Forensics and Security (TIFS), 2026 — In review
 - **PDF:** `source-materials/papers/camera-ready/Conf_Compute_TIFS.pdf` (draft)
-- **Authors (true order):** J. G. Meyer (corr.), I. Tafur Monroy, J. J. Vegas Olmos
+- **Authors (true order):** J. G. Meyer (corr.), A. Barreiro, I. Tafur Monroy, J. J. Vegas Olmos
 - **Affiliations:** Electrical Engineering, TU Eindhoven, NL; NVIDIA, Yokneam Illit, IL
 - **Topic:** systematization + experimental study of observability limits in confidential AI clusters
 - **Abstract (condensed):** Hardware isolation (NVIDIA H100 CC, Intel TDX, AMD SEV-SNP) and end-to-end encryption blind traditional IDS, but the field lacks a systematic account of what observability *remains*. Systematizes the metadata that survives encryption and the TEE boundary across three layers (network, infrastructure, workload); for each layer establishes, from first principles and prior work, the footprint an attack is predicted to leave, and validates with worked-example measurements from two testbeds (a GPU training cluster and a DPU testbed). Defines theoretical limits of metadata-only detection (covert-channel noise floor; attacks that leave no footprint by design).
