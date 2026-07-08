@@ -161,6 +161,8 @@ That observation turns algorithm selection into an architecture problem: on whic
 
 The distinction between crossing the PCIe boundary and sharing one memory domain is decisive for batched cryptography, where the data-movement cost can eclipse the arithmetic itself.
 
+This offload has already been shown to be feasible in principle. Prior work demonstrated a line-rate, end-to-end post-quantum encrypted optical link by terminating an ML-KEM and ML-DSA IPsec handshake on DPUs at each endpoint, freeing the host CPUs from the cryptographic burden~\cite{cano2024linerate}. What remains open, and what the two contributions below address, is not whether the offload works but which placement wins: how the choice of processor, batch depth, and algorithm family together determine latency and throughput once the device operates under realistic, contended load.
+
 \section{Contribution and Articles}
 \label{sec:pqc-context}
 
@@ -170,7 +172,7 @@ The first contribution (P4), \enquote{Offloading Post-Quantum Cryptography to Da
 
 The second contribution (P5), \enquote{GPU-Accelerated Post-Quantum Cryptography on Embedded DPU Architecture}, develops and characterizes a heterogeneous DPU architecture that places GPU compute directly in the network datapath. Exploiting an embedded GPU that shares a single memory domain with the DPU's Arm cores---eliminating the PCIe transfer that penalizes discrete accelerators---it evaluates the lattice schemes ML-KEM and ML-DSA across security levels and batch sizes. This manuscript is under review at \emph{IEEE Networking Letters}. It identifies the batch size at which GPU acceleration overtakes CPU execution and quantifies the resulting expansion in secure-connection capacity.
 
-Beyond these articles, the work on post-quantum cryptographic offload also contributed to a filed patent application (I2), \enquote{Computational Offloading of Operations Necessary for Post-Quantum Cryptography on Network Interface Cards}.
+Beyond these articles, the work on post-quantum cryptographic offload also contributed to a filed patent application (I4), \enquote{Computational Offloading of Operations Necessary for Post-Quantum Cryptography on Network Interface Cards}.
 
 Read together, the two contributions map the offload design space of Section~\ref{sec:pqc-offload} onto measured hardware. They show that the right placement depends on the algorithm's computational profile and the deployment's dominant constraint: the memory-bound HQC benefits most from the DPU's isolation and determinism under contention, whereas the SIMD-friendly lattice schemes benefit most from the parallelism of an embedded GPU once enough requests can be batched together, with the shared memory domain removing the data-movement penalty that would otherwise erode the gain. In both cases the lever that makes post-quantum cryptography practical at datacenter scale is not the algorithm alone but its co-design with the processor and memory hierarchy it runs on. Both studies, however, characterize the primitive in isolation; the next chapter carries it into an end-to-end AI pipeline, where the offload must hold up amid competing data ingest, preprocessing, and inference.
 

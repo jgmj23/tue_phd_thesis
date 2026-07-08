@@ -1,47 +1,79 @@
 \chapter{Infrastructure Defence}
 \label{ch:confidential-ai}
 
-The previous chapter treated the infrastructure as an attack surface, reading fabric structure to compromise a system. This chapter inverts that stance. It asks whether the same structural signal that betrays a system to an attacker can be harnessed to defend it, turning the infrastructure from an attack surface into a sensor.
+The previous chapter treated infrastructure as an attack surface. It showed that timing, ordering, congestion, and routing behaviour can betray information that cryptography was never designed to hide. This chapter turns that argument around. If structural metadata is powerful enough for an adversary to exploit, it may also be powerful enough for a defender to use.
 
-The setting that forces this question is confidential computing. As artificial intelligence models become astronomically expensive to train, protecting model weights and training data is a critical operational requirement. In response, confidential computing encrypts everything the infrastructure operator can see. This creates a profound challenge: once payloads are entirely opaque, what observable signal survives, and can a defender still detect threats using it?
+The setting that forces this inversion is confidential AI infrastructure. Modern training clusters host models whose weights, datasets, and intermediate activations represent large economic and strategic value. Confidential computing responds by moving tenant protection deeper into hardware: memory is encrypted, devices are attested, and the infrastructure operator is prevented from inspecting the workload it hosts. This is a necessary privacy boundary, but it creates a defensive problem. Once payloads are opaque by design, what observable signal survives, and can that signal still support intrusion detection?
 
-\section{The Defender's Dilemma}
+\section{Detection Under Opacity}
 \label{sec:conf-dilemma}
 
-Confidential computing relies on hardware trusted execution environments (TEEs), such as AMD SEV-SNP and Intel TDX, alongside increasingly confidential GPUs featuring encrypted memory, PCIe, and network links (TODO: citation). This architecture protects the tenant workload from both a privileged hypervisor and a malicious infrastructure operator.
+Classical datacenter security assumes that the operator can observe enough of the workload to decide whether it is behaving normally. Network intrusion detection systems (IDSs), endpoint monitors, and forensic tools often rely on payload inspection, process visibility, file-system state, or privileged control over the host. Confidential computing deliberately removes much of that visibility. Hardware trusted execution environments (TEEs), such as AMD SEV-SNP and Intel TDX, protect tenant memory and execution state from a privileged hypervisor, while emerging confidential accelerator designs extend the encrypted boundary across GPU memory, PCIe, and network paths (TODO: citation).
 
-However, this introduces a sharp tension: the same cryptographic boundary that shields the tenant also blinds the defender. The infrastructure operator remains responsible for the security and health of the cluster, yet is cryptographically forbidden from inspecting the workloads running on it. Consequently, classical intrusion detection systems (IDS) built on deep packet inspection (DPI) and payload signature matching are rendered entirely useless. While prevention mechanisms are robust, they are not enough; the open problem in confidential AI infrastructure is detection under opacity.
+The result is a conflict between two security obligations. The tenant needs confidentiality from the cloud operator and from any compromised infrastructure component. The operator still needs to keep the cluster healthy, detect abuse, and prevent one tenant's compromised job from harming other workloads. If defence depends on deep packet inspection (DPI), payload signatures, or host introspection, then the confidential-computing boundary makes defence structurally incompatible with the privacy guarantee. Prevention alone is not enough: attacks, misconfigurations, and compromised jobs still occur. The open question is therefore not whether confidential AI can hide payloads, but whether it can remain observable enough to defend.
 
-\section{The Datacenter as an Observable System}
+\section{The Confidential AI Trust Boundary}
+\label{sec:conf-trust-boundary}
+
+The trust boundary in a confidential AI cluster is not a simple wall around one process. Training and inference jobs cross hosts, accelerators, storage systems, RDMA transports, orchestration services, and attestation infrastructure. A single iteration may involve local accelerator kernels, direct memory access (DMA) between devices, gradient exchange across the fabric, checkpointing to storage, and control-plane decisions about placement or recovery. Confidential computing can encrypt the payloads crossing these boundaries, but it cannot make the system stop having boundaries.
+
+This distinction matters for detection. The protected workload may be opaque, but it is not behaviourless. It allocates resources, opens connections, exchanges gradients, synchronizes collectives, waits at barriers, consumes bandwidth, and triggers attestation and orchestration events. These are not accidental side effects. They are the operational shape of the workload. Chapter~\ref{ch:rdma} used that shape as an attack surface; this chapter uses it as the remaining defensive surface.
+
+\section{The DPU as a Defensive Vantage Point}
 \label{sec:conf-observable}
 
-At datacenter scale, the operator is responsible for thousands of confidential jobs that it cannot look inside. The only approach that scales is reading aggregate structure---the datacenter's vital signs---rather than any individual packet's content. Because the operator cannot biopsy the workload, they must read the whole body's telemetry.
+The DPU is the natural place to observe this surface. It sits at the boundary between the tenant host and the infrastructure fabric: close enough to see network queues, flow metadata, storage traffic, PCIe movement, and device-level counters, but outside the tenant's protected execution environment. In Chapters~\ref{ch:qkd-dpu}--\ref{ch:ai-pipelines}, the DPU was used as an acceleration and termination point for cryptographic work. Here it becomes a sensor.
 
-In this architecture, the data processing unit (DPU) serves as a privileged vantage point and sensor at every node. It sits below the tenant trust line but remains on the infrastructure side, allowing it to watch metadata without breaking confidentiality. The union of these per-node DPU vantage points turns an otherwise opaque cluster into an observable system. This reframes the DPU into a detection vantage point, extending the focus toward detection and response.
+This placement gives the DPU a narrow but valuable form of privilege. It should not decrypt the tenant's payload, inspect model weights, or recover training data. It can, however, measure whether the node is behaving like a legitimate participant in a confidential AI job. Across a cluster, the union of these node-local vantage points turns the datacenter into an observable system. The defender no longer asks what a packet contains. The defender asks whether the encrypted workload's structure is consistent with the job it claims to be running. Figure~\ref{fig:dpu-signals} illustrates the kind of evidence this vantage point yields: structural telemetry observable only at the DPU, in which a compromised node departs from the expected envelope of a healthy training job even though its payload stays encrypted.
 
-\section{What Signal Survives Encryption}
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/chapter8/peer_comparison.pdf}
+  \caption{Detection from DPU-only signals. Confidential computing hides each node's payload, but the DPU still observes structural telemetry that the tenant never exposes, here the per-node egress rate. A healthy training job stays within the expected structural envelope (grey); the compromised node (right) departs from it as exfiltration traffic fills the quiet gaps between collective-communication bursts. The traces are synthetic and illustrative.}
+  \label{fig:dpu-signals}
+\end{figure}
+
+\section{Structural Signals That Survive Encryption}
 \label{sec:conf-observability-surface}
 
-To build an observability taxonomy, one must enumerate the surface that survives both encryption and TEE boundaries. This surviving signal includes network metadata (such as packet sizes, timing, inter-arrival rates, flow volumes, and fan-in/fan-out ratios), communication structure (specifically the collective-operation patterns inherent in training), DPU hardware telemetry (including queue depths, DMA and PCIe activity, and hardware counters), and control-plane or attestation events.
+The signal that survives encryption is structural rather than semantic. It does not reveal the content of a tensor, the value of a gradient, or the prompt sent to a model. It reveals how the system moves. The most obvious examples are network metadata: packet sizes, timing, burst structure, inter-arrival distributions, flow duration, fan-in and fan-out, retransmissions, and congestion response. These quantities remain visible because switches, network interface cards, and DPUs must process packets even when their payloads are encrypted.
 
-AI training makes this observability tractable. AI training traffic is highly regular, characterized by predictable collectives and a fixed iteration cadence. Any deviation from the expected all-reduce rhythm serves as a strong anomaly signal. Consequently, several threats remain detectable without payload access. Data exfiltration, malware beaconing and command-and-control communication, lateral movement, cryptomining, and hijacked or poisoned jobs each perturb the traffic structure, even under encryption.
+AI workloads make this structural view unusually useful. Distributed training has a strong rhythm: forward pass, backward pass, gradient synchronization, parameter update, and repeat. Different architectures and parallelization strategies change the details, but large training jobs still produce recognizable collective-communication patterns. Ring and tree all-reduce, all-to-all exchanges, checkpoint bursts, and synchronization barriers leave timing and volume signatures that do not require payload access to observe.
 
-Because no single layer is legible anymore, the defender must fuse signals across the optical, transport, and DPU-hardware layers. In this context, cross-layer analysis ceases to be a slogan and becomes a literal, necessary method for detection.
+The DPU adds a second class of signals below the network flow abstraction. Queue occupancy, RDMA work-request behaviour, packet drops, retry counters, DMA and PCIe activity, memory pressure, and hardware performance counters expose how encrypted traffic interacts with the node. The control plane contributes a third class: attestation results, identity and key-management events, job placement, scaling, restart, and scheduling history. None of these layers is sufficient alone. Together they form the observable remainder of the confidential system.
+
+\section{Threats as Structural Perturbations}
+\label{sec:conf-structural-perturbations}
+
+This reframing changes what intrusion detection means. A payload-centric detector asks whether a byte sequence matches a known malicious pattern. A confidential-infrastructure detector asks whether the workload perturbs the datacenter in a way that violates its expected structural envelope.
+
+Several important threats remain visible under that definition. Data exfiltration may appear as an unexpected external flow, an unusual egress volume, or traffic that does not align with the training cadence. Malware beaconing and command-and-control communication may be small in volume, but it introduces periodicity, destination changes, and timing behaviour unrelated to the collective rhythm. Lateral movement changes fan-out and connection structure. Cryptomining consumes accelerator and memory resources without producing the communication pattern of a legitimate training job. A hijacked or poisoned participant may still join the encrypted collective, but it can perturb synchronization timing, queue pressure, retry behaviour, or the relationship between compute and communication phases.
+
+The key point is not that metadata reveals every attack. It does not. The key point is that many attacks cannot use the infrastructure without changing its shape. Confidential computing hides contents, but it does not make bandwidth, queues, synchronization, or placement disappear. Defence must therefore shift from inspection of meaning to detection of inconsistency.
+
+\section{Limits of Metadata-Based Defence}
+\label{sec:conf-limits}
+
+Structural observability is not a free substitute for payload visibility. Metadata is noisy, workload-dependent, and sensitive to benign changes in batch size, model architecture, parallelization strategy, congestion, maintenance, and scheduler decisions. A detector trained on one cluster, model, or traffic pattern may not transfer cleanly to another. An adaptive adversary can also shape malicious activity to resemble expected background behaviour, especially if the expected envelope is broad.
+
+There is also a privacy boundary inside the defence itself. Metadata is less revealing than plaintext, but it is not harmless. Traffic timing, collective structure, and resource use can expose commercial information about model scale, training progress, and operational priorities. A confidential AI observability system must therefore minimize what it collects, separate tenant-private inference from operator-visible health signals, and treat telemetry access as part of the trusted computing base. This tension is not unique to AI clusters: optical-network operators face the same problem when outsourcing telemetry analytics, and have begun to address it by obfuscating the telemetry before analysis, so that a third-party detector can still flag anomalies without gaining access to the raw operational data~\cite{silva2023confidentiality}.
+
+These limits do not invalidate the approach. They define its proper claim. Cross-layer observability does not restore the old world of full operator visibility. It gives the operator a defensible, privacy-preserving way to detect a subset of meaningful threats after payload inspection has been intentionally removed.
 
 \section{Contribution and Articles}
 \label{sec:conf-context}
 
 The following articles form the core of this chapter. \textit{Cross-Layer Observability for Intrusion Detection in Confidential AI Training Clusters} was accepted and presented as an invited paper at the International Conference on Transparent Optical Networks (ICTON) 2026. \textit{Obscured, But Not Blind: Systematizing Observability in Confidential AI Training Clusters} is currently under review for journal publication (TODO: confirm venue/status).
 
-These papers contribute to the thesis by charting an arc from exploration to systematization. The first paper explores the design space and trade-offs of AI-based intrusion detection in confidential systems. The second paper systematizes the observable surface that survives encryption and TEE boundaries, validating it with worked-example measurements when payload access is unavailable. Both papers address RQ4 by demonstrating how cross-layer observability enables detection even when the substrate completely hides the payload.
+Together, the papers move from feasibility to systematization. The first asks whether AI-assisted intrusion detection remains possible when confidential computing removes the data sources on which classical systems rely. The second turns that question into a structured observability model, identifying which signals survive encryption and how they can be combined into worked detection examples. Their role in this dissertation is broader than either paper's individual threat model: they complete the Part~\ref{part:infra} attack/defence pair by showing that the same infrastructure metadata that creates leakage in Chapter~\ref{ch:rdma} can also become the basis for detection. In doing so, they address RQ4 by demonstrating that security in programmable datacenter infrastructure depends on cross-layer behaviour, not only on the cryptographic strength of the protected payload.
 
 \includedpaper{P8}{Cross-Layer Observability for Intrusion Detection in Confidential AI Training Clusters}{meyer2026intrusion}{source-materials/papers/camera-ready/cross-layer-observability-confidential-ai-training-clusters-camera-ready.pdf}
 
 \includedpaper{P9}{Obscured, But Not Blind: Systematizing Observability in Confidential AI Training Clusters}{meyer2026detecting}{source-materials/papers/camera-ready/Conf_Compute_TIFS.pdf}
 
-\section{Discussion}
+\section{Metadata as Cross-Layer Currency}
 \label{sec:conf-discussion}
 
-These papers collectively demonstrate that metadata, DPU telemetry, and traffic structure suffice to detect meaningful threats without requiring payload inspection. The very structural metadata that adversaries often exploit as a side channel becomes, under confidential computing, the defender's primary telemetry. Cryptography successfully moves the security contest from payload content to observable structure, but it does not remove the contest entirely.
+The lesson of this chapter is not that metadata is good or bad in itself. Metadata is the currency that remains when payloads are hidden. In Chapter~\ref{ch:rdma}, that currency funds an attack: fabric timing and ordering reveal structure that higher layers assumed was private. In this chapter, the same class of signal funds defence: DPU telemetry, traffic rhythm, and control-plane events let the operator reason about encrypted workloads without violating their confidentiality.
 
-This insight---metadata as a cross-layer currency---is a system-level lesson that only becomes visible once the analysis zooms out to the whole datacenter. It is precisely this insight that Chapter 9 cashes in to resolve RQ4, synthesising the findings of Part III into a cohesive conclusion.
+This completes the Part~\ref{part:infra} argument. Cryptography can move the security contest away from plaintext, but it cannot remove the infrastructure on which the protected system runs. Once the analysis reaches datacenter scale, the decisive evidence lives between layers: in queues, flows, timings, attestation events, and the mismatch between expected and observed structure. Chapter~\ref{ch:cross-layer} draws this observation back into the thesis as a whole, using it to synthesize the cross-layer constraints that determine whether quantum-resilient communication systems can be deployed securely in practice.

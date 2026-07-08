@@ -62,6 +62,8 @@ Bridging the gap from today's hardware to the scale required for a CRQC necessit
 
 It is important to stress that the achieved and required qubit counts are not directly comparable. The processors built to date consist of \emph{noisy} physical qubits, whereas the resource estimates above count the \emph{fault-tolerant} physical qubits needed once quantum error correction is layered on top, under idealized assumptions such as a physical error rate of $10^{-3}$ and microsecond-scale code cycles. The meaningful observation is therefore not a single headline ratio but the structural trend shown in Figure~\ref{fig:hardware_gap}: the estimated cost of breaking RSA-2048 has fallen by several orders of magnitude in little over a decade through algorithmic and error-correction advances, while hardware has scaled more slowly. The result is a hardware gap that remains large today but is being closed from both ends.
 
+The rapid narrowing of this hardware margin has dismantled the consensus that infrastructure owners have decades to prepare. Just recently, the United States government slashed its original 2035 migration target~\cite{nsm10} by more than five years, mandating full post-quantum deployment across critical systems by 2030~\cite{eo14412,omb2026m2615}. This example shows that quantum resilience is no longer a gradual future upgrade, but an immediate infrastructure requirement. Consequently, the debate over \emph{whether} to adopt quantum-resilient cryptography is effectively settled; the primary engineering challenge is now \emph{how} to integrate these demanding new protocols into production networks before the hardware gap closes entirely.
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{figures/chapter1/hardware_gap.pdf}
@@ -131,7 +133,7 @@ This dissertation is organized around the following research questions.
     \item How can PQC workloads be accelerated and
 deployed efficiently on programmable network infrastructure?
     \item What architectural choices make QKD systems more scalable and
-practical in multi-user communication networks?
+practical in high-performance datacenter networks?
     \item How can integrated photonic entanglement sources be designed and
 characterized for deployable, wavelength-division multiplexed QKD systems?
     \item How do device-level, protocol-level, and infrastructure-level design
@@ -172,7 +174,7 @@ The core contributions are then divided into three parts:
 \textbf{Part~I --- Quantum Key Distribution} treats quantum key distribution as a deployable network capability rather than only a point-to-point protocol.
 \begin{itemize}
 \item \textbf{Chapter~\ref{ch:quantum-sources}} discusses the integrated photonic foundations of practical quantum-secure networking, addresses RQ3, and presents P1 and P2.
-\item \textbf{Chapter~\ref{ch:qkd-dpu}} discusses scalable, topology-aware key exchange, addresses RQ2, and presents P3.
+\item \textbf{Chapter~\ref{ch:qkd-dpu}} discusses scalable QKD post-processing offload on programmable network hardware, addresses RQ2, and presents P3.
 \end{itemize}
 
 \medskip
@@ -183,10 +185,10 @@ The core contributions are then divided into three parts:
 \end{itemize}
 
 \medskip
-\textbf{Part~III --- Programmable Datacenter Infrastructure} addresses the programmable network substrate on which both the post-quantum and quantum mechanisms must ultimately run, exposing the cross-layer interactions at the heart of RQ4.
+\textbf{Part~III --- Datacenter-Scale Security} widens the lens from individual devices and nodes to the datacenter operating as a whole, and stops treating the shared substrate beneath it as a trustworthy given. It examines that substrate first as an attack surface and then as a defensive vantage point, exposing the cross-layer interactions at the heart of RQ4.
 \begin{itemize}
-\item \textbf{Chapter~\ref{ch:rdma}} discusses workload offload and the ordering- and timing-related risks of RDMA over high-throughput optical fabrics, addresses RQ4, and presents P7.
-\item \textbf{Chapter~\ref{ch:confidential-ai}} discusses cross-layer observability and intrusion detection for confidential AI infrastructure, addresses RQ4, and presents P8 and P9.
+\item \textbf{Chapter~\ref{ch:rdma}} treats the infrastructure as an attack surface, spanning device-level side channels through to the ordering- and timing-related risks of RDMA over high-throughput optical fabrics, addresses RQ4, and presents P7.
+\item \textbf{Chapter~\ref{ch:confidential-ai}} inverts that argument into a defence, using cross-layer observability and intrusion detection to protect confidential AI training clusters, addresses RQ4, and presents P8 and P9.
 \end{itemize}
 
 \medskip

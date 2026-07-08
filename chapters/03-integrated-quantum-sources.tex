@@ -12,7 +12,7 @@ The discussion begins at the device level. It examines dual-coupled micro-ring r
 \section{Nonlinear Optics and Four-Wave Mixing}
 \label{sec:qsrc-nonlinear}
 
-The generation of entangled photon pairs in integrated photonics relies on nonlinear optical processes. In centrosymmetric materials such as silicon and silicon nitride, the crystal symmetry strictly forbids second-order nonlinearity. Thus, the third-order susceptibility, $\chi^{(3)}$, becomes the lowest-order (and therefore dominant) nonlinear response available. This nonlinearity mediates spontaneous four-wave mixing (SFWM), the process by which two pump photons are annihilated to create a signal and an idler photon pair.
+The generation of entangled photon pairs in integrated photonics relies on nonlinear optical processes. In non-centrosymmetric materials, efficient pair generation can be achieved via spontaneous parametric down-conversion in quadratic nonlinear photonic crystals~\cite{arie2010nonlinear}. In centrosymmetric materials such as silicon and silicon nitride, however, the crystal symmetry strictly forbids second-order nonlinearity. Thus, the third-order susceptibility, $\chi^{(3)}$, becomes the lowest-order (and therefore dominant) nonlinear response available. This nonlinearity mediates spontaneous four-wave mixing (SFWM), the process by which two pump photons are annihilated to create a signal and an idler photon pair.
 
 Two conservation laws constrain the process. Energy conservation fixes the
 generated frequencies relative to the pump, while momentum conservation (phase
@@ -160,7 +160,7 @@ The realization of quantum repeaters relies heavily on two components: quantum m
 \section{Coexistence with Classical Infrastructure}
 \label{sec:qsrc-coexistence}
 
-A further challenge for deploying quantum networks is the economic unfeasibility of laying dedicated ``dark fiber'' exclusively for quantum traffic. Practical quantum networking must co-exist with classical optical communications on the same fiber infrastructure using Wavelength Division Multiplexing (WDM). 
+A further challenge for deploying quantum networks is the economic unfeasibility of laying dedicated ``dark fiber'' exclusively for quantum traffic. Practical quantum networking must co-exist with classical optical communications on the same fiber infrastructure using Wavelength Division Multiplexing (WDM), the same multiplexing discipline that already packs many dense channels onto a single fiber in classical access networks~\cite{spolitis2014wdmpon}. 
 
 Integrating single-photon quantum channels alongside classical channels carrying milliwatts of power is notoriously difficult. The primary obstacle is spontaneous Raman scattering: the intense classical lasers scatter photons across a broad spectrum within the fiber, creating a noise floor that easily overwhelms the fragile quantum signals.
 
@@ -174,7 +174,7 @@ The first contribution (P1) establishes the theoretical and modeling foundation 
 
 The second contribution (P2) provides the experimental validation of the device's stability. It demonstrates that thermal tuning of the auxiliary resonator preserves the predictable free spectral range behavior required for channelized quantum network operation. This work was accepted and presented at the 2026 International Conference on Science and Electrical Engineering (ICSEE).
 
-Together, the two articles establish that source behavior can be modeled, optimized, and physically stabilized in terms that later network layers can consume. This addresses the device-level aspects of \textbf{RQ1}, demonstrating how integrated photonic sources can be engineered to generate predictable quantum resources. The following chapters build on this foundation by moving from generating quantum-secure optical resources to processing the resulting classical information on programmable network hardware.
+Together, the two articles establish that source behavior can be modeled, optimized, and physically stabilized in terms that later network layers can consume. This addresses \textbf{RQ3}, demonstrating how integrated photonic entanglement sources can be designed and characterized to generate predictable quantum resources for deployable QKD systems. The following chapters build on this foundation by moving from generating quantum-secure optical resources to processing the resulting classical information on programmable network hardware.
 
 \includedpaper{P1}{Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Optical Networks}{meyer2026icton}{source-materials/papers/camera-ready/dcm-entanglement-sources-quantum-networks-camera-ready.pdf}
 

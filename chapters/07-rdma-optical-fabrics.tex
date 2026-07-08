@@ -1,7 +1,7 @@
 \chapter{Infrastructure Attacks}
 \label{ch:rdma}
 
-Security proofs reason about an idealized machine: one that computes in constant time, emits nothing an observer can measure, and moves bytes over a channel that reveals only their ciphertext. Real deployments run on a physical substrate that violates every one of those assumptions. Transistors consume power as they switch, processors take data-dependent time, and packets traverse a shared fabric whose routing and timing are visible to anyone positioned to watch. This chapter treats that substrate not as a neutral medium but as an attack surface, from the device-level behaviour of individual chips to the datacenter-scale behaviour of the network fabric that connects them.
+Security proofs reason about an idealized machine: one that computes in constant time, emits nothing an observer can measure, and moves bytes over a channel that reveals only their ciphertext. Real deployments run on a physical substrate that violates every one of those assumptions. Transistors consume power as they switch, processors take data-dependent time, and packets traverse a shared fabric whose routing and timing are visible to anyone positioned to watch. Where the preceding parts trusted this substrate to faithfully carry the quantum and post-quantum mechanisms built on top of it, Part~\ref{part:infra} makes the substrate itself the object of study, at the scale of the whole datacenter. This chapter opens that shift on the offensive: it treats the substrate not as a neutral medium but as an attack surface, escalating from the device-level behaviour of individual chips to the datacenter-scale behaviour of the fabric that connects them.
 
 \section{Hardware and Node-Level Infrastructure}
 \label{sec:node-infra}
@@ -92,10 +92,3 @@ The following article, \textit{Exploiting Cross-QP Ordering in RDMA over Optical
 This paper grounds the infrastructure-attack argument in a concrete exploit, showing that physical-layer routing behaviour can undermine higher-layer security guarantees. It addresses RQ4 by demonstrating how weak cross-QP ordering and timing behaviour in RDMA over optical fabrics can be turned into an observable channel. By revealing that an adversary can infer application-level state from fabric-level reordering, the paper exposes the limits of purely cryptographic security arguments and motivates the cross-layer analysis that the rest of Part~\ref{part:infra} develops.
 
 \includedpaper{P7}{Exploiting Cross-QP Ordering in RDMA over Optical Fabrics}{meyer2026rdma}{source-materials/papers/camera-ready/cross-qp-ordering-rdma-optical-fabrics-camera-ready.pdf}
-
-\section{Discussion}
-\label{sec:rdma-discussion}
-
-This chapter shows that cryptography cannot eliminate physical, metadata, or timing leaks. Cryptographic arguments successfully move the contest from payload content to observable structure, but they do not end it. The physical reality of the hardware and the optical fabric keeps structural information visible, and, worse, manipulable by an adversary positioned in the infrastructure.
-
-Yet the same dynamic can be inverted. The structure that serves as an attack surface here becomes the defender's richest source of signal once payloads are opaque. Where this chapter reads fabric structure to attack a system, the next reads it to defend one: it turns the infrastructure from an attack surface into a sensor, using the very metadata that adversaries exploit to detect threats inside confidential AI clusters.
