@@ -1,42 +1,47 @@
-\chapter{Observability for Confidential AI Infrastructure}
+\chapter{Infrastructure Defence}
 \label{ch:confidential-ai}
 
-\section{Detecting Threats Without Payload Access}
+The previous chapter treated the infrastructure as an attack surface, reading fabric structure to compromise a system. This chapter inverts that stance. It asks whether the same structural signal that betrays a system to an attacker can be harnessed to defend it, turning the infrastructure from an attack surface into a sensor.
 
-As AI models become astronomically expensive to train, protecting the model weights and
-training data from unauthorized access becomes critical. Confidential computing addresses this
-by using hardware-based trusted execution environments (TEEs), such as AMD SEV-SNP or Intel TDX,
-combined with strictly encrypted memory and PCIe links \textsc{TODO: citation (confidential computing/TEE overview)}.
-This ensures that the tenant's workload is protected even from a privileged hypervisor or a
-malicious infrastructure operator.
+The setting that forces this question is confidential computing. As artificial intelligence models become astronomically expensive to train, protecting model weights and training data is a critical operational requirement. In response, confidential computing encrypts everything the infrastructure operator can see. This creates a profound challenge: once payloads are entirely opaque, what observable signal survives, and can a defender still detect threats using it?
 
-However, the same cryptographic boundary that shields tenant data also blinds the defender.
-In a confidential AI training cluster, payloads are entirely opaque to the infrastructure provider.
-Classical intrusion detection systems (IDS), which rely on deep packet inspection and payload
-signature matching, are rendered useless.
+\section{The Defender's Dilemma}
+\label{sec:conf-dilemma}
 
-The background question for this part of the thesis is therefore: what observable signal
-survives the encryption and TEE boundaries? The answer lies in metadata, traffic structure,
-packet timing, and hardware telemetry extracted directly from the DPU. By combining these
-side-channel signals, it is possible to detect threats, such as data exfiltration or malware
-beaconing, without ever accessing the payload. This reframes the DPU of Chapter~\ref{ch:background}
-from merely an accelerator into a privileged vantage point, extending the thesis focus from
-prevention and acceleration toward detection and response.
+Confidential computing relies on hardware trusted execution environments (TEEs), such as AMD SEV-SNP and Intel TDX, alongside increasingly confidential GPUs featuring encrypted memory, PCIe, and network links (TODO: citation). This architecture protects the tenant workload from both a privileged hypervisor and a malicious infrastructure operator.
 
-% TODO: Expand with paper-specific framing for P8 and P9.
+However, this introduces a sharp tension: the same cryptographic boundary that shields the tenant also blinds the defender. The infrastructure operator remains responsible for the security and health of the cluster, yet is cryptographically forbidden from inspecting the workloads running on it. Consequently, classical intrusion detection systems (IDS) built on deep packet inspection (DPI) and payload signature matching are rendered entirely useless. While prevention mechanisms are robust, they are not enough; the open problem in confidential AI infrastructure is detection under opacity.
+
+\section{The Datacenter as an Observable System}
+\label{sec:conf-observable}
+
+At datacenter scale, the operator is responsible for thousands of confidential jobs that it cannot look inside. The only approach that scales is reading aggregate structure---the datacenter's vital signs---rather than any individual packet's content. Because the operator cannot biopsy the workload, they must read the whole body's telemetry.
+
+In this architecture, the data processing unit (DPU) serves as a privileged vantage point and sensor at every node. It sits below the tenant trust line but remains on the infrastructure side, allowing it to watch metadata without breaking confidentiality. The union of these per-node DPU vantage points turns an otherwise opaque cluster into an observable system. This reframes the DPU into a detection vantage point, extending the focus toward detection and response.
+
+\section{What Signal Survives Encryption}
+\label{sec:conf-observability-surface}
+
+To build an observability taxonomy, one must enumerate the surface that survives both encryption and TEE boundaries. This surviving signal includes network metadata (such as packet sizes, timing, inter-arrival rates, flow volumes, and fan-in/fan-out ratios), communication structure (specifically the collective-operation patterns inherent in training), DPU hardware telemetry (including queue depths, DMA and PCIe activity, and hardware counters), and control-plane or attestation events.
+
+AI training makes this observability tractable. AI training traffic is highly regular, characterized by predictable collectives and a fixed iteration cadence. Any deviation from the expected all-reduce rhythm serves as a strong anomaly signal. Consequently, several threats remain detectable without payload access. Data exfiltration, malware beaconing and command-and-control communication, lateral movement, cryptomining, and hijacked or poisoned jobs each perturb the traffic structure, even under encryption.
+
+Because no single layer is legible anymore, the defender must fuse signals across the optical, transport, and DPU-hardware layers. In this context, cross-layer analysis ceases to be a slogan and becomes a literal, necessary method for detection.
 
 \section{Contribution and Articles}
+\label{sec:conf-context}
 
-This chapter is built around two contributions that study security monitoring for confidential AI infrastructure without inspecting payloads.
+The following articles form the core of this chapter. \textit{Cross-Layer Observability for Intrusion Detection in Confidential AI Training Clusters} was accepted and presented as an invited paper at the International Conference on Transparent Optical Networks (ICTON) 2026. \textit{Obscured, But Not Blind: Systematizing Observability in Confidential AI Training Clusters} is currently under review for journal publication (TODO: confirm venue/status).
 
-The first contribution (P8), \enquote{Cross-Layer Observability for Intrusion Detection in Confidential AI Training Clusters}, develops a cross-layer observability framework for intrusion detection in confidential AI training clusters.
-% TODO: Record the author's specific contributions and co-author context for P8.
-
-The second contribution (P9), \enquote{Obscured, But Not Blind: Systematizing Observability in Confidential AI Training Clusters}, systematizes the observability that survives encryption and trusted-execution-environment boundaries, and validates it with worked-example measurements when payload access is unavailable.
-% TODO: Record the author's specific contributions and co-author context for P9.
-
-TODO: Synthesize what the papers show about metadata, telemetry, DPU observability, and security monitoring without payload inspection, and transition from the final paper-bearing chapter to the thesis-wide synthesis of cross-layer lessons.
+These papers contribute to the thesis by charting an arc from exploration to systematization. The first paper explores the design space and trade-offs of AI-based intrusion detection in confidential systems. The second paper systematizes the observable surface that survives encryption and TEE boundaries, validating it with worked-example measurements when payload access is unavailable. Both papers address RQ4 by demonstrating how cross-layer observability enables detection even when the substrate completely hides the payload.
 
 \includedpaper{P8}{Cross-Layer Observability for Intrusion Detection in Confidential AI Training Clusters}{meyer2026intrusion}{source-materials/papers/camera-ready/cross-layer-observability-confidential-ai-training-clusters-camera-ready.pdf}
 
 \includedpaper{P9}{Obscured, But Not Blind: Systematizing Observability in Confidential AI Training Clusters}{meyer2026detecting}{source-materials/papers/camera-ready/Conf_Compute_TIFS.pdf}
+
+\section{Discussion}
+\label{sec:conf-discussion}
+
+These papers collectively demonstrate that metadata, DPU telemetry, and traffic structure suffice to detect meaningful threats without requiring payload inspection. The very structural metadata that adversaries often exploit as a side channel becomes, under confidential computing, the defender's primary telemetry. Cryptography successfully moves the security contest from payload content to observable structure, but it does not remove the contest entirely.
+
+This insight---metadata as a cross-layer currency---is a system-level lesson that only becomes visible once the analysis zooms out to the whole datacenter. It is precisely this insight that Chapter 9 cashes in to resolve RQ4, synthesising the findings of Part III into a cohesive conclusion.
