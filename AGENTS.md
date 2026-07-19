@@ -46,7 +46,7 @@ directly.
 - Prefer source figures and reproducible exports where practical.
 - Use descriptive, content-specific section titles in chapters rather than generic template names (e.g., "From Photonic Devices to Network Components" instead of "Chapter Motivation").
 - For paper-centric chapters, preserve the accepted/camera-ready paper formatting where possible by including the final PDF using `\includepdf` from the `pdfpages` package instead of copying raw LaTeX text.
-- Before the included papers/patents, add a short, concise thesis-formatted section (e.g., "Contribution and Articles"). Do not mention individual author contributions; focus instead on what the paper or patent as a whole contributes to the thesis. Explicitly state that the papers/patents were accepted and presented at their respective conferences or venues. Include how they relate to the thesis questions and why they belong there.
+- Before the included papers/patents, add a short, concise thesis-formatted section (e.g., "Contribution and Articles"). Do not mention individual author contributions or leave TODOs for author-specific contribution paragraphs; such paragraphs are not planned. Focus instead on what the paper or patent as a whole contributes to the thesis. State each work's actual status accurately (e.g., under review, accepted, presented, or published); journal articles are never described as presented. Include how the works relate to the thesis questions and why they belong there.
 - After each included paper, add a thesis-formatted discussion/transition section.
 - Abbreviations: define once, then abbreviate. Spell out each technical acronym
   in full at its *first* appearance in the thesis-authored prose, immediately

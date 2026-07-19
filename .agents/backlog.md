@@ -8,14 +8,15 @@ reorder, and delete items freely. Work happens directly on `main`.
 - Chapter 1 (introduction): continue reworking framing and figures.
 - Chapter 3 (integrated quantum sources): integrate remaining papers.
 - Chapters 5--6 (Part II, PQC): drafted with full wrappers, figures, and
-  transitions (2026-07-03). Swap `\includedpaperpending{P5}` for
-  `\includedpaper` once the Networking Letters camera-ready lands.
+  transitions (2026-07-03). Replace the included P5 manuscript with the
+  Networking Letters final PDF if it is accepted.
 
 ## Manuscripts (local-only, gitignored)
 
 - All 9 thesis-body manuscripts have local PDFs as of 2026-06-28.
-- Swap the in-review drafts (Heterogeneous DPU / Networking Letters, QKD / QCE,
-  TIFS, EDGEAI / ICA3PP) for camera-ready PDFs once accepted.
+- Swap the in-review manuscripts (Heterogeneous DPU / Networking Letters,
+  Edge AI / ICA3PP, and confidential-AI / TIFS) for final PDFs if they are
+  accepted.
 
 ## References
 

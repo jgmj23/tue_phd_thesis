@@ -44,7 +44,7 @@ The Abraham Cano draft is a local third-party reference only. Reuse its structur
 - Each paper-centric chapter has a consistent wrapper pattern:
   - chapter motivation
   - relation to thesis research questions
-  - publication context and author contribution
+  - publication context and the paper's contribution to the thesis
   - included paper placeholder
   - post-paper discussion
   - link to the next chapter

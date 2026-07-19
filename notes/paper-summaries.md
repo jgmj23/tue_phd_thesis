@@ -1,6 +1,6 @@
 # Paper Summaries (agent + author quick reference)
 
-Last updated: 2026-06-28.
+Last updated: 2026-07-19.
 
 Purpose: a single place that captures, for every thesis-body paper, the
 information an agent or author needs **without re-scanning the source PDF** —
@@ -36,7 +36,7 @@ titles everywhere (bib, List of Publications, cover headings, chapter prose).
 ## P1 — Simulation-Driven Optimization of Dual-Coupled Micro-Ring Entanglement Sources for Quantum Optical Networks
 
 - **Bib key:** `meyer2026icton` · **Chapter:** 03 (Integrated Quantum Sources) · `\includedpaper`
-- **Venue / status:** 26th IEEE Int. Conf. on Transparent Optical Networks (ICTON), 2026 — Accepted
+- **Venue / status:** 26th IEEE Int. Conf. on Transparent Optical Networks (ICTON), 2026 — Accepted and presented
 - **PDF:** `source-materials/papers/camera-ready/dcm-entanglement-sources-quantum-networks-camera-ready.pdf`
 - **Authors (true order):** J. G. Meyer (corr.), A. Barreiro, A. Grebenchukov, E. Mentovich, J. A. Jaramillo-Villegas, J. J. Vegas Olmos, I. Tafur Monroy
 - **Affiliations:** (1) NVIDIA, Yokneam Illit, IL; (2) Electrical Engineering, TU Eindhoven, NL; (3) Facultad de Ingenierías, Universidad Tecnológica de Pereira, CO
@@ -48,7 +48,7 @@ titles everywhere (bib, List of Publications, cover headings, chapter prose).
 ## P2 — Free Spectral Range Stability under Linear Thermal Tuning in a Dual-Coupled Microring Resonator
 
 - **Bib key:** `meyer2026icsee` · **Chapter:** 03 (Integrated Quantum Sources) · `\includedpaper`
-- **Venue / status:** IEEE Int. Conf. on Science and Electrical Engineering (ICSEE), 2026 — Presented
+- **Venue / status:** IEEE Int. Conf. on Science and Electrical Engineering (ICSEE), 2026 — Accepted and presented
 - **PDF:** `source-materials/papers/camera-ready/fsr-stability-dual-coupled-microring-camera-ready.pdf`
 - **Authors (true order):** J. G. Meyer, A. Grebenchukov, A. Barreiro, J. A. Jaramillo-Villegas, J. J. Vegas Olmos, I. Tafur Monroy
 - **Affiliations:** NVIDIA, Yokneam Illit, IL; Electrical Engineering, TU Eindhoven, NL; Universidad Tecnológica de Pereira, CO
@@ -59,9 +59,9 @@ titles everywhere (bib, List of Publications, cover headings, chapter prose).
 
 ## P3 — QKD Post-Processing Offload on BlueField-3 DPUs: Towards Quantum-Secured RDMA in Datacenter Fabrics
 
-- **Bib key:** `meyer2026qkd` · **Chapter:** 04 (QKD Post-Processing on Programmable Network Hardware) · `\includedpaperpending` (PDF not yet embedded)
-- **Venue / status:** IEEE Int. Conf. on Quantum Computing and Engineering (QCE / IEEE Quantum Week), Toronto, 2026 — In review
-- **PDF:** `source-materials/papers/camera-ready/QKD_PostProc_DPUs.pdf` (draft)
+- **Bib key:** `meyer2026qkd` · **Chapter:** 04 (QKD Post-Processing on Programmable Network Hardware) · `\includedpaper`
+- **Venue / status:** IEEE Int. Conf. on Quantum Computing and Engineering (QCE / IEEE Quantum Week), Toronto, 2026 — Accepted; to be presented
+- **PDF:** `source-materials/papers/camera-ready/QKD_PostProc_DPUs.pdf`
 - **Authors (true order):** J. G. Meyer (corr.), J. J. Vegas Olmos, I. Tafur Monroy
 - **Affiliations:** NVIDIA, Yokneam Illit, IL; TU Eindhoven, NL
 - **Topic:** QKD post-processing offload to DPU
@@ -82,7 +82,7 @@ titles everywhere (bib, List of Publications, cover headings, chapter prose).
 
 ## P5 — GPU-Accelerated Post-Quantum Cryptography on Embedded DPU Architecture
 
-- **Bib key:** `meyer2026heterogeneous` · **Chapter:** 05 (DPU-Accelerated PQC) · `\includedpaperpending` (PDF not yet embedded)
+- **Bib key:** `meyer2026heterogeneous` · **Chapter:** 05 (DPU-Accelerated PQC) · `\includedpaper`
 - **Venue / status:** IEEE Networking Letters, 2026 — In review
 - **PDF:** `source-materials/papers/camera-ready/pqc_networking_letters_final.pdf` (draft)
 - **Authors (true order):** J. Meyer (corr.), A. Cano Aguilera, F. Cugini, I. Tafur Monroy, J. J. Vegas Olmos
@@ -95,8 +95,8 @@ titles everywhere (bib, List of Publications, cover headings, chapter prose).
 ## P6 — Real-Time Post-Quantum Secured Image Pipeline on NVIDIA BlueField-3 DPU
 
 - **Bib key:** `meyer2026edgeai` · **Chapter:** 06 (Post-Quantum Security for Edge AI Pipelines) · `\includedpaper`
-- **Venue / status:** IEEE Int. Conf. on Algorithms and Architectures for Parallel Processing (ICA3PP), 2026 — In review
-- **PDF:** `source-materials/papers/camera-ready/real-time-pq-secured-image-pipeline-bluefield3-dpu-camera-ready.pdf` (`EDGEAI.pdf` is a near-identical earlier copy of the same paper)
+- **Venue / status:** 26th Int. Conf. on Algorithms and Architectures for Parallel Processing (ICA3PP), 2026 — In review
+- **PDF:** `source-materials/papers/camera-ready/EDGEAI.pdf` (review manuscript)
 - **Authors (true order):** **J. S. García (1st)**, J. G. Meyer (2nd), I. Tafur Monroy, J. J. Vegas Olmos, S. Kosta
 - **Affiliations:** Dept. of Electronic Systems, Aalborg University, Copenhagen, DK (García, Kosta); NVIDIA, Yokneam Illit, IL; TU Eindhoven, NL
 - **Topic:** edge-AI secure image pipeline offload to DPU
@@ -107,7 +107,7 @@ titles everywhere (bib, List of Publications, cover headings, chapter prose).
 ## P7 — Exploiting Cross-QP Ordering in RDMA over Optical Fabrics
 
 - **Bib key:** `meyer2026rdma` · **Chapter:** 07 (Ordering, Timing, and Optical Fabric Attacks) · `\includedpaper`
-- **Venue / status:** 26th IEEE Int. Conf. on Transparent Optical Networks (ICTON), 2026 — Accepted
+- **Venue / status:** 26th IEEE Int. Conf. on Transparent Optical Networks (ICTON), 2026 — Accepted and presented
 - **PDF:** `source-materials/papers/camera-ready/cross-qp-ordering-rdma-optical-fabrics-camera-ready.pdf`
 - **Authors (true order):** J. Meyer, I. Tafur-Monroy, J. J. Vegas Olmos
 - **Affiliations:** Electrical Engineering, TU Eindhoven, NL; NVIDIA, Yokneam Illit, IL
@@ -118,7 +118,7 @@ titles everywhere (bib, List of Publications, cover headings, chapter prose).
 ## P8 — Cross-Layer Observability for Intrusion Detection in Confidential AI Training Clusters
 
 - **Bib key:** `meyer2026intrusion` · **Chapter:** 08 (Observability for Confidential AI Infrastructure) · `\includedpaper`
-- **Venue / status:** 26th IEEE Int. Conf. on Transparent Optical Networks (ICTON), 2026 — Accepted
+- **Venue / status:** 26th IEEE Int. Conf. on Transparent Optical Networks (ICTON), 2026 — Accepted and presented
 - **PDF:** `source-materials/papers/camera-ready/cross-layer-observability-confidential-ai-training-clusters-camera-ready.pdf`
 - **Authors (true order):** **A. Barreiro (1st, corr.)**, J. G. Meyer (2nd), D. C. Lawo, I. Tafur Monroy, J. J. Vegas Olmos
 - **Affiliations:** Electrical Engineering, TU Eindhoven, NL; NVIDIA, Yokneam Illit, IL
@@ -128,7 +128,7 @@ titles everywhere (bib, List of Publications, cover headings, chapter prose).
 
 ## P9 — Obscured, But Not Blind: Systematizing Observability in Confidential AI Training Clusters
 
-- **Bib key:** `meyer2026detecting` · **Chapter:** 08 (Observability for Confidential AI Infrastructure) · `\includedpaperpending` (PDF not yet embedded)
+- **Bib key:** `meyer2026detecting` · **Chapter:** 08 (Observability for Confidential AI Infrastructure) · `\includedpaper`
 - **Venue / status:** IEEE Transactions on Information Forensics and Security (TIFS), 2026 — In review
 - **PDF:** `source-materials/papers/camera-ready/Conf_Compute_TIFS.pdf` (draft)
 - **Authors (true order):** J. G. Meyer (corr.), A. Barreiro, I. Tafur Monroy, J. J. Vegas Olmos
@@ -158,9 +158,7 @@ quantum-node authentication patent in Ch 4.
 
 ## Open follow-ups
 
-- Replace the four `\includedpaperpending` placeholders (P3, P5, P9 — and P6 if a
-  newer camera-ready arrives) with `\includedpaper` once camera-ready PDFs land.
-- Confirm final venue/status wording at submission time (P3 QCE, P5 Networking
-  Letters, P6 ICA3PP, P9 TIFS are all in review as of this note).
-- The author's specific per-paper contribution paragraphs in chapters 05–08 are
-  still `TODO`; fill from the contribution statements once finalized.
+- Replace the in-review manuscripts for P5, P6, and P9 with their final
+  publication PDFs if they are accepted.
+- P1, P2, P7, and P8 were accepted and presented; P3 was accepted and will be
+  presented at QCE. P6 remains under review at ICA3PP.

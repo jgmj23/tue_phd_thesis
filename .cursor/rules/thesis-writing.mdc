@@ -32,8 +32,8 @@ For chapters that include published papers, follow this structure:
 
 1. **Pre-Paper Wrapper**:
    - Write short, concise thesis-formatted sections introducing the papers and/or patents.
-   - **Do not mention individual author contributions**. Focus instead on what the paper or patent as a whole contributes to the thesis.
-   - Explicitly state that the papers/patents were **accepted and presented at** their respective conferences or venues.
+   - **Do not mention individual author contributions or leave TODOs for author-specific contribution paragraphs**; such paragraphs are not planned. Focus instead on what the paper or patent as a whole contributes to the thesis.
+   - State each work's actual publication status accurately (e.g., under review, accepted, presented, or published). Journal articles are never described as presented.
    - Explain their **Role in the Dissertation** (how they relate to the thesis questions and why they belong there).
 
 2. **Included Papers**:

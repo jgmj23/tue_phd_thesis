@@ -45,8 +45,7 @@ Q-Day nevertheless differs from a conventional zero-day in one respect that is c
     \caption{Averaged expert likelihood that a quantum computer able to break
     RSA-2048 within 24 hours will exist within a given horizon, under optimistic
     and pessimistic interpretations of the survey responses. Data
-    from~\cite{mosca2026quantum}; the 25-year horizon was not explicitly
-    surveyed.}
+    from~\cite{mosca2026quantum}.}
     \label{fig:qday_timeline}
 \end{figure}
 
@@ -103,7 +102,7 @@ PQC introduces significantly larger key sizes, heavier signatures, and complex a
 
 Similarly, scaling QKD beyond point-to-point physics experiments into operational infrastructure is an immense engineering challenge. It requires miniaturizing bulk optical components onto integrated photonic chips, designing high-throughput real-time post-processing pipelines to distill secure keys, and interfacing these quantum systems with classical network stacks.
 
-Consequently, mitigating the quantum threat is not merely an algorithm selection problem---it is a fundamental integration challenge. A cryptographic primitive that is secure in theory is useless if it violates the latency, throughput, power, or observability constraints of the network. Scalable quantum-resilient communication therefore demands a \emph{cross-layer} approach, requiring systems to be co-designed across the device layer (integrated photonics), the protocol layer (key distillation and hybrid exchange), and the infrastructure layer (DPU acceleration).
+Consequently, mitigating the quantum threat is not merely an algorithm selection problem---it is a fundamental integration challenge. A cryptographic primitive that is secure in theory is useless if it violates the latency, throughput, power, or observability constraints of the network. Scalable quantum-resilient communication therefore demands a \emph{cross-layer} approach, requiring systems to be co-designed across the device layer (integrated photonics and physical channels), the protocol layer (QKD post-processing and post-quantum algorithms), and the infrastructure layer (programmable networks, datacenter transport, and observability).
 
 \subsection{The QUARC Project}
 
@@ -143,10 +142,10 @@ systems?
 \label{en:researchquestions}
 \end{tcolorbox}
 
-The first three questions each target a single layer of the stack---post-quantum
-cryptographic deployment (RQ1), quantum-key-distribution architecture (RQ2), and
-integrated photonic source design (RQ3)---while the fourth (RQ4) binds them by
-asking how choices made at one layer constrain or enable the others.
+RQ1--RQ3 address three complementary engineering problems: deploying PQC
+efficiently, scaling QKD systems, and designing deployable integrated quantum
+sources. RQ4 provides the cross-layer synthesis by examining how decisions in
+one area constrain or enable the others.
 
 \subsection{Publications and Intellectual Property}
 
@@ -165,7 +164,7 @@ inventions (I1--I4) can be found in the List of Publications.
 The structure of the dissertation is as follows:
 
 \medskip
-\textbf{Chapter~\ref{ch:background}} establishes the two threads common to every contribution: the cross-layer method used to analyze them, and the DPU substrate on which they are built and observed. Topic-specific background is developed in each paper-centric chapter where it is needed.
+\textbf{Chapter~\ref{ch:background}} establishes the cross-layer framework used throughout the dissertation and introduces the DPU as a recurring infrastructure substrate for the offload and observability contributions. Topic-specific background is developed in each paper-centric chapter where it is needed.
 
 \medskip
 The core contributions are then divided into three parts:

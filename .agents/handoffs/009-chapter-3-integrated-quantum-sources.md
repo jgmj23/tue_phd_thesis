@@ -19,7 +19,7 @@ Completed the actual writing of Chapter 3.
 - The ICTON DCM source was available at `/Users/jomeyer/Documents/Projects/DCM/ICTON26_DCM/main.tex`.
 - The expected local source path for the FSR-stability paper did not contain files during this pass.
 - `references/thesis.bib` is not yet present in the thesis repo, so new wrapper prose uses textual `TODO: citation` markers rather than LaTeX citation commands.
-- Author-contribution wording is intentionally marked as TODO until the final manuscripts and contribution split are confirmed.
+- Individual author-contribution paragraphs are not planned; chapter wrappers describe what each paper contributes to the thesis.
 
 ## Verification
 

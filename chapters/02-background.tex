@@ -1,4 +1,4 @@
-\chapter{The Cross-Layer Approach and the DPU Substrate}
+\chapter{A Cross-Layer Framework for Quantum-Resilient Communication}
 \label{ch:background}
 
 In 2010, a group of researchers eavesdropped on a commercial QKD link and read
@@ -28,18 +28,23 @@ any one layer, that security tends to fail. The paper-centric chapters that foll
 post-processing, post-quantum cryptographic acceleration, datacenter
 infrastructure attacks, and confidential-AI observability. Read individually, they appear to belong to separate
 research communities, each with its own models, metrics, and implicit assumptions.
-Two things make them a single dissertation: a shared \emph{method}---a cross-layer
+What makes them a single dissertation is a shared \emph{method}: a cross-layer
 view of secure communication in which a design choice at one layer is judged by its
-consequences at the others---and a shared \emph{substrate}---the data processing
-unit (DPU) on which nearly every contribution is built or observed.
+consequences at the others.
 
-This chapter establishes only those two common threads. It first sets out the
-cross-layer lens and the analytical method that recur throughout the thesis, and
-then introduces the DPU as the hardware that connects cryptographic primitives to
-the infrastructure. The technical background specific to each topic---integrated
+Within that framework, the DPU recurs as an important
+infrastructure mechanism rather than as a universal substrate. It executes QKD
+post-processing and post-quantum workloads, terminates secure data paths, and
+provides an observation point for confidential-AI systems. It is not, however, the
+substrate of the photonic-device work or the optical-fabric attack analysis.
+
+This chapter first defines the cross-layer lens and the analytical method that
+recur throughout the thesis. It then introduces the DPU as a recurring
+infrastructure substrate at the boundary between protocol execution and datacenter
+deployment. The technical background specific to each topic, including integrated
 photonic sources, QKD post-processing, post-quantum primitives, RDMA fabrics, and
-confidential computing---is deliberately deferred to the chapter that needs it,
-where it can be developed alongside the corresponding contribution. The cross-layer
+confidential computing, is deliberately deferred to the chapter that needs it,
+where it can be developed alongside the corresponding contribution. The
 dependencies that emerge once all of these pieces are in place are revisited and
 resolved in Chapter~\ref{ch:cross-layer}.
 
@@ -55,10 +60,10 @@ the deployment complexity and bespoke hardware of physics-based security, primar
 QKD, which offers information-theoretic security that is immune to algorithmic
 advances, while the much larger volume of computationally protected, rapidly
 decaying traffic is served by PQC, which must operate at datacenter scale. What
-makes the problem cross-layer is that both physics-based and computationally-based
-protections must ultimately run on the same programmable network fabric, where
-their device- and protocol-level guarantees collide with one shared set of
-infrastructure constraints.
+makes the problem cross-layer is that physics-based and computational protections
+must ultimately be integrated into the same communication system. Their guarantees
+depend on interfaces between photonic devices, protocol processing, and programmable
+network infrastructure, each of which imposes a different set of constraints.
 
 To analyze this heterogeneous landscape, this dissertation structures the response
 along three distinct but interacting layers, illustrated in Figure~\ref{fig:cross_layer_stack}.
@@ -66,7 +71,7 @@ along three distinct but interacting layers, illustrated in Figure~\ref{fig:cros
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{figures/chapter2/cross_layer_stack.pdf}
-    \caption{The cross-layer security stack investigated in this dissertation. The device layer supplies physical resources; the protocol layer consumes those resources to produce key material and authenticated channels; the infrastructure layer determines deployment viability. The DPU serves as both the execution substrate and observation point spanning the upper layers.}
+    \caption{The cross-layer security stack investigated in this dissertation. Reciprocal dependencies connect the device, protocol, and infrastructure layers. The DPU resides in the infrastructure layer, extends into the protocol layer through offloaded execution, and provides an infrastructure-side observation point.}
     \label{fig:cross_layer_stack}
 \end{figure}
 
@@ -102,16 +107,18 @@ Finally, an infrastructure defender operating a confidential-computing cluster m
 detect intrusions without seeing the payload, violating the assumptions of classical
 intrusion detection systems.
 
-Research questions RQ1--RQ3 each target a single layer---PQC deployment, QKD
-architecture, and photonic-source design---while RQ4 binds them by exposing
-exactly these cross-layer failure modes.
+RQ1--RQ3 address three complementary engineering problems: deploying PQC
+efficiently, scaling QKD systems, and designing deployable integrated quantum
+sources. RQ4 provides the cross-layer synthesis by examining how decisions in
+one area constrain or enable the others.
 
-\section{Programmable Network Infrastructure for Security Offload}
+\section{The DPU as a Recurring Infrastructure Substrate}
 \label{sec:bg-dpu}
 
-The single piece of hardware common to nearly every contribution in this thesis is
-the DPU. It is introduced here, once, because it underpins the QKD, PQC, and
-infrastructure chapters alike.
+The DPU is common to the QKD post-processing, PQC offload, secure AI-pipeline,
+and confidential-AI observability contributions. It is introduced here once
+because these chapters rely on the same underlying architecture, even though
+the DPU is not part of every contribution in the dissertation.
 
 Smart network interface cards (SmartNICs) and DPUs represent a paradigm shift in datacenter architecture. They extend
 the network interface from a passive I/O endpoint---responsible only for moving packets
@@ -164,9 +171,12 @@ relevant architectural questions are:
 These questions recur in identical form across different domains in this thesis. They
 dictate how QKD post-processing scales (Chapter~\ref{ch:qkd-dpu}), whether post-quantum
 key encapsulation meets handshake latency budgets (Chapter~\ref{ch:dpu-pqc}), and how
-secured end-to-end AI pipelines manage image I/O (Chapter~\ref{ch:ai-pipelines}). For this reason,
-the DPU is treated here as a unifying substrate rather than as a detail of any single
-chapter.
+secured end-to-end AI pipelines manage image I/O (Chapter~\ref{ch:ai-pipelines}).
+For this reason, the DPU is treated here as a shared implementation substrate
+for these contributions rather than as a detail of any single chapter. Its
+direct role is to connect protocol execution to infrastructure capabilities.
+Device-layer behaviour reaches it indirectly through protocol data, control,
+and telemetry interfaces.
 
 Furthermore, the same programmability that enables offload also transforms the DPU into
 a natural observation point. Placed inline between the network and the host, the DPU
